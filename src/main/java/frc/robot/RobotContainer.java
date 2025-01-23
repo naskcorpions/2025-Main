@@ -86,6 +86,13 @@ public class RobotContainer {
             
     if (m_driverController.getRawButton(1)) {
         VisionSubsystem.tagAllign();
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                VisionSubsystem.allignGetTurn(),
+                0, 
+                VisionSubsystem.allignGetForward(), 
+                false), 
+            m_robotDrive);
     }
             
             

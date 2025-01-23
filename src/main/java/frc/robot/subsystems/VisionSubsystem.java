@@ -32,6 +32,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 // import org.photonvision.utils.PacketUtils;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.Pair;
 // import edu.wpi.first.math.geometry.Pose3d;
 // import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -48,6 +49,10 @@ public class VisionSubsystem extends SubsystemBase {
     PhotonTrackedTarget target;
     PhotonPipelineResult result;
     AprilTagFieldLayout aprilTagFieldLayout;
+
+    private static double turn = 0.0;
+    private static double forward = 0.0;
+
     
 
     public void visionInit() {
@@ -109,9 +114,7 @@ public class VisionSubsystem extends SubsystemBase {
         boolean targetVisible = false;
         double targetYaw = 0.0;
         double targetRange = 0.0;
-        double turn;
-        double forward;
-        
+
         var results = camera.getAllUnreadResults();
         if (!results.isEmpty()) {
             // Camera processed a new frame since last
@@ -142,18 +145,25 @@ public class VisionSubsystem extends SubsystemBase {
             // Override the driver's turn and fwd/rev command with an automatic one
             // That turns toward the tag, and gets the range right.
             turn =
-                    (0.0 /* See commment below */ - targetYaw) * 0.004 /* <- P value. Will need tuning */ * DriveConstants.kMaxAngularSpeed;
+                    (0.0 /* ANGLE See commment below */ - targetYaw) * 0.004 /* <- P value. Will need tuning */ * DriveConstants.kMaxAngularSpeed;
             forward =
-                    (0.0 /* See commment below */ - targetRange) * 0.004 /* <- P value. Will need tuning */ * DriveConstants.kMaxSpeedMetersPerSecond;
-
+                    (1.0 /* DISTANCE See commment below */ - targetRange) * 0.004 /* <- P value. Will need tuning */ * DriveConstants.kMaxSpeedMetersPerSecond;
+            // TODO: TuneNumbers
             /*
              *  Desired angle at which to view the tag 
              *  0.0 = straight
              *  Anything else = not straight
              *  Link: https://docs.photonvision.org/en/latest/docs/examples/aimandrange.html
              */
-
+                
+            
         }
+    }
+    public static double allignGetForward() {
+        return forward;
+    }
+    public static double allignGetTurn() {
+        return turn;
     }
  
 }
