@@ -1,0 +1,34 @@
+[PhotonPipelineResult [
+    metadata=PhotonPipelineMetadata [
+    captureTimestampMicros=44540334, 
+    publishTimestampMicros=44653701, 
+    sequenceID=33071, 
+    timeSinceLastPong=656042], 
+
+    targets=[PhotonTrackedTarget [yaw=3.528916554743491, 
+    pitch=-1.615935507260822, area=0.043041087962962965, 
+    skew=0.0, fiducialId=2, objDetectId=-1, objDetectConf=-1.0, 
+    bestCameraToTarget=Transform3d(Translation3d(X: 0.00, Y: 0.00, Z: 0.00), 
+    Rotation3d(Quaternion(1.0, 0.0, 0.0, 0.0))), 
+    altCameraToTarget=Transform3d(Translation3d(X: 0.00, Y: 0.00, Z: 0.00), 
+    Rotation3d(Quaternion(1.0, 0.0, 0.0, 0.0))), poseAmbiguity=-1.0, 
+    minAreaRectCorners=[(546.0,402.0), (546.0,385.0), (564.0,385.0), 
+    (564.0,402.0)], detectedCorners=[(547.8939208984375,402.89709472656267), 
+    (564.2877197265627,402.6669311523438), (564.0592041015625,385.3563232421874), 
+    (546.609191894531,385.6970520019531)]]], multitagResult=Optional.empty]]
+
+
+bestCameraToTarget=
+    Transform3d(Translation3d(X: 0.00, Y: 0.00, Z: 0.00), 
+    Rotation3d(Quaternion(1.0, 0.0, 0.0, 0.0))), 
+    altCameraToTarget=Transform3d(Translation3d(X: 0.00, Y: 0.00, Z: 0.00), 
+    Rotation3d(Quaternion(1.0, 0.0, 0.0, 0.0))), 
+    poseAmbiguity=-1.0, 
+    minAreaRectCorners=[(298.1598848896462,276.97767984608623), 
+    (301.0000009959476,169.99998537707557), 
+    (414.8401151103538,173.02228963633564), 
+    (411.9999990040524,279.9999841053463)], 
+    detectedCorners=[(299.9619445800782,277.9676818847656), 
+    (412.03808593750006,280.6110534667969), 
+    (411.62600708007807,175.30114746093747), 
+    (301.1929626464844,170.59342956542966)]
