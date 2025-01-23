@@ -84,7 +84,9 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
             
-    
+    if (m_driverController.getRawButton(1)) {
+        VisionSubsystem.tagAllign();
+    }
             
             
   }
