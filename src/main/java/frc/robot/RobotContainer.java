@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
+import frc.robot.subsystems.VisionSubsystem;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -81,8 +83,19 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-
-    // new JoystickButton(m_driverController, 0)
+            
+    if (m_driverController.getRawButton(1)) {
+        VisionSubsystem.tagAllign();
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                VisionSubsystem.allignGetTurn(),
+                0, 
+                VisionSubsystem.allignGetForward(), 
+                false), 
+            m_robotDrive);
+    }
+            
+            
   }
 
 
