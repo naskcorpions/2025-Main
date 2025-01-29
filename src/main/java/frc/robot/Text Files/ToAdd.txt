@@ -23,7 +23,8 @@ Things to add:
     Field Oriented Drive:
         1. Get Navx working
         2. Get FOD working
-    
+    Install PathPlanner Library:
+        https://3015rangerrobotics.github.io/pathplannerlib/PathplannerLib.json
 
 
 

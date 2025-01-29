@@ -39,6 +39,7 @@ public class AutoAllign extends Command{
 
     public static double targetRange = 0;
     
+    
     public AutoAllign(VisionSubsystem m_vision, DriveSubsystem m_drive) {
         this.m_vision = m_vision;
         this.m_drive = m_drive;

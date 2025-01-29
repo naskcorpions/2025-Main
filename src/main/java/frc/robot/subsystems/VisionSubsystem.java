@@ -129,6 +129,7 @@ public class VisionSubsystem extends SubsystemBase {
             
         }
     }
+
     public static double allignGetForward() {
         tagAllign();
         return forward;
