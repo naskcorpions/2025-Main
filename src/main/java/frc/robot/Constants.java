@@ -101,6 +101,10 @@ public final class Constants {
   }
 
   public static final class VisionConstants {
+
+    public static double cameraHeight;
     //TODO: Add/Transfer vision constants here
+    public static double targetHeight;
+    public static double cameraPitch;
   }
 }

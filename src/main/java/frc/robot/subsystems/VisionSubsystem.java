@@ -4,30 +4,19 @@ package frc.robot.subsystems;
  */
 
 import frc.robot.Constants;
-// import frc.robot.Constants;
-// import frc.robot.Elastic;
-// import java.util.List;
-// import frc.robot.RobotContainer;
-// import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.VisionConstants;
 
+import java.util.List;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.Unit;
-// import edu.wpi.first.wpilibj.PS4Controller.Button;
-// import edu.wpi.first.wpilibj.XboxController;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import org.photonvision.PhotonCamera;
-// import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
-// import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
-// import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonTrackedTarget;
 // import org.photonvision.utils.PacketUtils;
 
@@ -38,10 +27,6 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 
-// import org.photonvision.struct.PhotonPipelineMetadataSerde;
-// import org.photonvision.targeting.PhotonPipelineMetadata;
-
-
 
 public class VisionSubsystem extends SubsystemBase {
     static PhotonCamera camera;
@@ -49,15 +34,32 @@ public class VisionSubsystem extends SubsystemBase {
     PhotonTrackedTarget target;
     PhotonPipelineResult result;
     AprilTagFieldLayout aprilTagFieldLayout;
-
+    
     private static double turn = 0.0;
     private static double forward = 0.0;
-
     
-
+    
+    
     public void visionInit() {
         camera = new PhotonCamera("picam");
 
+    }
+
+    private double distanceToTag() {
+        var results = camera.getAllUnreadResults();
+        double currentDistance = 0;
+        if(result.hasTargets()) {
+            double range = PhotonUtils.calculateDistanceToTargetMeters(
+                VisionConstants.cameraHeight, 
+                VisionConstants.targetHeight, 
+                VisionConstants.cameraPitch, 
+                Units.degreesToRadians(result.getBestTarget().getPitch()));
+                currentDistance = range;
+                return range;
+        } else {
+            return currentDistance;
+        }
+        
     }
 
     public void visionPereodic() {
@@ -73,42 +75,12 @@ public class VisionSubsystem extends SubsystemBase {
             Transform3d pose = target.getBestCameraToTarget();
             
         }
-
-       
-
-
+        // System.out.println(distanceToTag());
         // if (aprilTagFieldLayout.getTagPose(target.getFiducialId()).isPresent()) {
         //     Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTagFieldLayout.getTagPose(target.getFiducialId()).get(), cameraToRobot);
         // }
     }
 
-
-    public void tagPoint(int targetNumber) {
-        boolean targetVisible = false;
-        double targetYaw = 0.0;
-        double turn;
-        var results = camera.getAllUnreadResults();
-        if (!results.isEmpty()) {
-            // Camera processed a new frame since last
-            // Get the last one in the list.
-            var result = results.get(results.size() - 1);
-            if (result.hasTargets()) {
-                // At least one AprilTag was seen by the camera
-                for (var target : result.getTargets()) {
-                    if (target.getFiducialId() == targetNumber) {
-                        // Found Tag 7, record its information
-                        targetYaw = target.getYaw();
-                        targetVisible = true;
-                    }                }
-            }
-        }
-        
-        if (targetVisible) {
-            turn = -1.0 * targetYaw * 0.004 /* <- May need tuning? */ * DriveConstants.kMaxAngularSpeed;
-        }
-        //TODO: Use turn variable as the angle when running the swerve drive
-        // Use the controller for the other two inputs
-    }
     
     public static void tagAllign() {
         boolean targetVisible = false;
@@ -123,16 +95,15 @@ public class VisionSubsystem extends SubsystemBase {
             if (result.hasTargets()) {
                 // At least one AprilTag was seen by the camera
                 for (var target : result.getTargets()) {
-                    if (target.getFiducialId() == 7) {
-                        // Found Tag 7, record its information
+                    if (target.getFiducialId() == 15) {
                         targetYaw = target.getYaw();
                         targetRange =
                                 PhotonUtils.calculateDistanceToTargetMeters(
-                                        0.5, // Measured with a tape measure, or in CAD.
-                                        1.435, // From 2024 game manual for ID 7
-                                        Units.degreesToRadians(-30.0), // Measured with a protractor, or in CAD.
+                                        1.3, // Measured with a tape measure, or in CAD.
+                                        1.524, // From 2024 game manual for ID 7
+                                        Units.degreesToRadians(0.0), // Measured with a protractor, or in CAD.
                                         Units.degreesToRadians(target.getPitch()));
-                    
+                        
                         targetVisible = true;
                     }
                 }
@@ -145,9 +116,10 @@ public class VisionSubsystem extends SubsystemBase {
             // Override the driver's turn and fwd/rev command with an automatic one
             // That turns toward the tag, and gets the range right.
             turn =
-                    (0.0 /* ANGLE See commment below */ - targetYaw) * 0.004 /* <- P value. Will need tuning */ * DriveConstants.kMaxAngularSpeed;
+                    (0.0 /* ANGLE See commment below */ - targetYaw) * 0.005 /* <- P value. Will need tuning */ * DriveConstants.kMaxAngularSpeed;
             forward =
-                    (1.0 /* DISTANCE See commment below */ - targetRange) * 0.004 /* <- P value. Will need tuning */ * DriveConstants.kMaxSpeedMetersPerSecond;
+                    (1.5 /* DISTANCE See commment below */ - targetRange) * 0.0022 /* <- P value. Will need tuning */ * DriveConstants.kMaxSpeedMetersPerSecond;
+            System.out.println(targetRange);
             // TODO: TuneNumbers
             /*
              *  Desired angle at which to view the tag 
@@ -160,10 +132,13 @@ public class VisionSubsystem extends SubsystemBase {
         }
     }
     public static double allignGetForward() {
+        tagAllign();
         return forward;
     }
     public static double allignGetTurn() {
+        tagAllign();
         return turn;
     }
- 
+
+    
 }
