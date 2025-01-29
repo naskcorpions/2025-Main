@@ -1,0 +1,18 @@
+Things to add:
+    Constants file for certain devices:
+        All non swerve motors, or other things on PWM/DIO ports
+    Configuration files:
+        Files that configure motor controllers
+    AptilTag Database:
+        Some kind of database thing that has all tha values for locations of targets
+        Would be required for auto aim:
+            Auto Aim needs tag height, and camera height.
+            Some tags are different heights
+    Elastic Dashboard Stuff:
+        ...
+    Add NAVX2 Functionality:
+        Check swerve code to ensure it is using the gyro correctly
+    Add field odometry:
+
+        
+
