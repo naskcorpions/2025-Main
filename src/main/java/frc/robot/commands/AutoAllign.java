@@ -30,6 +30,7 @@ public class AutoAllign extends Command{
     private int targetedTag = 1;
     private double desiredDistance = 1.5;
     // TODO: P values will need tuning
+    // TODO: ADD TO VISION CONSTANTS
     private final double turnP = 0.005;
     private final double driveP = 0.0002;
 
