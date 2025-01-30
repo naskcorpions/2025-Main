@@ -1,0 +1,22 @@
+SUBSYSTEMS FOLDER:
+    The subsystems:
+        Hold code that directly Interfaces the code.
+            Ex. Encapsulates hardware control (motor controllers, sensors)
+        Handle pereodic Updates
+        Can have basic methods in them
+        Must extend SubsystemBase
+
+COMMANDS FODLER:
+    The commands folder holds all the code that tells the subsystems what to double
+
+RobotContainer.java:
+    Creates subsystems
+    Configures Controller Bindings
+
+
+LOGIC PLACEMENT:
+    Subsystems → Hardware control, low-level methods (swerve.drive(), elevator.setHeight())
+    Commands → High-level behaviors (MoveElevatorCommand)
+    RobotContainer → Controller bindings
+    Constants → Config values
+    

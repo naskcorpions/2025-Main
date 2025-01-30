@@ -1,0 +1,14 @@
+Naming Convention:
+    The following use all upper case word starters (Ex. DriveSubsystem):
+        Subsystems
+        Constant Files
+        Commands
+
+    Variables:
+        Variables should be camel cased
+        Prefixes:
+            k - Constants
+            m - Member Variables:
+                    Member Variables are variables that belong to a part of a class such
+                        as a motor. They are usually private variables.
+            

@@ -3,15 +3,14 @@ package frc.robot.subsystems;
  *  Commented imports are unused
  */
 
-import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.VisionConstants;
-
 import java.util.List;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.SwerveConstants.DriveConstants;
+import frc.robot.Constants.VisionConstants;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -21,7 +20,6 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 // import org.photonvision.utils.PacketUtils;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Pair;
 // import edu.wpi.first.math.geometry.Pose3d;
 // import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -50,9 +48,9 @@ public class VisionSubsystem extends SubsystemBase {
         double currentDistance = 0;
         if(result.hasTargets()) {
             double range = PhotonUtils.calculateDistanceToTargetMeters(
-                VisionConstants.cameraHeight, 
-                VisionConstants.targetHeight, 
-                VisionConstants.cameraPitch, 
+                VisionConstants.kCameraHeight, 
+                VisionConstants.kTargetHeight, 
+                VisionConstants.kCameraPitch, 
                 Units.degreesToRadians(result.getBestTarget().getPitch()));
                 currentDistance = range;
                 return range;
@@ -131,6 +129,7 @@ public class VisionSubsystem extends SubsystemBase {
             
         }
     }
+
     public static double allignGetForward() {
         tagAllign();
         return forward;

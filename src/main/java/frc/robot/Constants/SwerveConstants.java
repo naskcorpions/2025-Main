@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Constants;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -21,7 +21,7 @@ import edu.wpi.first.math.util.Units;
  * wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+public final class SwerveConstants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
@@ -76,10 +76,6 @@ public final class Constants {
         / kDrivingMotorReduction;
   }
 
-  public static final class OIConstants {
-    public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.05;
-  }
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;
@@ -100,11 +96,4 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  public static final class VisionConstants {
-
-    public static double cameraHeight;
-    //TODO: Add/Transfer vision constants here
-    public static double targetHeight;
-    public static double cameraPitch;
-  }
 }
