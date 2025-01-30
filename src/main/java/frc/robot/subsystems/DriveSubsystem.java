@@ -43,7 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
-  private final ADIS16470_IMU m_oldGyro = new ADIS16470_IMU();
+  // private final ADIS16470_IMU m_oldGyro = new ADIS16470_IMU();
   private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
 
 

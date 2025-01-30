@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.VisionSubsystemNEW;
 
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -18,8 +17,8 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 
 public class AutoAllign extends Command{
-    private VisionSubsystem m_vision = new VisionSubsystem();
-    private DriveSubsystem m_drive = new DriveSubsystem();
+    private VisionSubsystemNEW m_vision;
+    private DriveSubsystem m_robotDrive;
 
     // List<PhotonPipelineResult> cameraResult;
     PhotonPipelineResult targetedTarget;
@@ -27,23 +26,22 @@ public class AutoAllign extends Command{
     private double turn = 0;
     private double forward = 0;
 
-    private int targetedTag = 1;
-    private double desiredDistance = 1.5;
+    private int targetedTag = 15;
+    private double desiredDistance = 2.0;
     // TODO: P values will need tuning
     // TODO: ADD TO VISION CONSTANTS
     private final double turnP = 0.005;
-    private final double driveP = 0.0002;
+    private final double driveP = 0.01;
 
     private PhotonTrackedTarget bestTag;
     private int bestTagID;
 
     public static double targetRange = 0;
-    
-    
-    public AutoAllign(VisionSubsystem m_vision, DriveSubsystem m_drive) {
+        
+    public AutoAllign(VisionSubsystemNEW m_vision, DriveSubsystem m_robotDrive) {
         this.m_vision = m_vision;
-        this.m_drive = m_drive;
-        addRequirements(m_drive, m_vision);
+        this.m_robotDrive = m_robotDrive;
+        addRequirements(m_robotDrive, m_vision);
 
     }
     
@@ -57,7 +55,7 @@ public class AutoAllign extends Command{
     public void execute() {
         /* RUNS PEREODICALLY */
         double targetYaw = 0;
-        targetRange = 0;
+        // targetRange = 0;
 
 
         if (VisionSubsystemNEW.isTagDetedted()) {
@@ -72,6 +70,7 @@ public class AutoAllign extends Command{
                                         1.524, // From 2024 game manual for ID 7
                                         Units.degreesToRadians(0.0), // Measured with a protractor, or in CAD.
                                         Units.degreesToRadians(bestTag.getPitch()));
+                System.out.println(targetRange);
             }
 
             // If tag is detected, update turn & forward variables
@@ -80,22 +79,24 @@ public class AutoAllign extends Command{
                     (0.0 /* ANGLE See commment below */ - targetYaw) * turnP * DriveConstants.kMaxAngularSpeed;
                 forward =
                     (desiredDistance /* DISTANCE See commment below */ - targetRange) * driveP * DriveConstants.kMaxSpeedMetersPerSecond;
-                System.out.println(targetRange);
-            } else {
-                //TODO: NEEDS TESTING - Goal - Stop robot when tag isn't detected
-                turn = 0;
-                forward = 0;
-            }
-        }
-
+            } 
+            
+        } 
         // Drive Robot
-        m_drive.drive(
-            forward, // x drive
-            0, // y drive
-            turn, // rotation
-            true// is field relative
-        );
+        if (targetRange > desiredDistance) {
+            m_robotDrive.drive(
+                -forward, // x drive
+                0, // y drive
+                turn, // rotation
+                false// is field relative
+            );
+            System.out.println("DRIVE");
 
+        }
+        if (targetRange < desiredDistance) {
+            System.out.println("STOP");
+        }
+        
     }
 
     @Override
@@ -104,11 +105,12 @@ public class AutoAllign extends Command{
          * When TRUE returned, it will move on to the end command
          */
         //TODO: IF STATEMENT CONDITION MAY NEED TO BE MODIFIED
-        if (targetRange <= 0.1) {
-            return true;
-        } else {
-            return false; // Modify with logic
-        }
+        // if (targetRange <= desiredDistance) {
+        //     return true;
+        // } else {
+        //     return false; // Modify with logic
+        // }
+        return false;
     }
 
     public void end() {

@@ -3,23 +3,27 @@ package frc.robot.subsystems;
 import java.util.List;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
 
 
-public class VisionSubsystemNEW {
+public class VisionSubsystemNEW extends SubsystemBase {
     private PhotonCamera camera;
     static List<PhotonPipelineResult> cameraResult;
 
     static PhotonTrackedTarget bestTarget;
 
     private static boolean isTagDetected;
-            
+
             
     public void Vision() {
-        visionInit(camera);
+        // visionInit(camera);
+        camera = new PhotonCamera(VisionConstants.cameraName);
+
     }
 
 
@@ -27,8 +31,8 @@ public class VisionSubsystemNEW {
         camera = new PhotonCamera(VisionConstants.cameraName);
     }
 
-    
-    private void pereodic() {
+    @Override
+    public void periodic() {
         cameraResult = camera.getAllUnreadResults();
         if (!cameraResult.isEmpty()) {
             isTagDetected = true;

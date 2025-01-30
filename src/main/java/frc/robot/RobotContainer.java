@@ -10,6 +10,7 @@ import frc.robot.Constants.SwerveConstants.DriveConstants;
 import frc.robot.commands.AutoAllign;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.VisionSubsystemNEW;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -37,7 +38,7 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem();
+  private final VisionSubsystemNEW vision = new VisionSubsystemNEW();
 
 
   // The driver's controller
@@ -50,6 +51,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    vision.Vision();    
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -63,11 +65,11 @@ public class RobotContainer {
                 true),
             m_robotDrive));
 
-    vision.visionInit();
+    // vision.visionInit();
 
-    vision.setDefaultCommand(
-        new RunCommand(
-            () -> vision.visionPereodic(), vision));
+    // vision.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> vision.visionPereodic(), vision));
   }
 
   /**
@@ -86,19 +88,20 @@ public class RobotContainer {
             m_robotDrive));
 
     // OLD ALLIGN
-    new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
-        .whileTrue(
-            new RunCommand(
-            () -> m_robotDrive.drive(
-            VisionSubsystem.allignGetForward(),
-            0,
-            VisionSubsystem.allignGetTurn(),
-            true),
-            m_robotDrive));
+    // new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
+    //     .whileTrue(
+    //         new RunCommand(
+    //         () -> m_robotDrive.drive(
+    //         VisionSubsystem.allignGetForward(),
+    //         0,
+    //         VisionSubsystem.allignGetTurn(),
+    //         true),
+    //         m_robotDrive));
     
     // NEW ALLIGN
     new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
         .whileTrue(new AutoAllign(vision, m_robotDrive));
+
   }
 
 
