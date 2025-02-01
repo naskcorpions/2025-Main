@@ -14,10 +14,17 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
+
+import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
+import edu.wpi.first.math.controller.HolonomicDriveController;
 import com.studica.frc.AHRS;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -62,6 +69,36 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
+    
+    @SuppressWarnings("unused")
+    RobotConfig pathConfig = null;
+    try {
+      pathConfig = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    if(pathConfig != null) {
+      AutoBuilder.configure(
+        this::getPose,
+        this::resetOdometry, 
+        this::getRobotChassisSpeeds, 
+        (speeds, feedforwards) -> driveRobotRelative(speeds), 
+        new PPHolonomicDriveController(
+          new PIDConstants(5.0, 0.0, 0.0),
+          new PIDConstants(5.0, 0.0, 0.0)
+        ),
+        pathConfig,
+        () -> {
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        }, 
+        this
+      );
+    }
   }
 
   @Override
@@ -136,6 +173,19 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
+  private void drive(ChassisSpeeds speeds, boolean fieldRelative) {
+    if (fieldRelative) {
+      speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getPose().getRotation());
+    }
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    setModuleStates(swerveModuleStates);
+
+
+  }
+  private void driveRobotRelative(ChassisSpeeds speeds) {
+    drive(speeds, false);
+  }
   /**
    * Sets the wheels into an X formation to prevent movement.
    */
@@ -192,4 +242,17 @@ public class DriveSubsystem extends SubsystemBase {
     //TODO: CHECK IF VALUE RETURNED IS CORRECT
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  private SwerveModuleState[] getModuleStates() {
+    return new SwerveModuleState[] {
+      m_frontLeft.getState(),
+      m_frontRight.getState(),
+      m_rearLeft.getState(),
+      m_rearRight.getState()
+    };
+  }
+  private ChassisSpeeds getRobotChassisSpeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+  }
+
 }
