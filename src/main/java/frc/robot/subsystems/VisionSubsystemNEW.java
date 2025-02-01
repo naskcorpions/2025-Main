@@ -29,6 +29,7 @@ public class VisionSubsystemNEW extends SubsystemBase {
 
     private void visionInit(PhotonCamera camera) {
         camera = new PhotonCamera(VisionConstants.cameraName);
+
     }
 
     @Override
@@ -39,7 +40,6 @@ public class VisionSubsystemNEW extends SubsystemBase {
         } else {
             isTagDetected = false;
         }
-
     }
 
     /**

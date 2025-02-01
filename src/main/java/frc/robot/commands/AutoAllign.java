@@ -23,20 +23,21 @@ public class AutoAllign extends Command{
     // List<PhotonPipelineResult> cameraResult;
     PhotonPipelineResult targetedTarget;
 
-    private double turn = 0;
-    private double forward = 0;
+    private double turn;
+    private double forward;
+    private double targetRange;
+    private double targetYaw;
 
     private int targetedTag = 15;
-    private double desiredDistance = 2.0;
+    private double desiredDistance = 1.2;
     // TODO: P values will need tuning
     // TODO: ADD TO VISION CONSTANTS
-    private final double turnP = 0.005;
-    private final double driveP = 0.01;
+    private final double turnP = 0.05;
+    private final double driveP = 0.6;
 
     private PhotonTrackedTarget bestTag;
     private int bestTagID;
 
-    public static double targetRange = 0;
         
     public AutoAllign(VisionSubsystemNEW m_vision, DriveSubsystem m_robotDrive) {
         this.m_vision = m_vision;
@@ -54,35 +55,52 @@ public class AutoAllign extends Command{
     @Override
     public void execute() {
         /* RUNS PEREODICALLY */
-        double targetYaw = 0;
+        // double targetYaw = 0;
         // targetRange = 0;
 
 
         if (VisionSubsystemNEW.isTagDetedted()) {
             bestTag = VisionSubsystemNEW.returnBestTarget();
-            bestTagID = bestTag.getFiducialId();
+            if (bestTag != null) {
+                    bestTagID = bestTag.getFiducialId();
+                    bestTag.getArea();
 
-            if (bestTagID == targetedTag) {
-                targetYaw = bestTag.getYaw();
-                        targetRange =
-                                PhotonUtils.calculateDistanceToTargetMeters(
-                                        1.3, // Measured with a tape measure, or in CAD.
-                                        1.524, // From 2024 game manual for ID 7
-                                        Units.degreesToRadians(0.0), // Measured with a protractor, or in CAD.
-                                        Units.degreesToRadians(bestTag.getPitch()));
-                System.out.println(targetRange);
-            }
+                if (bestTagID == targetedTag) {
+                    targetYaw = bestTag.getYaw();
+                            targetRange =
+                                    PhotonUtils.calculateDistanceToTargetMeters(
+                                            VisionConstants.kCameraHeight, // Measured with a tape measure, or in CAD.
+                                            VisionConstants.kTargetHeight, // From 2024 game manual for ID 7
+                                            VisionConstants.kCameraPitch, // Measured with a protractor, or in CAD.
+                                            Units.degreesToRadians(bestTag.getPitch()));
+                    System.out.println(targetRange);
+                }
 
-            // If tag is detected, update turn & forward variables
-            if (VisionSubsystemNEW.isTagDetedted()) {
-                turn =
-                    (0.0 /* ANGLE See commment below */ - targetYaw) * turnP * DriveConstants.kMaxAngularSpeed;
-                forward =
-                    (desiredDistance /* DISTANCE See commment below */ - targetRange) * driveP * DriveConstants.kMaxSpeedMetersPerSecond;
-            } 
+                // If tag is detected, update turn & forward variables
+                // if (VisionSubsystemNEW.isTagDetedted()) {
+                    turn =
+                        (0.0 /* ANGLE See commment below */ - targetYaw) * turnP * DriveConstants.kMaxAngularSpeed;
+                    forward =
+                        (desiredDistance /* DISTANCE See commment below */ - targetRange) * driveP * DriveConstants.kMaxSpeedMetersPerSecond;
+                    //     tagX * lateralP * DriveConstants.kMaxSpeedMetersPerSecond
+                // } 
+                System.out.println("TURN: " + turn);
+                System.out.println("FORWARD: " + forward);
             
         } 
+        if (!VisionSubsystemNEW.isTagDetedted()) {
+            
+        }
         // Drive Robot
+        
+        
+        } 
+        
+        if(VisionSubsystemNEW.isTagDetedted()) {
+            // forward = 0;
+            // turn = 0;
+        }
+
         if (targetRange > desiredDistance) {
             m_robotDrive.drive(
                 -forward, // x drive
@@ -94,10 +112,15 @@ public class AutoAllign extends Command{
 
         }
         if (targetRange < desiredDistance) {
+            m_robotDrive.drive(
+                0, // x drive
+                0, // y drive
+                0, // rotation
+                false// is field relative
+            );
             System.out.println("STOP");
         }
-        
-    }
+    } 
 
     @Override
     public boolean isFinished() {
@@ -113,7 +136,8 @@ public class AutoAllign extends Command{
         return false;
     }
 
-    public void end() {
+    @Override
+    public void end(boolean interupted) {
         /* RUNS LAST */
         // Put anything in here that is required to finish a command
     }
