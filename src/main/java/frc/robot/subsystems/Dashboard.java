@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Elastic;
+import frc.robot.Constants.OtherConstants;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -39,6 +41,15 @@ public class Dashboard extends SubsystemBase {
          *     Match Info
          * 
          */
+    }
+    // TODO: TODO/FIX
+    // IMPORTANT: IMPORTANT INFO
+    // SEPERATOR:
+    public void switchToTeleopTab() {
+        Elastic.selectTab(OtherConstants.DashboardConstants.teleopTabName);
+    }
+    public void switchToAutoTab() {
+        Elastic.selectTab(OtherConstants.DashboardConstants.autoTabName);
     }
 
 }

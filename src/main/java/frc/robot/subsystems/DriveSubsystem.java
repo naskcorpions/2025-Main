@@ -70,7 +70,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
     
-    @SuppressWarnings("unused")
+    // @SuppressWarnings("unused")
     RobotConfig pathConfig = null;
     try {
       pathConfig = RobotConfig.fromGUISettings();
