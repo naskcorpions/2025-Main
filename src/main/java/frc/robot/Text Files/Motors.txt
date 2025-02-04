@@ -1,0 +1,14 @@
+NEO550:
+    MAX CURRENT LIMIT:
+        Neo 550s should hava a max current limit of 20A
+        Any more can cause early motor failure
+        https://www.revrobotics.com/neo-550-brushless-motor-locked-rotor-testing/
+
+NEO500:
+    Max Current Limit:
+        40A-50A - These limits are safe. Higher limits are safe as long as the motor isn't stalled for too long
+        https://www.revrobotics.com/neo-brushless-motor-locked-rotor-testing/
+
+Kraken X60:
+
+Falcon 500:
