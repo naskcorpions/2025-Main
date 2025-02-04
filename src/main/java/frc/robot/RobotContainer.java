@@ -4,12 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.Configs.MAXSwerveModule;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.SwerveConstants.AutoConstants;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
 import frc.robot.commands.AutoAllign;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.VisionSubsystemNEW;
 import frc.robot.subsystems.Dashboard;
 import edu.wpi.first.math.MathUtil;
@@ -38,8 +38,9 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final VisionSubsystemNEW vision = new VisionSubsystemNEW();
-  private final Dashboard dashboard = new Dashboard();
+  private final VisionSubsystemNEW m_vision = new VisionSubsystemNEW();
+  private final Dashboard m_dashboard = new Dashboard();
+  private final Elevator m_elevator = new Elevator();
 
 
   // The driver's controller
@@ -52,7 +53,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    vision.Vision();    
+    m_vision.Vision();  
+    m_elevator.Elevator();
+
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -101,7 +104,7 @@ public class RobotContainer {
     
     // NEW ALLIGN
     new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
-        .whileTrue(new AutoAllign(vision, m_robotDrive));
+        .whileTrue(new AutoAllign(m_vision, m_robotDrive));
 
   }
 

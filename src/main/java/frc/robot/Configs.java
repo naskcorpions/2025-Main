@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -54,4 +55,26 @@ public final class Configs {
                     .positionWrappingInputRange(0, turningFactor);
         }
     }
+
+    
+        public static final class ElevatorConfig {     
+            public static final SparkMaxConfig elevatorConfig = new SparkMaxConfig();  
+            static {
+                elevatorConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        // TODO SEE BELOW:
+                        // Will need to be set for each motor
+                        // One will need to be inverted, the other not
+                        .inverted(false);
+                elevatorConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
+                        .pid(0, 0, 0)
+                        // TODO: FIGURE OUT FF. DO WE NEED IT? HOW DO WE USE IT?
+                        // .velocityFF(0)
+                        .outputRange(-1, 1);
+            }
+
+        }
 }
