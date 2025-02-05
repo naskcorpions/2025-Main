@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Elastic;
 import frc.robot.Constants.OtherConstants;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dashboard extends SubsystemBase {
     
@@ -42,14 +41,17 @@ public class Dashboard extends SubsystemBase {
          * 
          */
     }
-    // TODO: TODO/FIX
-    // IMPORTANT: IMPORTANT INFO
-    // SEPERATOR:
+
+    // REVIEW: Added without testing or setup. Needs to be teseted, and finished.
+    // Remove the above comment when completed ^^^
+    /** Switches to the Teleoperated tab in the Elastic Dashboard */
     public void switchToTeleopTab() {
         Elastic.selectTab(OtherConstants.DashboardConstants.teleopTabName);
     }
+    /** Switches to the Auto tab in the Elastic Dashboard */
     public void switchToAutoTab() {
         Elastic.selectTab(OtherConstants.DashboardConstants.autoTabName);
     }
+
 
 }

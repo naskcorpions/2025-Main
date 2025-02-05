@@ -4,29 +4,28 @@
 
 package frc.robot;
 
+// CONSTANTS IMPORT
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.SwerveConstants.AutoConstants;
-import frc.robot.Constants.SwerveConstants.DriveConstants;
+// COMMANDS IMPORT
 import frc.robot.commands.AutoAllign;
+import frc.robot.commands.ExampleCommand;
+// SUBSYTEMS IMPORT
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.VisionSubsystemNEW;
 import frc.robot.subsystems.Dashboard;
+// ALL OTHER IMPORTS
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import java.util.List;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 
 /*
@@ -42,19 +41,33 @@ public class RobotContainer {
   private final Dashboard m_dashboard = new Dashboard();
   private final Elevator m_elevator = new Elevator();
 
-
   // The driver's controller
   XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
   // Operator Controller
   XboxController m_operatorController = new XboxController(ControllerConstants.operatorController.kOperatorControllerPort);
+
+  // Other Vars/Constants
+  private final SendableChooser<Command> autoChooser;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // Vision System Init
+    m_vision.Vision();
+    // Elevator System Init 
+    m_elevator.Elevator();
+
+    // REVIEW:
+    // Register Commands Prior to using them in an auto?
+    NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
+    NamedCommands.registerCommand("ExampleCommand" );
+    // REVIEW:
+    // Init PathPlanner
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
     // Configure the button bindings
     configureButtonBindings();
-    m_vision.Vision();  
-    m_elevator.Elevator();
 
 
     // Configure default commands
@@ -69,11 +82,6 @@ public class RobotContainer {
                 true),
             m_robotDrive));
 
-    // vision.visionInit();
-
-    // vision.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> vision.visionPereodic(), vision));
   }
 
   /**
@@ -91,17 +99,6 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-    // OLD ALLIGN
-    // new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
-    //     .whileTrue(
-    //         new RunCommand(
-    //         () -> m_robotDrive.drive(
-    //         VisionSubsystem.allignGetForward(),
-    //         0,
-    //         VisionSubsystem.allignGetTurn(),
-    //         true),
-    //         m_robotDrive));
-    
     // NEW ALLIGN
     new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
         .whileTrue(new AutoAllign(m_vision, m_robotDrive));
@@ -115,44 +112,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  // REVIEW:
   public Command getAutonomousCommand() {
-    // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(
-        AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(DriveConstants.kDriveKinematics);
-
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
-        config);
-
-    var thetaController = new ProfiledPIDController(
-        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        exampleTrajectory,
-        m_robotDrive::getPose, // Functional interface to feed supplier
-        DriveConstants.kDriveKinematics,
-
-        // Position controllers
-        new PIDController(AutoConstants.kPXController, 0, 0),
-        new PIDController(AutoConstants.kPYController, 0, 0),
-        thetaController,
-        m_robotDrive::setModuleStates,
-        m_robotDrive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
-    // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    // INFO: Returns the selected auto's command to run when enabled
+    return autoChooser.getSelected();
   }
 }
