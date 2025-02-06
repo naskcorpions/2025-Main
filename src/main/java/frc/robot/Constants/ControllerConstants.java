@@ -7,6 +7,8 @@ public class ControllerConstants {
 
         public static final int kDriverDefenseButton = 1; //Set to Right Bumper
         public static final int kDriverAutoAllignButton = 2; // Set to Left Bumper
+        
+        public static final int kDriverPathRunButton = 4;
 
     }
 

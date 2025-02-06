@@ -9,6 +9,7 @@ import frc.robot.Constants.ControllerConstants;
 // COMMANDS IMPORT
 import frc.robot.commands.AutoAllign;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.FollowSimplePath;
 // SUBSYTEMS IMPORT
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Elevator;
@@ -16,6 +17,9 @@ import frc.robot.subsystems.VisionSubsystemNEW;
 import frc.robot.subsystems.Dashboard;
 // ALL OTHER IMPORTS
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,8 +28,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+import java.util.concurrent.Exchanger;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.FollowPathCommand;
 
 
 /*
@@ -57,10 +64,13 @@ public class RobotContainer {
     // Elevator System Init 
     m_elevator.Elevator();
 
+    Pose2d robotStartingPose = new Pose2d(2.359, 0.817, new Rotation2d(0));
+    m_robotDrive.resetOdometry(robotStartingPose);
+
     // REVIEW:
     // Register Commands Prior to using them in an auto?
     NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
-    NamedCommands.registerCommand("ExampleCommand" );
+
     // REVIEW:
     // Init PathPlanner
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -102,7 +112,9 @@ public class RobotContainer {
     // NEW ALLIGN
     new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
         .whileTrue(new AutoAllign(m_vision, m_robotDrive));
-
+    
+    new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
+        .whileTrue(FollowSimplePath.followPath());
   }
 
 
