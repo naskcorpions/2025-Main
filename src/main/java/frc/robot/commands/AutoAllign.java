@@ -32,8 +32,6 @@ public class AutoAllign extends Command{
     private double desiredDistance = 1.2;
     // TODO: P values will need tuning
     // TODO: ADD TO VISION CONSTANTS
-    private final double turnP = 0.05;
-    private final double driveP = 0.6;
 
     private PhotonTrackedTarget bestTag;
     private int bestTagID;
@@ -43,7 +41,6 @@ public class AutoAllign extends Command{
         this.m_vision = m_vision;
         this.m_robotDrive = m_robotDrive;
         addRequirements(m_robotDrive, m_vision);
-
     }
     
     @Override
@@ -55,10 +52,6 @@ public class AutoAllign extends Command{
     @Override
     public void execute() {
         /* RUNS PEREODICALLY */
-        // double targetYaw = 0;
-        // targetRange = 0;
-
-
         if (VisionSubsystemNEW.isTagDetedted()) {
             bestTag = VisionSubsystemNEW.returnBestTarget();
             if (bestTag != null) {
@@ -79,21 +72,21 @@ public class AutoAllign extends Command{
                 // If tag is detected, update turn & forward variables
                 // if (VisionSubsystemNEW.isTagDetedted()) {
                     turn =
-                        (0.0 /* ANGLE See commment below */ - targetYaw) * turnP * DriveConstants.kMaxAngularSpeed;
+                        (0.0 /* ANGLE See commment below */ - targetYaw) * VisionConstants.allignTurnP * DriveConstants.kMaxAngularSpeed;
                     forward =
-                        (desiredDistance /* DISTANCE See commment below */ - targetRange) * driveP * DriveConstants.kMaxSpeedMetersPerSecond;
+                        (desiredDistance /* DISTANCE See commment below */ - targetRange) * VisionConstants.allignDriveP * DriveConstants.kMaxSpeedMetersPerSecond;
                     //     tagX * lateralP * DriveConstants.kMaxSpeedMetersPerSecond
                 // } 
                 System.out.println("TURN: " + turn);
                 System.out.println("FORWARD: " + forward);
             
-        } 
-        if (!VisionSubsystemNEW.isTagDetedted()) {
-            
-        }
-        // Drive Robot
-        
-        
+            } 
+                if (!VisionSubsystemNEW.isTagDetedted()) {
+
+                }
+            // Drive Robot
+
+
         } 
         
         if(VisionSubsystemNEW.isTagDetedted()) {

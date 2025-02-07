@@ -23,6 +23,9 @@ public class Elevator extends SubsystemBase {
         // elevatorRight.configure(Configs.ElevatorConfig.elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
+    public void up() {
+        
+    }
 
     @Override
     public void periodic() {

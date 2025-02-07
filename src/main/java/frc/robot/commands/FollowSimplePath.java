@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -21,5 +22,8 @@ public class FollowSimplePath extends Command {
           DriverStation.reportError("PATAHPLANNER ERROR", r.getStackTrace());
           return Commands.none();
         }
+    }
+    public static Command followAuto() {
+      return new PathPlannerAuto("Test Auto 1");
     }
 }

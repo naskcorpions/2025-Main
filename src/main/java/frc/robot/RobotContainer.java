@@ -5,7 +5,8 @@
 package frc.robot;
 
 // CONSTANTS IMPORT
-import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.ControllerConfig;
+import frc.robot.Constants.GlobalVariables;
 // COMMANDS IMPORT
 import frc.robot.commands.AutoAllign;
 import frc.robot.commands.ExampleCommand;
@@ -43,78 +44,88 @@ import com.pathplanner.lib.commands.FollowPathCommand;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final VisionSubsystemNEW m_vision = new VisionSubsystemNEW();
-  private final Dashboard m_dashboard = new Dashboard();
-  private final Elevator m_elevator = new Elevator();
+  private static final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private static final VisionSubsystemNEW m_vision = new VisionSubsystemNEW();
+  private static final Dashboard m_dashboard = new Dashboard();
+  private static final Elevator m_elevator = new Elevator();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
-  // Operator Controller
-  XboxController m_operatorController = new XboxController(ControllerConstants.operatorController.kOperatorControllerPort);
-
-  // Other Vars/Constants
-  private final SendableChooser<Command> autoChooser;
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Vision System Init
-    m_vision.Vision();
-    // Elevator System Init 
-    m_elevator.Elevator();
-
-    Pose2d robotStartingPose = new Pose2d(2.359, 0.817, new Rotation2d(0));
-    m_robotDrive.resetOdometry(robotStartingPose);
-
-    // REVIEW:
-    // Register Commands Prior to using them in an auto?
-    NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
-
-    // REVIEW:
-    // Init PathPlanner
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
-
-    // Configure the button bindings
-    configureButtonBindings();
-
-
-    // Configure default commands
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-                true),
-            m_robotDrive));
-
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
-   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
-   * subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
-   * passing it to a
-   * {@link JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverDefenseButton)
+  static XboxController m_driverController = new XboxController(ControllerConfig.driveController.kDriverControllerPort);
+    // Operator Controller
+    XboxController m_operatorController = new XboxController(ControllerConfig.operatorController.kOperatorControllerPort);
+  
+    // Other Vars/Constants
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+      // Vision System Init
+      m_vision.Vision();
+      // Elevator System Init 
+      m_elevator.Elevator();
+      // Dashboard Init
+      m_dashboard.dashboardInit();
+  
+      // Reset Robot Pose
+      m_robotDrive.resetOdometry(GlobalVariables.robotStartingPose);
+  
+  
+      // REVIEW:
+      // Register Commands Prior to using them in an auto?
+      NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
+      NamedCommands.registerCommand("DriveSubsustem", Commands.print("Register DriveSubsystem"));
+  
+      // Configure the button bindings
+      configureButtonBindings();
+  
+  
+      // Configure default commands
+      m_robotDrive.setDefaultCommand(
+          // The left stick controls translation of the robot.
+          // Turning is controlled by the X axis of the right stick.
+          new RunCommand(
+              () -> m_robotDrive.drive(
+                  -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConfig.driveController.kDriveDeadband),
+                  -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConfig.driveController.kDriveDeadband),
+                  -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConfig.driveController.kDriveDeadband),
+                  true),
+              m_robotDrive));
+  
+    }
+  
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
+     * subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
+     * passing it to a
+     * {@link JoystickButton}.
+     */
+    public static void configureButtonBindings() {
+      new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverDefenseButton)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
     // NEW ALLIGN
-    new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
+    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
         .whileTrue(new AutoAllign(m_vision, m_robotDrive));
-    
-    new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
+    // Follow Path
+    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverPathRunButton)
         .whileTrue(FollowSimplePath.followPath());
+    // Follow Auto Command
+    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
+        .whileTrue(FollowSimplePath.followAuto());
+    // Run Robot Relative
+    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverDriveRobotRelative).whileTrue(
+      new RunCommand(
+              () -> m_robotDrive.drive(
+                  -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConfig.driveController.kDriveDeadband),
+                  -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConfig.driveController.kDriveDeadband),
+                  -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConfig.driveController.kDriveDeadband),
+                  false),
+              m_robotDrive));
   }
 
 
@@ -127,6 +138,6 @@ public class RobotContainer {
   // REVIEW:
   public Command getAutonomousCommand() {
     // INFO: Returns the selected auto's command to run when enabled
-    return autoChooser.getSelected();
+    return FollowSimplePath.followAuto();
   }
 }

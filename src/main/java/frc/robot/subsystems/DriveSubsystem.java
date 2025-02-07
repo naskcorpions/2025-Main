@@ -51,7 +51,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   // private final ADIS16470_IMU m_oldGyro = new ADIS16470_IMU();
-  private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+  private static final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
 
 
   // Odometry class for tracking robot pose
@@ -85,7 +85,8 @@ public class DriveSubsystem extends SubsystemBase {
         this::getRobotChassisSpeeds, 
         (speeds, feedforwards) -> driveRobotRelative(speeds), 
         new PPHolonomicDriveController(
-          new PIDConstants(0.5, 0.9, 0.0),
+          new PIDConstants(7, 0, 0),
+          // new PIDConstants(1.2, 0.05, 0.01),
           new PIDConstants(0.001, 0.0005, 0.0005)
         ),
         pathConfig,
@@ -163,7 +164,7 @@ public class DriveSubsystem extends SubsystemBase {
                 Rotation2d.fromDegrees(-m_gyro.getYaw()))
             // FALSE
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-    System.out.println(Rotation2d.fromDegrees(-m_gyro.getYaw()));
+    // System.out.println(Rotation2d.fromDegrees(-m_gyro.getYaw()));
     // --------------------------------------------------------------------------------------------------
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -253,6 +254,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
   private ChassisSpeeds getRobotChassisSpeeds() {
     return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+  }
+
+  public static double getGyroAngle() {
+    return m_gyro.getAngle();
   }
 
 }
