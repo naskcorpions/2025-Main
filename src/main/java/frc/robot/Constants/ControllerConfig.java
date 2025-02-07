@@ -5,18 +5,15 @@ public class ControllerConfig{
         public static int kDriverControllerPort = 0;
         public static double kDriveDeadband = 0.05;
         
-        public static int kDriverDefenseButton; //Set to Right Bumper
-        public static int kDriverAutoAllignButton; // Set to Left Bumper
+        public static int kDriverDefenseButton = 1; //Set to Right Bumper
+        public static int kDriverAutoAllignButton = 2; // Set to Left Bumper
         
-        public static int kDriverPathRunButton;
+        public static int kDriverPathRunButton = 4;
         
-        public static int kDriverFollowSimpleAuto;
+        public static int kDriverFollowSimpleAuto = 3;
         
-        public static int kDriverDriveRobotRelative;
+        public static int kDriverDriveRobotRelative = 6;
         
-        public static void checkID() {
-            System.out.println(kDriverDefenseButton);
-        }
     }
     
     public class operatorController {

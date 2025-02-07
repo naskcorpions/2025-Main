@@ -10,8 +10,6 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.ControllerConfig;
 import frc.robot.Constants.OtherConstants;
 import frc.robot.Constants.ControllerConfig.driveController;
-import frc.robot.commands.Controller.switchToDefaultConfig;
-import frc.robot.commands.Controller.switchToDriver1Config;
 
 import java.util.List;
 
@@ -25,10 +23,8 @@ public class Dashboard extends SubsystemBase {
     // Auto Command Chooser
     private SendableChooser<Command> autoChooser;
     // Driver & Operator Config Chooser
-    private SendableChooser<String> driverChooser = new SendableChooser<>();
-    private SendableChooser<String> operatorChooser = new SendableChooser<>();
 
-    String driverConfig;
+    static String driverConfig;
 
 
     public void dashboardInit() {
@@ -36,11 +32,6 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         
         // Drive Controller Config
-        driverChooser.setDefaultOption("Default Config", "defaultConfig");
-        driverChooser.addOption("Config 1", "config1");
-
-        SmartDashboard.putData("Driver Config", driverChooser);
-
 
     }
 
@@ -52,9 +43,6 @@ public class Dashboard extends SubsystemBase {
             battLowest = Math.floor(RobotController.getBatteryVoltage() * 100) / 100;
         }
         SmartDashboard.putNumber("Batt Lowest", battLowest);
-
-        driverConfig = driverChooser.getSelected();
-        configureControllerBindings();
 
         // TODO: ADD?
         /*
@@ -96,26 +84,5 @@ public class Dashboard extends SubsystemBase {
     public void switchToAutoTab() {
         Elastic.selectTab(OtherConstants.DashboardConstants.autoTabName);
     }
-
-    public void configureControllerBindings(){
-        switch (driverConfig) {
-            case "defaultConfig":
-                switchToDefaultConfig.switchConfig();
-                ControllerConfig.driveController.checkID();
-                RobotContainer.configureButtonBindings();
-                break;
-            case "config1":
-                switchToDriver1Config.switchConfig();
-                ControllerConfig.driveController.checkID();
-                RobotContainer.configureButtonBindings();
-            default:
-                // TODO: Handle invalic config
-                break;
-        }
-
-
-    }
-
-
 
 }

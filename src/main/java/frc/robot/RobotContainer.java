@@ -108,24 +108,24 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-    // NEW ALLIGN
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
-        .whileTrue(new AutoAllign(m_vision, m_robotDrive));
-    // Follow Path
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverPathRunButton)
-        .whileTrue(FollowSimplePath.followPath());
-    // Follow Auto Command
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
-        .whileTrue(FollowSimplePath.followAuto());
-    // Run Robot Relative
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverDriveRobotRelative).whileTrue(
-      new RunCommand(
-              () -> m_robotDrive.drive(
-                  -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConfig.driveController.kDriveDeadband),
-                  -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConfig.driveController.kDriveDeadband),
-                  -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConfig.driveController.kDriveDeadband),
-                  false),
-              m_robotDrive));
+      // NEW ALLIGN
+      new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
+          .whileTrue(new AutoAllign(m_vision, m_robotDrive));
+      // Follow Path
+      new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverPathRunButton)
+          .whileTrue(FollowSimplePath.followPath());
+      // Follow Auto Command
+      new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
+          .whileTrue(FollowSimplePath.followAuto());
+      // Run Robot Relative
+      new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverDriveRobotRelative).whileTrue(
+        new RunCommand(
+                () -> m_robotDrive.drive(
+                    -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConfig.driveController.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConfig.driveController.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConfig.driveController.kDriveDeadband),
+                    false),
+                m_robotDrive));
   }
 
 
