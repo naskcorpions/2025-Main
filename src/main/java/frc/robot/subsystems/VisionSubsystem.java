@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 
 public class VisionSubsystem extends SubsystemBase {
     private PhotonCamera camera;
+    private PhotonCamera camera2;
     static List<PhotonPipelineResult> cameraResult;
     static PhotonTrackedTarget bestResult;
 
@@ -26,7 +27,7 @@ public class VisionSubsystem extends SubsystemBase {
     public void Vision() {
         // visionInit(camera);
         camera = new PhotonCamera(VisionConstants.pi1CameraName);
-        camera2 = new PhotonCamera(VisionConstants.pi2Cameraname);
+        camera2 = new PhotonCamera(VisionConstants.pi2CameraName);
 
     }
 
