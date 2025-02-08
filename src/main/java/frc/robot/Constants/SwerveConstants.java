@@ -25,13 +25,8 @@ public final class SwerveConstants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-<<<<<<< HEAD
     public static final double kMaxSpeedMetersPerSecond = 1.7;
     public static final double kMaxAngularSpeed = 0.4 * Math.PI; // radians per second
-=======
-    public static final double kMaxSpeedMetersPerSecond = 2.0;
-    public static final double kMaxAngularSpeed = 0.5 * Math.PI; // radians per second
->>>>>>> parent of b4fb6b0 (2/5/25)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(26.5);

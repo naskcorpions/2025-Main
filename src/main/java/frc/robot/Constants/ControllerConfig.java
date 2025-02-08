@@ -13,6 +13,7 @@ public class ControllerConfig{
         public static int kDriverFollowSimpleAuto = 3;
         
         public static int kDriverDriveRobotRelative = 6;
+        public static int kDriveToTag = 5;
         
     }
     
