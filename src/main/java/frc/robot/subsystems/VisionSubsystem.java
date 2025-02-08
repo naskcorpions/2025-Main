@@ -1,27 +1,38 @@
 package frc.robot.subsystems;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
-
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 
 
 public class VisionSubsystem extends SubsystemBase {
     private PhotonCamera camera;
     private PhotonCamera camera2;
     static List<PhotonPipelineResult> cameraResult;
-    static PhotonTrackedTarget bestResult;
-
     static PhotonTrackedTarget bestTarget;
 
+    private static AprilTagFieldLayout fieldLayout = AprilTagFields.k2025Reefscape.loadAprilTagLayoutField();
+
     private static boolean isTagDetected;
+
+    private static Pose2d tagPose;
+
 
             
     public void Vision() {
@@ -46,7 +57,7 @@ public class VisionSubsystem extends SubsystemBase {
             isTagDetected = false;
         }
 
-        bestResult = this.returnBestTarget();
+        bestTarget = this.returnBestTarget();
     }
 
     /**
@@ -78,8 +89,11 @@ public class VisionSubsystem extends SubsystemBase {
         return isTagDetected;
     }
     
-    public static Pose2d getTargetPosition() {
-        
-        return new Pose2d();
+    public static Pose2d getFieldTargetPosition() {
+        Optional<Pose3d> tagPose3d = fieldLayout.getTagPose(bestTarget.getFiducialId());
+        if (bestTarget != null) {
+            tagPose = tagPose3d.get().toPose2d();
+        }        
+        return tagPose;
     }
 }
