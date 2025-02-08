@@ -10,7 +10,7 @@ import frc.robot.Constants.GlobalVariables;
 // COMMANDS IMPORT
 import frc.robot.commands.AutoAllign;
 import frc.robot.commands.FollowSimplePath;
-import frc.robot.commands.driveToTag;
+import frc.robot.commands.DriveToTag;
 // SUBSYTEMS IMPORT
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Elevator;

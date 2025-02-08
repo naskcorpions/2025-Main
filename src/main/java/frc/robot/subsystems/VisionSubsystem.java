@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 public class VisionSubsystem extends SubsystemBase {
     private PhotonCamera camera;
     static List<PhotonPipelineResult> cameraResult;
+    static PhotonTrackedTarget bestResult;
 
     static PhotonTrackedTarget bestTarget;
 
@@ -24,13 +25,14 @@ public class VisionSubsystem extends SubsystemBase {
             
     public void Vision() {
         // visionInit(camera);
-        camera = new PhotonCamera(VisionConstants.cameraName);
+        camera = new PhotonCamera(VisionConstants.pi1CameraName);
+        camera2 = new PhotonCamera(VisionConstants.pi2Cameraname);
 
     }
 
 
     private void visionInit(PhotonCamera camera) {
-        camera = new PhotonCamera(VisionConstants.cameraName);
+        camera = new PhotonCamera(VisionConstants.pi1CameraName);
 
     }
 
@@ -42,6 +44,8 @@ public class VisionSubsystem extends SubsystemBase {
         } else {
             isTagDetected = false;
         }
+
+        bestResult = this.returnBestTarget();
     }
 
     /**
@@ -74,7 +78,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
     
     public static Pose2d getTargetPosition() {
-
+        
         return new Pose2d();
     }
 }
