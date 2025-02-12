@@ -12,17 +12,16 @@
 
 // public class Elevator extends SubsystemBase {
 
-//     // Create elevator Motors
-//     private SparkMax elevatorLeft = new SparkMax(ElevatorConstants.kElevatorLeftMotor, MotorType.kBrushless);
-//     private SparkMax elevatorRight = new SparkMax(ElevatorConstants.kElevatorRightMotor, MotorType.kBrushless);
+    // Create elevator Motors
+    // private SparkMax elevatorLeft = new SparkMax(ElevatorConstants.kElevatorLeftMotor, MotorType.kBrushless);
+    // private SparkMax elevatorRight = new SparkMax(ElevatorConstants.kElevatorRightMotor, MotorType.kBrushless);
 
-//     //TODO: One motor for the elevator will need to be inverted. Should we use two seperate configs for inverted, and not, or just invert using a negative in here?
-//     /** Initializes Elevator. Should be called in RobotContainer once to initialize */
-//     // FIXME: Ensure Left and Right Motors are set properly
-//     public void Elevator() {
-//         elevatorLeft.configure(Configs.ElevatorConfig.elevatorConfigLeft, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-//         elevatorRight.configure(Configs.ElevatorConfig.elevatorConfigRight, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-//     }
+    //TODO: One motor for the elevator will need to be inverted. Should we use two seperate configs for inverted, and not, or just invert using a negative in here?
+    /** Initializes Elevator. Should be called in RobotContainer once to initialize */
+    // public void Elevator() {
+        // elevatorLeft.configure(Configs.ElevatorConfig.elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // elevatorRight.configure(Configs.ElevatorConfig.elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // }
 
 //     public void up() {
         
