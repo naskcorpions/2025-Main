@@ -8,12 +8,12 @@ package frc.robot;
 import frc.robot.Constants.ControllerConfig;
 import frc.robot.Constants.GlobalVariables;
 // COMMANDS IMPORT
-import frc.robot.commands.AutoAllign;
-import frc.robot.commands.FollowSimplePath;
-import frc.robot.commands.DriveToTag;
+// import frc.robot.commands.AutoAllign;
+// import frc.robot.commands.FollowSimplePath;
+// import frc.robot.commands.DriveToTag;
 // SUBSYTEMS IMPORT
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.Elevator;
+// import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.Dashboard;
 // ALL OTHER IMPORTS
@@ -38,7 +38,7 @@ public class RobotContainer {
   private static final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private static final VisionSubsystem m_vision = new VisionSubsystem();
   private static final Dashboard m_dashboard = new Dashboard();
-  private static final Elevator m_elevator = new Elevator();
+  // private static final Elevator m_elevator = new Elevator();
 
   // The driver's controller
   static XboxController m_driverController = new XboxController(ControllerConfig.driveController.kDriverControllerPort);
@@ -53,7 +53,7 @@ public class RobotContainer {
     // Vision System Init
     m_vision.Vision();
     // Elevator System Init
-    m_elevator.Elevator();
+    // m_elevator.Elevator();
     // Dashboard Init
     m_dashboard.dashboardInit();
 
@@ -99,15 +99,15 @@ public class RobotContainer {
           () -> m_robotDrive.setX(),
           m_robotDrive));
     // NEW ALLIGN
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
-        .whileTrue(new AutoAllign(m_vision, m_robotDrive));
-    // Follow Path
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverPathRunButton)
-        .whileTrue(FollowSimplePath.followPath());
-    // Follow Auto Command
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
-        .whileTrue(FollowSimplePath.followAuto());
-    // Run Robot Relative
+    // new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
+    //     .whileTrue(new AutoAllign(m_vision, m_robotDrive));
+    // // Follow Path
+    // new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverPathRunButton)
+    //     .whileTrue(FollowSimplePath.followPath());
+    // // Follow Auto Command
+    // new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverAutoAllignButton)
+    //     .whileTrue(FollowSimplePath.followAuto());
+    // // Run Robot Relative
     new JoystickButton(m_driverController, ControllerConfig.driveController.kDriverDriveRobotRelative).whileTrue(
       new RunCommand(
               () -> m_robotDrive.drive(
@@ -117,8 +117,8 @@ public class RobotContainer {
                   false),
               m_robotDrive));
     // Drive To Tag
-    new JoystickButton(m_driverController, ControllerConfig.driveController.kDriveToTag)
-      .whileTrue(new DriveToTag(m_vision, m_robotDrive));
+    // new JoystickButton(m_driverController, ControllerConfig.driveController.kDriveToTag)
+    //   .whileTrue(new DriveToTag(m_vision, m_robotDrive));
   }
 
 
@@ -131,6 +131,6 @@ public class RobotContainer {
   // REVIEW:
   public Command getAutonomousCommand() {
     // INFO: Returns the selected auto's command to run when enabled
-    return FollowSimplePath.followAuto();
+    return Commands.none();
   }
 }

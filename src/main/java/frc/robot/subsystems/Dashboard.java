@@ -13,7 +13,7 @@ import frc.robot.Constants.ControllerConfig.driveController;
 
 import java.util.List;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.RobotController;
 
@@ -21,15 +21,15 @@ public class Dashboard extends SubsystemBase {
     private double battLowest = 100;
 
     // Auto Command Chooser
-    private SendableChooser<Command> autoChooser;
+    // private SendableChooser<Command> autoChooser;
     // Driver & Operator Config Chooser
 
     static String driverConfig;
 
 
     public void dashboardInit() {
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        // autoChooser = AutoBuilder.buildAutoChooser();
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
         
         // Drive Controller Config
 
