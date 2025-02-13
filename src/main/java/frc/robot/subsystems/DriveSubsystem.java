@@ -29,33 +29,33 @@ import com.studica.frc.AHRS;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
-  private static final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+  private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDrivingCanId,
       DriveConstants.kFrontLeftTurningCanId,
       DriveConstants.kFrontLeftChassisAngularOffset);
 
-  private static final MAXSwerveModule m_frontRight = new MAXSwerveModule(
+  private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
       DriveConstants.kFrontRightDrivingCanId,
       DriveConstants.kFrontRightTurningCanId,
       DriveConstants.kFrontRightChassisAngularOffset);
 
-  private static final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+  private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
       DriveConstants.kRearLeftDrivingCanId,
       DriveConstants.kRearLeftTurningCanId,
       DriveConstants.kBackLeftChassisAngularOffset);
 
-  private static final MAXSwerveModule m_rearRight = new MAXSwerveModule(
+  private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
       DriveConstants.kRearRightDrivingCanId,
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
   // private final ADIS16470_IMU m_oldGyro = new ADIS16470_IMU();
-  private static final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+  private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
 
 
   // Odometry class for tracking robot pose
-  static SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       Rotation2d.fromDegrees(m_gyro.getAngle()),
       new SwerveModulePosition[] {
@@ -85,8 +85,7 @@ public class DriveSubsystem extends SubsystemBase {
         this::getRobotChassisSpeeds, 
         (speeds, feedforwards) -> driveRobotRelative(speeds), 
         new PPHolonomicDriveController(
-          new PIDConstants(7, 0, 0),
-          // new PIDConstants(1.2, 0.05, 0.01),
+          new PIDConstants(0.5, 0.9, 0.0),
           new PIDConstants(0.001, 0.0005, 0.0005)
         ),
         pathConfig,
@@ -120,16 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return The pose.
    */
-  private Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-  }
-  /**
-   * Returns the currently estimated robot pose
-   * @return The robot Pose
-   */
-  // NOTE: There are two methods that return the pose in meters. This is required in order to not cause problems
-  // NOTE:    with PathPlanners AutoBuilder, while still being able to statically call it
-  public static Pose2d getPoseStatic() {
+  public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
 
@@ -173,7 +163,7 @@ public class DriveSubsystem extends SubsystemBase {
                 Rotation2d.fromDegrees(-m_gyro.getYaw()))
             // FALSE
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-    // System.out.println(Rotation2d.fromDegrees(-m_gyro.getYaw()));
+    System.out.println(Rotation2d.fromDegrees(-m_gyro.getYaw()));
     // --------------------------------------------------------------------------------------------------
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -263,10 +253,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
   private ChassisSpeeds getRobotChassisSpeeds() {
     return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
-  }
-
-  public static double getGyroAngle() {
-    return m_gyro.getAngle();
   }
 
 }

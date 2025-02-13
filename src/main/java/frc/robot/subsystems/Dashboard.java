@@ -1,54 +1,22 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Elastic;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.ControllerConfig;
 import frc.robot.Constants.OtherConstants;
-import frc.robot.Constants.ControllerConfig.driveController;
-
-import java.util.List;
-
-// import com.pathplanner.lib.auto.AutoBuilder;
-
 import edu.wpi.first.wpilibj.RobotController;
 
 public class Dashboard extends SubsystemBase {
-    private double battLowest = 100;
-
-    // Auto Command Chooser
-    // private SendableChooser<Command> autoChooser;
-    // Driver & Operator Config Chooser
-
-    static String driverConfig;
-
-
-    public void dashboardInit() {
-        // autoChooser = AutoBuilder.buildAutoChooser();
-        // SmartDashboard.putData("Auto Chooser", autoChooser);
-        
-        // Drive Controller Config
-
-    }
-
+    
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Batt Volts", RobotController.getBatteryVoltage());
-        SmartDashboard.putNumber("Gyro Angle", Math.floor(DriveSubsystem.getGyroAngle() * 1000) / 1000);
-        if (RobotController.getBatteryVoltage() < battLowest) {
-            battLowest = Math.floor(RobotController.getBatteryVoltage() * 100) / 100;
-        }
-        SmartDashboard.putNumber("Batt Lowest", battLowest);
 
         // TODO: ADD?
         /*
          * Things to possibly add:
          *    SWERVE: 
-         *     - Module Telemetry (Each module orientation)
+         *     - Module Teletry (Each module orientation)
          *     - Chassis Data (Robot overall orientation)
          *    ELEVATOR:
          *     - Position / Level
@@ -84,5 +52,6 @@ public class Dashboard extends SubsystemBase {
     public void switchToAutoTab() {
         Elastic.selectTab(OtherConstants.DashboardConstants.autoTabName);
     }
+
 
 }

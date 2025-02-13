@@ -36,8 +36,7 @@ public class ExampleCommand extends Command{
         return false; // Modify with logic
     }
 
-    @Override
-    public void end(boolean interupted) {
+    public void end() {
         /* RUNS LAST */
         // Put anything in here that is required to finish a command
     }
