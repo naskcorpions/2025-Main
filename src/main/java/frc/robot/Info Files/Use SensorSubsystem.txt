@@ -1,0 +1,7 @@
+CREATE SENSOR OBJ:
+    DigitalInput switch = SensorSubsystem.switch_input();
+
+Switch can be used like any other subsystem.
+
+EX:
+    new Trigger(switch::get).whileTrue(new RunCommand( () -> System.out.println("SWITCH ACTIVATE")));

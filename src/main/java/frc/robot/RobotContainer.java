@@ -13,12 +13,14 @@ import frc.robot.commands.FollowSimplePath;
 // SUBSYTEMS IMPORT
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.VisionSubsystemNEW;
+import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.Dashboard;
 // ALL OTHER IMPORTS
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -44,7 +46,7 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final VisionSubsystemNEW m_vision = new VisionSubsystemNEW();
+  private final VisionSubsystem m_vision = new VisionSubsystem();
   private final Dashboard m_dashboard = new Dashboard();
   private final Elevator m_elevator = new Elevator();
 

@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSubsystemNEW;
+import frc.robot.subsystems.VisionSubsystem;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 
 public class AutoAllign extends Command{
-    private VisionSubsystemNEW m_vision;
+    private VisionSubsystem m_vision;
     private DriveSubsystem m_robotDrive;
 
     // List<PhotonPipelineResult> cameraResult;
@@ -39,7 +39,7 @@ public class AutoAllign extends Command{
     private int bestTagID;
 
         
-    public AutoAllign(VisionSubsystemNEW m_vision, DriveSubsystem m_robotDrive) {
+    public AutoAllign(VisionSubsystem m_vision, DriveSubsystem m_robotDrive) {
         this.m_vision = m_vision;
         this.m_robotDrive = m_robotDrive;
         addRequirements(m_robotDrive, m_vision);
@@ -59,8 +59,8 @@ public class AutoAllign extends Command{
         // targetRange = 0;
 
 
-        if (VisionSubsystemNEW.isTagDetedted()) {
-            bestTag = VisionSubsystemNEW.returnBestTarget();
+        if (VisionSubsystem.isTagDetedted()) {
+            bestTag = VisionSubsystem.returnBestTarget();
             if (bestTag != null) {
                     bestTagID = bestTag.getFiducialId();
                     bestTag.getArea();
@@ -88,7 +88,7 @@ public class AutoAllign extends Command{
                 System.out.println("FORWARD: " + forward);
             
         } 
-        if (!VisionSubsystemNEW.isTagDetedted()) {
+        if (!VisionSubsystem.isTagDetedted()) {
             
         }
         // Drive Robot
@@ -96,7 +96,7 @@ public class AutoAllign extends Command{
         
         } 
         
-        if(VisionSubsystemNEW.isTagDetedted()) {
+        if(VisionSubsystem.isTagDetedted()) {
             // forward = 0;
             // turn = 0;
         }
