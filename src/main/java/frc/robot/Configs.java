@@ -58,16 +58,33 @@ public final class Configs {
 
     
         public static final class ElevatorConfig {     
-            public static final SparkMaxConfig elevatorConfig = new SparkMaxConfig();  
+            public static final SparkMaxConfig elevatorLeft = new SparkMaxConfig();  
             static {
-                elevatorConfig
+                elevatorLeft
                         .idleMode(IdleMode.kBrake)
                         .smartCurrentLimit(40)
                         // TODO SEE BELOW:
                         // Will need to be set for each motor
                         // One will need to be inverted, the other not
                         .inverted(false);
-                elevatorConfig.closedLoop
+                elevatorLeft.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
+                        .pid(0, 0, 0)
+                        // TODO: FIGURE OUT FF. DO WE NEED IT? HOW DO WE USE IT?
+                        // .velocityFF(0)
+                        .outputRange(-1, 1);
+            }
+            public static final SparkMaxConfig rightMotor = new SparkMaxConfig();  
+            static {
+                rightMotor
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        // TODO SEE BELOW:
+                        // Will need to be set for each motor
+                        // One will need to be inverted, the other not
+                        .inverted(true);
+                rightMotor.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                         // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
                         .pid(0, 0, 0)

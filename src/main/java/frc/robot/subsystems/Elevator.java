@@ -7,26 +7,45 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder; // added import
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Elevator extends SubsystemBase {
 
     // Create elevator Motors
-    // private SparkMax elevatorLeft = new SparkMax(ElevatorConstants.kElevatorLeftMotor, MotorType.kBrushless);
-    // private SparkMax elevatorRight = new SparkMax(ElevatorConstants.kElevatorRightMotor, MotorType.kBrushless);
+    private SparkMax elevatorLeft = new SparkMax(ElevatorConstants.kElevatorLeftMotor, MotorType.kBrushless);
+    private SparkMax elevatorRight = new SparkMax(ElevatorConstants.kElevatorRightMotor, MotorType.kBrushless);
+    private RelativeEncoder rightEncoder;  // new encoder for left motor
 
-    //TODO: One motor for the elevator will need to be inverted. Should we use two seperate configs for inverted, and not, or just invert using a negative in here?
-    /** Initializes Elevator. Should be called in RobotContainer once to initialize */
-    public void Elevator() {
-        // elevatorLeft.configure(Configs.ElevatorConfig.elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        // elevatorRight.configure(Configs.ElevatorConfig.elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // Proper constructor initializing motors and encoders
+    public Elevator() {
+        elevatorLeft.configure(Configs.ElevatorConfig.elevatorLeft, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        elevatorRight.configure(Configs.ElevatorConfig.rightMotor, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        
+        rightEncoder = elevatorRight.getEncoder();   // initialize left encoder
     }
 
+    // New method to run both elevator motors at a given speed
+    public void runElevator(double speed) {
+        elevatorLeft.set(speed);
+        elevatorRight.set(speed);
+    }
+
+    // New method to stop both elevator motors
+    public void stopElevator() {
+        elevatorLeft.set(0);
+        elevatorRight.set(0);
+    }
+
+    // New getter for the left encoder value
+    public double getEncoderValue() {
+        return rightEncoder.getPosition();
+    }
 
     @Override
     public void periodic() {
-
+        System.out.println("Elevator Encoder: " + getEncoderValue());
     }
 
 }
