@@ -16,6 +16,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.Intake;
 // ALL OTHER IMPORTS
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -50,6 +51,8 @@ public class RobotContainer {
   private final VisionSubsystem m_vision = new VisionSubsystem();
   private final Dashboard m_dashboard = new Dashboard();
   private final Elevator m_elevator = new Elevator();
+  // New Intake subsystem instance
+  private final Intake m_intake = new Intake();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
@@ -119,11 +122,15 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, 5)
         .whileTrue(new RunCommand(() -> {
-            m_elevator.runElevator(0.5);
-            System.out.println("Elevator Encoder: " + m_elevator.getEncoderValue());
+            m_elevator.runElevator(0.01);
+            // System.out.println("Elevator Encoder: " + m_elevator.getEncoderValue());
         }, m_elevator))
         .onFalse(new InstantCommand(() -> m_elevator.stopElevator(), m_elevator));
         
+    // NEW: Intake manual control using operator controller button 2 (change button number as needed)
+    new JoystickButton(m_operatorController, 10)
+        .whileTrue(new RunCommand(() -> m_intake.manualSpin(0.5), m_intake))
+        .onFalse(new InstantCommand(() -> m_intake.stopMotor(), m_intake));
   }
 
 
