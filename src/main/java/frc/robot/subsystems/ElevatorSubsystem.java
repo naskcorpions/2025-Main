@@ -50,7 +50,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // System.out.println("Elevator Encoder: " + getEncoderValue());
+        System.out.println("Elevator Encoder: " + getEncoderValue());
         if(getEncoderValue() > 200) { // updated threshold from 1000 to 200
             stopElevator();
             System.out.println("Maximum encoder value reached; elevator stopped.");
