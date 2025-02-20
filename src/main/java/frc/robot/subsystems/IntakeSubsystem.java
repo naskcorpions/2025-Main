@@ -5,7 +5,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Intake extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
     // Digital switch on channel 8; adjust wiring as needed.
     private DigitalInput limitSwitch = new DigitalInput(8);
     // Intake motor on port 11 (example) and using a brushless motor type

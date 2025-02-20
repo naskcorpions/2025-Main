@@ -12,11 +12,11 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FollowSimplePath;
 // SUBSYTEMS IMPORT
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeSubsystem;
 // ALL OTHER IMPORTS
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -50,9 +50,9 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final VisionSubsystem m_vision = new VisionSubsystem();
   private final Dashboard m_dashboard = new Dashboard();
-  private final Elevator m_elevator = new Elevator();
+  private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
   // New Intake subsystem instance
-  private final Intake m_intake = new Intake();
+  private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
