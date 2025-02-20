@@ -1,6 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// Open Source Software; you can modify and/or share it under the terms of the
+// WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
 
@@ -16,6 +16,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.Intake;
 // ALL OTHER IMPORTS
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import java.util.concurrent.Exchanger;
@@ -49,6 +51,8 @@ public class RobotContainer {
   private final VisionSubsystem m_vision = new VisionSubsystem();
   private final Dashboard m_dashboard = new Dashboard();
   private final Elevator m_elevator = new Elevator();
+  // New Intake subsystem instance
+  private final Intake m_intake = new Intake();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
@@ -63,8 +67,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Vision System Init
     m_vision.Vision();
-    // Elevator System Init 
-    m_elevator.Elevator();
 
     Pose2d robotStartingPose = new Pose2d(2.359, 0.817, new Rotation2d(0));
     m_robotDrive.resetOdometry(robotStartingPose);
@@ -117,6 +119,18 @@ public class RobotContainer {
     
     new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
         .whileTrue(FollowSimplePath.followPath());
+
+    new JoystickButton(m_driverController, 5)
+        .whileTrue(new RunCommand(() -> {
+            m_elevator.runElevator(0.01);
+            // System.out.println("Elevator Encoder: " + m_elevator.getEncoderValue());
+        }, m_elevator))
+        .onFalse(new InstantCommand(() -> m_elevator.stopElevator(), m_elevator));
+        
+    // NEW: Intake manual control using operator controller button 2 (change button number as needed)
+    new JoystickButton(m_operatorController, 10)
+        .whileTrue(new RunCommand(() -> m_intake.manualSpin(0.5), m_intake))
+        .onFalse(new InstantCommand(() -> m_intake.stopMotor(), m_intake));
   }
 
 
