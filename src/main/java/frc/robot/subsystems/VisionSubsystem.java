@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -19,6 +20,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
 
@@ -32,6 +34,8 @@ public class VisionSubsystem extends SubsystemBase {
     private static PhotonTrackedTarget bestTarget;
 
     private static boolean isTagDetected;
+    // Vision Latentcy
+    private static double latency = 0.0;
 
     // Field Layout
     private static AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
@@ -62,6 +66,26 @@ public class VisionSubsystem extends SubsystemBase {
         } else {
             isTagDetected = false;
         }
+    }
+    /**
+     * 
+     * @return the latency of the pipeline result
+     */
+    public static double returnVisionLatentcy() {
+        // IMPORTANT:
+        //REVIEW:
+        /* Should get the latency. Lines do the following
+         * 1. Gets the first result from the pipeline result
+         * 2. Calculates latency by getting the time of the robot and the time the result was found/created
+         * 3. Returns the latency in a double.
+         * 
+         * NOTE: Due to the timestamp stuff found in PhotonVision's docs, doing 'Timer.getFPGATimestamp() - ' may not be nessary
+         * NOTE:    It may not be nessary depending on what 'tempResult.getTimestampSeconds()' deos exactly.
+         * https://docs.photonvision.org/en/latest/docs/contributing/design-descriptions/time-sync.html
+         */
+        PhotonPipelineResult tempResult = cameraResult.get(0);
+        latency = Timer.getFPGATimestamp() - tempResult.getTimestampSeconds();
+        return latency;
     }
 
     /**

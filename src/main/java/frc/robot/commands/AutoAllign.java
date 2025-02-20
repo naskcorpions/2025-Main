@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystemOLD;
 import frc.robot.subsystems.VisionSubsystem;
 
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -39,10 +40,10 @@ public class AutoAllign extends Command{
     private int bestTagID;
 
         
-    public AutoAllign(VisionSubsystem m_vision, DriveSubsystem m_robotDrive) {
+    public AutoAllign(VisionSubsystem m_vision, DriveSubsystem m_robotDrive2) {
         this.m_vision = m_vision;
-        this.m_robotDrive = m_robotDrive;
-        addRequirements(m_robotDrive, m_vision);
+        this.m_robotDrive = m_robotDrive2;
+        addRequirements(m_robotDrive2, m_vision);
 
     }
     
