@@ -1,28 +1,23 @@
+// INFO: ROBOT IMPORTS
 package frc.robot.subsystems;
-
-import java.lang.StackWalker.Option;
-import java.util.List;
-import java.util.Optional;
-
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonUtils;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.proto.Photon;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
+import frc.robot.Constants.VisionConstants;
+// INFO: WPILIB IMPORTS
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.VisionConstants;
+// INFO: JAVA IMPORTS
+import java.util.List;
+import java.util.Optional;
+// INFO: PHOTONVISION
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 
 public class VisionSubsystem extends SubsystemBase {
@@ -49,7 +44,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     public void Vision() {
         // visionInit(camera);
-        camera = new PhotonCamera(VisionConstants.cameraName);
+        camera = new PhotonCamera(VisionConstants.RPI1.kCameraName);
 
     }
 
@@ -122,4 +117,8 @@ public class VisionSubsystem extends SubsystemBase {
 
         return Optional.empty(); 
     }
+    public static Pose2d getRobotEstimatedPose() {
+        return new Pose2d();
+    }
+ 
 }

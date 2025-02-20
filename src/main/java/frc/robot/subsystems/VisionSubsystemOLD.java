@@ -1,29 +1,22 @@
+// INFO: ROBOT IMPORTS
 package frc.robot.subsystems;
-/*
- *  Commented imports are unused
- */
-
-import java.util.List;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.units.Unit;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
-
+// INFO: WPILIB IMPORTS
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// INFO: PHOTONVISION
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-// import org.photonvision.utils.PacketUtils;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-// import edu.wpi.first.math.geometry.Pose3d;
-// import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.util.Units;
 
 
 public class VisionSubsystemOLD extends SubsystemBase {
@@ -48,9 +41,9 @@ public class VisionSubsystemOLD extends SubsystemBase {
         double currentDistance = 0;
         if(result.hasTargets()) {
             double range = PhotonUtils.calculateDistanceToTargetMeters(
-                VisionConstants.kCameraHeight, 
-                VisionConstants.kTargetHeight, 
-                VisionConstants.kCameraPitch, 
+                VisionConstants.RPI1.kCameraHeight, 
+                VisionConstants.RPI1.kTargetHeight, 
+                VisionConstants.RPI1.kCameraPitch, 
                 Units.degreesToRadians(result.getBestTarget().getPitch()));
                 currentDistance = range;
                 return range;

@@ -1,9 +1,11 @@
+// INFO: ROBOT IMPORTS
 package frc.robot.subsystems;
-
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+// INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// INFO: REV IMPORTS
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
     // Digital switch on channel 8; adjust wiring as needed.
