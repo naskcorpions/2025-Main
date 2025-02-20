@@ -69,9 +69,9 @@ public class AutoAllign extends Command{
                     targetYaw = bestTag.getYaw();
                             targetRange =
                                     PhotonUtils.calculateDistanceToTargetMeters(
-                                            VisionConstants.kCameraHeight, // Measured with a tape measure, or in CAD.
-                                            VisionConstants.kTargetHeight, // From 2024 game manual for ID 7
-                                            VisionConstants.kCameraPitch, // Measured with a protractor, or in CAD.
+                                            VisionConstants.RPI1.kCameraHeight, // Measured with a tape measure, or in CAD.
+                                            VisionConstants.RPI1.kTargetHeight, // From 2024 game manual for ID 7
+                                            VisionConstants.RPI1.kCameraPitch, // Measured with a protractor, or in CAD.
                                             Units.degreesToRadians(bestTag.getPitch()));
                     System.out.println(targetRange);
                 }

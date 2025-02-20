@@ -1,0 +1,23 @@
+ptional.empty ﻿
+﻿﻿﻿﻿﻿﻿﻿﻿ERROR ﻿﻿ 1 ﻿﻿ Unhandled exception: java.util.NoSuchElementException: No value present ﻿﻿ java.base/java.util.Optional.get(Unknown Source) ﻿﻿﻿
+﻿﻿﻿﻿﻿﻿ Error at java.base/java.util.Optional.get(Unknown Source): Unhandled exception: java.util.NoSuchElementException: No value present ﻿
+﻿﻿﻿﻿﻿﻿ 	at java.base/java.util.Optional.get(Unknown Source) ﻿
+﻿﻿﻿﻿﻿﻿ 	at frc.robot.subsystems.VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.java:135) ﻿
+﻿﻿﻿﻿﻿﻿﻿﻿Warning ﻿﻿ 1 ﻿﻿ The robot program quit unexpectedly. This is usually due to a code error.
+  The above stacktrace can help determine where the error occurred.
+  See https://wpilib.org/stacktrace for more information. ﻿﻿ edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:433) ﻿﻿﻿
+﻿﻿﻿﻿﻿﻿ 	at frc.robot.subsystems.VisionSubsystem.periodic(VisionSubsystem.java:81) ﻿
+﻿﻿﻿﻿﻿﻿ 	at edu.wpi.first.wpilibj2.command.CommandScheduler.run(CommandScheduler.java:269) ﻿
+﻿﻿﻿﻿﻿﻿ 	at frc.robot.Robot.robotPeriodic(Robot.java:47) ﻿
+﻿﻿﻿﻿﻿﻿ 	at edu.wpi.first.wpilibj.IterativeRobotBase.loopFunc(IterativeRobotBase.java:400) ﻿
+﻿﻿﻿﻿﻿﻿ 	at edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:133) ﻿
+﻿﻿﻿﻿﻿﻿ 	at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:419) ﻿
+﻿﻿﻿﻿﻿﻿ 	at edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:510) ﻿
+﻿﻿﻿﻿﻿﻿ 	at frc.robot.Main.main(Main.java:23) ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿ ﻿Warning﻿ at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:433): The robot program quit unexpectedly. This is usually due to a code error. ﻿
+﻿﻿﻿﻿﻿﻿﻿﻿ERROR ﻿﻿ 1 ﻿﻿ The startCompetition() method (or methods called by it) should have handled the exception above. ﻿﻿ edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:440) ﻿﻿﻿
+﻿﻿﻿﻿﻿﻿   The above stacktrace can help determine where the error occurred. ﻿
+﻿﻿﻿﻿﻿﻿   See https://wpilib.org/stacktrace for more information. ﻿
+﻿﻿﻿﻿﻿﻿ Error at edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:440): The startCompetition() method (or methods called by it) should have handled the exception above. ﻿
+﻿﻿﻿﻿﻿﻿ ********** Robot program starting ********** ﻿

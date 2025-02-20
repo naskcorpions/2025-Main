@@ -163,7 +163,8 @@ public class DriveSubsystem extends SubsystemBase {
                 Rotation2d.fromDegrees(-m_gyro.getYaw()))
             // FALSE
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-    System.out.println(Rotation2d.fromDegrees(-m_gyro.getYaw()));
+    // Prints robot rotation
+    // System.out.println(Rotation2d.fromDegrees(-m_gyro.getYaw()));
     // --------------------------------------------------------------------------------------------------
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
