@@ -5,7 +5,9 @@
 package frc.robot;
     // CONSTANTS
     import frc.robot.Constants.ControllerConstants;
-    // COMMANDS
+import frc.robot.Constants.ControllerConstants.driveController;
+import frc.robot.Constants.SwerveConstants.DriveConstants;
+// COMMANDS
     import frc.robot.commands.AutoAllign;
     import frc.robot.commands.ExampleCommand;
     import frc.robot.commands.FollowSimplePath;
@@ -47,29 +49,29 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 */
 public class RobotContainer {
     // The robot's subsystems
-    private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-    private final VisionSubsystem m_vision = new VisionSubsystem();
-    private final Dashboard m_dashboard = new Dashboard();
+    // private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    // private final VisionSubsystem m_vision = new VisionSubsystem();
+    // private final Dashboard m_dashboard = new Dashboard();
     private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
     // New Intake subsystem instance
-    private final IntakeSubsystem m_intake = new IntakeSubsystem();
+    // private final IntakeSubsystem m_intake = new IntakeSubsystem();
     
     // The driver's controller
     XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
     // Operator Controller
-    XboxController m_operatorController = new XboxController(ControllerConstants.operatorController.kOperatorControllerPort);
+    // XboxController m_operatorController = new XboxController(ControllerConstants.operatorController.kOperatorControllerPort);
     
     // Other Vars/Constants
-    private final SendableChooser<Command> autoChooser;
+    // private final SendableChooser<Command> autoChooser;
     /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
     */
     public RobotContainer() {
         // Vision System Init
-        m_vision.Vision();
+        // m_vision.Vision();
         
         Pose2d robotStartingPose = new Pose2d(2.359, 0.817, new Rotation2d(0));
-        m_robotDrive.resetOdometry(robotStartingPose);
+        // m_robotDrive.resetOdometry(robotStartingPose);
         
         // REVIEW:
         // Register Commands Prior to using them in an auto?
@@ -77,24 +79,24 @@ public class RobotContainer {
         
         // REVIEW:
         // Init PathPlanner
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        // autoChooser = AutoBuilder.buildAutoChooser();
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
         
         // Configure the button bindings
         configureButtonBindings();
         
         
         // Configure default commands
-        m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-        () -> m_robotDrive.drive(
-        -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-        true),
-        m_robotDrive));
+        // m_robotDrive.setDefaultCommand(
+        // // The left stick controls translation of the robot.
+        // // Turning is controlled by the X axis of the right stick.
+        // new RunCommand(
+        // () -> m_robotDrive.drive(
+        // -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
+        // -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
+        // -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
+        // true),
+        // m_robotDrive));
         
     }
     
@@ -108,30 +110,42 @@ public class RobotContainer {
     * {@link JoystickButton}.
     */
     private void configureButtonBindings() {
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverDefenseButton)
-        .whileTrue(new RunCommand(
-        () -> m_robotDrive.setX(),
-        m_robotDrive));
+        // Run elevator on A button
+        new JoystickButton(m_driverController, 1).whileTrue(
+            new RunCommand(
+                () -> {
+                    ElevatorSubsystem.runTestUp();
+                    System.out.println("ELEVATOR UP");
+                }, 
+            m_elevator)
+        );
+        new JoystickButton(m_driverController, 2).whileTrue(
+            new RunCommand(
+                () -> {
+                    ElevatorSubsystem.runTestDown();
+                    System.out.println("ELEVATOR DOWN");
+                }, 
+            m_elevator)
+        );
+        new JoystickButton(m_driverController, 1).whileFalse(
+            new RunCommand(
+                () -> {
+                    ElevatorSubsystem.stopElevator();
+                    System.out.println("STOP 1");
+                }, 
+            m_elevator)
+        );
+        new JoystickButton(m_driverController, 2).whileFalse(
+            new RunCommand(
+                () -> {
+                    ElevatorSubsystem.stopElevator();
+                    System.out.println("STOP 2");
+                }, 
+            m_elevator)
+        );
         
-        // NEW ALLIGN
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
-        .whileTrue(new AutoAllign(m_vision, m_robotDrive));
-        
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
-        .whileTrue(FollowSimplePath.followPath());
-        new POVButton(m_driverController, 2).whileTrue(
-        new RunCommand(
-        () -> System.out.println("rdtcfvhbj")
-        ));
-        new JoystickButton(m_driverController, 6).whileTrue(
-        new RunCommand(
-        () -> m_robotDrive.drive(
-        -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-        false),
-        m_robotDrive));
     }
+    
     
     
     
@@ -143,6 +157,6 @@ public class RobotContainer {
     // REVIEW:
     public Command getAutonomousCommand() {
         // INFO: Returns the selected auto's command to run when enabled
-        return autoChooser.getSelected();
+        return Commands.none();
     }
 }
