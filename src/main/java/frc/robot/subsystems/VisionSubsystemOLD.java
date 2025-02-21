@@ -48,9 +48,9 @@ public class VisionSubsystemOLD extends SubsystemBase {
         double currentDistance = 0;
         if(result.hasTargets()) {
             double range = PhotonUtils.calculateDistanceToTargetMeters(
-                VisionConstants.kCameraHeight, 
-                VisionConstants.kTargetHeight, 
-                VisionConstants.kCameraPitch, 
+                VisionConstants.RPI1.kCameraHeight, 
+                VisionConstants.RPI1.kTargetHeight, 
+                VisionConstants.RPI1.kCameraPitch, 
                 Units.degreesToRadians(result.getBestTarget().getPitch()));
                 currentDistance = range;
                 return range;
