@@ -2,16 +2,17 @@
 // This software can be modified and/or shared under the terms
 // defined by the Elastic license:
 // https://github.com/Gold872/elastic-dashboard/blob/main/LICENSE
-
+// INFO: ROBOT IMPORTS
 package frc.robot;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+// INFO: WPILIB IMPORTS
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringTopic;
+// INFO: JAVA/OTHER IMPORTS
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class Elastic {
   private static final StringTopic notificationTopic =

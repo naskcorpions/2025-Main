@@ -1,15 +1,15 @@
+// INFO: ROBOT IMPORTS
 package frc.robot.subsystems;
-
 import frc.robot.Configs;
 import frc.robot.Constants.ElevatorConstants;
-
+// INFO: WPILIB IMPORTS
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// INFO: REV IMPORTS
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder; // added import
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.RelativeEncoder;
 
 public class ElevatorSubsystem extends SubsystemBase {
 

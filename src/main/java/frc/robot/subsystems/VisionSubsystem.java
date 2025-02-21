@@ -25,6 +25,26 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// INFO: ROBOT IMPORTS
+package frc.robot.subsystems;
+import frc.robot.Constants.VisionConstants;
+// INFO: WPILIB IMPORTS
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// INFO: JAVA IMPORTS
+import java.util.List;
+import java.util.Optional;
+// INFO: PHOTONVISION
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 
 public class VisionSubsystem extends SubsystemBase {
@@ -37,6 +57,8 @@ public class VisionSubsystem extends SubsystemBase {
     private static PhotonTrackedTarget bestTarget;
 
     private static boolean isTagDetected;
+    // Vision Latentcy
+    private static double latency = 0.0;
 
     // Field Layout
     private static AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
@@ -59,6 +81,8 @@ public class VisionSubsystem extends SubsystemBase {
         poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         
 
+        // visionInit(camera);
+        camera = new PhotonCamera(VisionConstants.RPI1.kCameraName);
 
     }
 
@@ -79,6 +103,26 @@ public class VisionSubsystem extends SubsystemBase {
         }
         System.out.println(fieldRobotPose());
         
+    }
+    /**
+     * 
+     * @return the latency of the pipeline result
+     */
+    public static double returnVisionLatentcy() {
+        // IMPORTANT:
+        //REVIEW:
+        /* Should get the latency. Lines do the following
+         * 1. Gets the first result from the pipeline result
+         * 2. Calculates latency by getting the time of the robot and the time the result was found/created
+         * 3. Returns the latency in a double.
+         * 
+         * NOTE: Due to the timestamp stuff found in PhotonVision's docs, doing 'Timer.getFPGATimestamp() - ' may not be nessary
+         * NOTE:    It may not be nessary depending on what 'tempResult.getTimestampSeconds()' deos exactly.
+         * https://docs.photonvision.org/en/latest/docs/contributing/design-descriptions/time-sync.html
+         */
+        PhotonPipelineResult tempResult = cameraResult.get(0);
+        latency = Timer.getFPGATimestamp() - tempResult.getTimestampSeconds();
+        return latency;
     }
 
     /**
@@ -204,4 +248,8 @@ public class VisionSubsystem extends SubsystemBase {
             }
         }
     }
+    public static Pose2d getRobotEstimatedPose() {
+        return new Pose2d();
+    }
+ 
 }

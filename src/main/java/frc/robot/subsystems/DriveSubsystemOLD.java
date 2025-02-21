@@ -1,10 +1,9 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-//INFO: ROBOT IMPORTS
+// INFO: ROBOT IMPORTS
 package frc.robot.subsystems;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
-
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
@@ -18,7 +17,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 // INFO: PATHPLANNER IMPORTS
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
@@ -27,7 +25,8 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 // INFO: OTHER IMPORTS
 import com.studica.frc.AHRS;
 
-public class DriveSubsystem extends SubsystemBase {
+
+public class DriveSubsystemOLD extends SubsystemBase {
     // Create MAXSwerveModules
     private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
     DriveConstants.kFrontLeftDrivingCanId,
@@ -55,32 +54,19 @@ public class DriveSubsystem extends SubsystemBase {
     
     
     // Odometry class for tracking robot pose
-    // NOTE: OLD
-    // SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-    //     DriveConstants.kDriveKinematics,
-    //     Rotation2d.fromDegrees(m_gyro.getAngle()),
-    //     new SwerveModulePosition[] {
-    //         m_frontLeft.getPosition(),
-    //         m_frontRight.getPosition(),
-    //         m_rearLeft.getPosition(),
-    //         m_rearRight.getPosition()
-    //     });
-    
-    private final SwerveDrivePoseEstimator m_odometry = 
-    new SwerveDrivePoseEstimator(
-    DriveConstants.kDriveKinematics, 
-    new Rotation2d(getHeading()), 
+    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+    DriveConstants.kDriveKinematics,
+    Rotation2d.fromDegrees(m_gyro.getAngle()),
     new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
         m_rearLeft.getPosition(),
         m_rearRight.getPosition()
-    }, 
-    // Change to estimated start pose
-    getPose());
+    });
+    
     
     /** Creates a new DriveSubsystem. */
-    public DriveSubsystem() {
+    public DriveSubsystemOLD() {
         // Usage reporting for MAXSwerve template
         HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
         
@@ -126,10 +112,6 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
-        // Should update the robot odometry based on the estimated tag position
-        m_odometry.addVisionMeasurement(
-        VisionSubsystem.getRobotEstimatedPose(), 
-        VisionSubsystem.returnVisionLatentcy());
     }
     
     /**
@@ -138,8 +120,7 @@ public class DriveSubsystem extends SubsystemBase {
     * @return The pose.
     */
     public Pose2d getPose() {
-        return m_odometry.getEstimatedPosition();
-        
+        return m_odometry.getPoseMeters();
     }
     
     /**
