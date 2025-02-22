@@ -15,11 +15,14 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.targeting.MultiTargetPNPResult;
 // INFO: WPILib
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -30,11 +33,11 @@ public class VisionSubsystem extends SubsystemBase {
     private static PhotonCamera camera;
     // Holds all current camera data
     private static List<PhotonPipelineResult> cameraResult;
-    private static PhotonPipelineResult result;
+    public static PhotonPipelineResult result = new PhotonPipelineResult();
     // "Best" targeted tag
     private static PhotonTrackedTarget bestTarget;
 
-    private static boolean isTagDetected;
+    private static boolean isTagDetected = false;
     // Vision Latentcy
     private static double latency = 0.0;
 
@@ -46,10 +49,6 @@ public class VisionSubsystem extends SubsystemBase {
 
     public void Vision() {
         camera = new PhotonCamera(VisionConstants.RPI1.kCameraName);
-        // NOTE: Forwards the camera's ports, so that the cameras can be accessed through the ROBORIO's USB port
-        // REVIEW:
-        PortForwarder.add(5800, VisionConstants.RPI1.kRPIIP, 5800);
-        PortForwarder.add(5800, VisionConstants.RPI2.kRPIIP, 5800);
 
         poseEstimator = 
             new PhotonPoseEstimator(
@@ -58,10 +57,6 @@ public class VisionSubsystem extends SubsystemBase {
                 VisionConstants.RPI1.kCameraToRobot);
         poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         
-
-        // visionInit(camera);
-        camera = new PhotonCamera(VisionConstants.RPI1.kCameraName);
-
     }
 
 
@@ -79,8 +74,8 @@ public class VisionSubsystem extends SubsystemBase {
         } else {
             isTagDetected = false;
         }
-        System.out.println(fieldRobotPose());
-        
+
+        robotFieldPose();
     }
     /**
      * 
@@ -98,9 +93,13 @@ public class VisionSubsystem extends SubsystemBase {
          * NOTE:    It may not be nessary depending on what 'tempResult.getTimestampSeconds()' deos exactly.
          * https://docs.photonvision.org/en/latest/docs/contributing/design-descriptions/time-sync.html
          */
-        PhotonPipelineResult tempResult = cameraResult.get(0);
-        latency = Timer.getFPGATimestamp() - tempResult.getTimestampSeconds();
-        return latency;
+        
+        if (isTagDetected) {
+            PhotonPipelineResult tempResult = cameraResult.get(0);
+            latency = Timer.getFPGATimestamp() - tempResult.getTimestampSeconds();
+            return latency;
+        }
+        return 0.0;        
     }
 
     /**
@@ -144,37 +143,28 @@ public class VisionSubsystem extends SubsystemBase {
         }
     }
 
-    // RETURNS ROBOT TO TAG POSE. Used to get robot pose?
-    public static Pose2d fieldRobotPose() {
-        if (!cameraResult.isEmpty()) {
-            Optional<EstimatedRobotPose> visionEst = Optional.empty();
-            // Temporary pose to help convert from EstimatedRobotPose to Pose2d
-            Pose3d tempPose = new Pose3d();
-            // Pose2d to be converted to
-            Pose2d estimatedPose2d = new Pose2d();
-            // Loop through camera results
-            for (var change : camera.getAllUnreadResults()) {
-                
-                visionEst = poseEstimator.update(change);
-                updateEstimationStdDevs(visionEst, change.getTargets());
-                
-            }
-            // Should set tempPose to the pose3d from EstimatedRobotPose
-            tempPose = poseEstimator.getReferencePose();
-            System.out.println(tempPose);
-            // Pose 2d to be returned
-            estimatedPose2d = new Pose2d(tempPose.getX(), tempPose.getY(), tempPose.getRotation().toRotation2d());
-            
-            return estimatedPose2d;
 
+    public static Pose2d robotFieldPose() {
+        MultiTargetPNPResult multiTargetResult;
+        Pose2d robotPose;
+        if (result.getMultiTagResult().isPresent()) {
+            // Gets Multi Tag Result, and puts in in multiTargetTesult
+            multiTargetResult = result.getMultiTagResult().get();
+            robotPose = new Pose2d(
+                multiTargetResult.estimatedPose.best.getX(), 
+                multiTargetResult.estimatedPose.best.getY(), 
+                multiTargetResult.estimatedPose.best.getRotation().toRotation2d()    
+            );
+            // System.out.println(robotPose);
+            
+
+            return robotPose;
         } else {
-            // Should handle when a tag is not detected
+            return new Pose2d();
         }
-        
-        return new Pose2d();
     }
 
-        /**
+    /**
      * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard
      * deviations based on number of tags, estimation strategy, and distance from the tags.
      *
@@ -225,9 +215,6 @@ public class VisionSubsystem extends SubsystemBase {
                 curStdDevs = estStdDevs;
             }
         }
-    }
-    public static Pose2d getRobotEstimatedPose() {
-        return new Pose2d();
     }
  
 }

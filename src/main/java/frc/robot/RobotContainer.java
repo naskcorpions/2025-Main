@@ -5,14 +5,15 @@
 package frc.robot;
     // CONSTANTS
     import frc.robot.Constants.ControllerConstants;
-    // COMMANDS
+import frc.robot.Constants.OtherConstants;
+import frc.robot.Constants.VisionConstants;
+// COMMANDS
     import frc.robot.commands.AutoAllign;
-    import frc.robot.commands.ExampleCommand;
     import frc.robot.commands.FollowSimplePath;
-    // SUBSYTEMS
+import frc.robot.commands.OTFPath;
+// SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
     import frc.robot.subsystems.ElevatorSubsystem;
-    import frc.robot.subsystems.SensorSubsystem;
     import frc.robot.subsystems.VisionSubsystem;
     import frc.robot.subsystems.Dashboard;
     import frc.robot.subsystems.IntakeSubsystem;
@@ -20,19 +21,15 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-// INFO: JAVA IMPORTS
-import java.util.concurrent.Exchanger;
 // INFO: PATHPLANNER IMPORTS
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -67,18 +64,27 @@ public class RobotContainer {
     public RobotContainer() {
         // Vision System Init
         m_vision.Vision();
+
+        // NOTE: Forwards the camera's ports, so that the cameras can be accessed through the ROBORIO's USB port
+        // REVIEW:
+        PortForwarder.add(5800, VisionConstants.RPI1.kRPIIP, 5800);
+        PortForwarder.add(5800, VisionConstants.RPI2.kRPIIP, 5800);
+
         
-        Pose2d robotStartingPose = new Pose2d(2.359, 0.817, new Rotation2d(0));
-        m_robotDrive.resetOdometry(robotStartingPose);
+        m_robotDrive.resetOdometry(OtherConstants.kRobotStartingPose);
         
         // REVIEW:
         // Register Commands Prior to using them in an auto?
         NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
+        NamedCommands.registerCommand("driveToTagCommand", OTFPath.driveToTagCommand());
         
         // REVIEW:
         // Init PathPlanner
         autoChooser = AutoBuilder.buildAutoChooser();
+        // "Warmup" Paths
+        FollowPathCommand.warmupCommand().schedule();
         SmartDashboard.putData("Auto Chooser", autoChooser);
+
         
         // Configure the button bindings
         configureButtonBindings();
@@ -89,12 +95,12 @@ public class RobotContainer {
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
-        () -> m_robotDrive.drive(
-        -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-        true),
-        m_robotDrive));
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
+                true),
+            m_robotDrive));
         
     }
     
@@ -109,28 +115,30 @@ public class RobotContainer {
     */
     private void configureButtonBindings() {
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverDefenseButton)
-        .whileTrue(new RunCommand(
-        () -> m_robotDrive.setX(),
-        m_robotDrive));
+            .whileTrue(new RunCommand(
+                () -> m_robotDrive.setX(),
+                m_robotDrive));
         
         // NEW ALLIGN
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
-        .whileTrue(new AutoAllign(m_vision, m_robotDrive));
+            .whileTrue(new AutoAllign(m_vision, m_robotDrive));
         
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
-        .whileTrue(FollowSimplePath.followPath());
+            .whileTrue(FollowSimplePath.followPath());
+
         new POVButton(m_driverController, 2).whileTrue(
-        new RunCommand(
-        () -> System.out.println("rdtcfvhbj")
-        ));
+            new RunCommand(
+                () -> System.out.println("rdtcfvhbj")));
+
         new JoystickButton(m_driverController, 6).whileTrue(
-        new RunCommand(
-        () -> m_robotDrive.drive(
-        -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-        false),
-        m_robotDrive));
+            new RunCommand(
+                () -> m_robotDrive.drive(
+                    -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
+                    false),
+                m_robotDrive));
+        // new POVButton(m_driverController, 0).whileTrue(OTFPath.driveToTagCommand());
     }
     
     
