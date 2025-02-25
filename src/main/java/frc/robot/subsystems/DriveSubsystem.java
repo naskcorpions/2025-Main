@@ -80,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         if(pathConfig != null) {
             AutoBuilder.configure(
             this::getPose,
@@ -88,8 +88,16 @@ public class DriveSubsystem extends SubsystemBase {
             this::getRobotChassisSpeeds, 
             (speeds, feedforwards) -> driveRobotRelative(speeds), 
             new PPHolonomicDriveController(
-            new PIDConstants(0.5, 0.9, 0.0),
-            new PIDConstants(0.001, 0.0005, 0.0005)
+                new PIDConstants(
+                    OtherConstants.AutoBuilderConstants.kTranslationP, 
+                    OtherConstants.AutoBuilderConstants.kTranslationI, 
+                    OtherConstants.AutoBuilderConstants.kTranslationD
+                ),
+                new PIDConstants(
+                    OtherConstants.AutoBuilderConstants.kRotationP, 
+                    OtherConstants.AutoBuilderConstants.kRotationI, 
+                    OtherConstants.AutoBuilderConstants.kRotationD
+                )
             ),
             pathConfig,
             () -> {

@@ -1,8 +1,8 @@
 // INFO: ROBOT IMPORTS
 package frc.robot.Constants;
 
-public class ControllerConstants {
-    public class driveController {
+public final class ControllerConstants {
+    public final class driveController {
         public static final int kDriverControllerPort = 0;
         public static final double kDriveDeadband = 0.05;
 
@@ -13,8 +13,8 @@ public class ControllerConstants {
 
     }
 
-    public class operatorController {
-        public static final int kOperatorControllerPort = 0;
+    public final class operatorController {
+        public static final int kOperatorControllerPort = 1;
         public static final double kOperatorDeadband = 0.05;
     }
 }

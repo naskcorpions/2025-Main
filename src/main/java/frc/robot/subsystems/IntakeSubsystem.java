@@ -3,16 +3,24 @@ package frc.robot.subsystems;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.SensorPorts;
+
 // INFO: REV IMPORTS
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
     // Digital switch on channel 8; adjust wiring as needed.
-    private DigitalInput limitSwitch = new DigitalInput(8);
+    private DigitalInput limitSwitch = new DigitalInput(SensorPorts.LimitSwitches.intakeSwitch);
     // Intake motor on port 11 (example) and using a brushless motor type
-    private SparkMax intakeMotor = new SparkMax(12, MotorType.kBrushless);
-
+    private SparkMax intakeMotor = new SparkMax(ElevatorConstants.Intake.kIntakeMotor, MotorType.kBrushless);
+    
+    @Override
+    public void periodic() {
+        // ...existing periodic tasks (if any)...
+    }
+    
     // New method that spins the motor while button is pressed,
     // but stops it if the limit switch is activated.
     public void manualSpin(double speed) {
@@ -28,9 +36,4 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(0);
     }
     
-    // Optionally remove or repurpose the periodic() override
-    @Override
-    public void periodic() {
-        // ...existing periodic tasks (if any)...
-    }
 }

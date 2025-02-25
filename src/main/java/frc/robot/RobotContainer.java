@@ -5,13 +5,13 @@
 package frc.robot;
     // CONSTANTS
     import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.OtherConstants;
-import frc.robot.Constants.VisionConstants;
-// COMMANDS
+    import frc.robot.Constants.OtherConstants;
+    import frc.robot.Constants.VisionConstants;
+    // COMMANDS
     import frc.robot.commands.AutoAllign;
     import frc.robot.commands.FollowSimplePath;
-import frc.robot.commands.OTFPath;
-// SUBSYTEMS
+    import frc.robot.commands.OTFPath;
+    // SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
     import frc.robot.subsystems.ElevatorSubsystem;
     import frc.robot.subsystems.VisionSubsystem;
@@ -36,34 +36,34 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
 
-/*
+/**
 * This class is where the bulk of the robot should be declared.  Since Command-based is a
 * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
 * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
 * (including subsystems, commands, and button mappings) should be declared here.
 */
 public class RobotContainer {
-    // The robot's subsystems
+    // INFO: CREATE SUBSYSTEMS
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final VisionSubsystem m_vision = new VisionSubsystem();
     private final Dashboard m_dashboard = new Dashboard();
     private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
-    // New Intake subsystem instance
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     
-    // The driver's controller
+    // INFO: CREATAE CONTROLLERS
     XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
-    // Operator Controller
     XboxController m_operatorController = new XboxController(ControllerConstants.operatorController.kOperatorControllerPort);
     
     // Other Vars/Constants
     private final SendableChooser<Command> autoChooser;
+    
     /**
     * The container for the robot. Contains subsystems, OI devices, and commands.
     */
     public RobotContainer() {
         // Vision System Init
         m_vision.Vision();
+        Dashboard.initialize();;
 
         // NOTE: Forwards the camera's ports, so that the cameras can be accessed through the ROBORIO's USB port
         // REVIEW:
@@ -81,26 +81,26 @@ public class RobotContainer {
         // REVIEW:
         // Init PathPlanner
         autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+        
         // "Warmup" Paths
         FollowPathCommand.warmupCommand().schedule();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-
         
         // Configure the button bindings
         configureButtonBindings();
         
         
         // Configure default commands
-        m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-                true),
-            m_robotDrive));
+        m_robotDrive.setDefaultCommand(
+            new RunCommand(
+                () -> m_robotDrive.drive(
+                    -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
+                    true),
+                m_robotDrive));
         
     }
     

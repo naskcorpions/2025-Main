@@ -2,17 +2,31 @@
 package frc.robot.subsystems;
 import frc.robot.Elastic;
 import frc.robot.Constants.OtherConstants;
+import frc.robot.Constants.ControllerConstants.driveController;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Dashboard extends SubsystemBase {
+
+    // private static final SendableChooser driveConfigChooser;
+    // private static final SendableChooser operatorConfigChooser;
+
+    public static void initialize() {
+        // driveConfigChooser
+        //     .addOption(null, driveConfigChooser);
+        // SmartDashboard.putData("Driver Config", driveConfigChooser);
+        // SmartDashboard.putData("OperatorController", operatorConfigChooser);
+    }
     
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Batt Volts", RobotController.getBatteryVoltage());
+        SmartDashboard.putNumber("Elevator Encoder Pos", ElevatorSubsystem.getEncoderValue());
 
+        
         // TODO: ADD?
         /*
          * Things to possibly add:
@@ -44,7 +58,7 @@ public class Dashboard extends SubsystemBase {
     }
 
     // REVIEW: Added without testing or setup. Needs to be teseted, and finished.
-    // Remove the above comment when completed ^^^
+    // Remove this and the above comment when completed ^^^
     /** Switches to the Teleoperated tab in the Elastic Dashboard */
     public void switchToTeleopTab() {
         Elastic.selectTab(OtherConstants.DashboardConstants.teleopTabName);
