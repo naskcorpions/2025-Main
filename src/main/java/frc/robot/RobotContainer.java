@@ -3,11 +3,10 @@
 // WPILib BSD license file in the root directory of this project.
 // INFO: ROBOT IMPORTS
 package frc.robot;
-    // CONSTANTS
     import frc.robot.Constants.ControllerConstants;
-    import frc.robot.Constants.OtherConstants;
+import frc.robot.Constants.OtherConstants;
     import frc.robot.Constants.VisionConstants;
-    // COMMANDS
+// COMMANDS
     import frc.robot.commands.AutoAllign;
     import frc.robot.commands.FollowSimplePath;
     import frc.robot.commands.OTFPath;
