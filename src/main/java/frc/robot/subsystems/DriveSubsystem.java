@@ -32,30 +32,30 @@ import com.studica.frc.AHRS;
 
 public class DriveSubsystem extends SubsystemBase {
     // Create MAXSwerveModules
-    private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+    private static final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
     DriveConstants.kFrontLeftDrivingCanId,
     DriveConstants.kFrontLeftTurningCanId,
     DriveConstants.kFrontLeftChassisAngularOffset);
     
-    private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
+    private static final MAXSwerveModule m_frontRight = new MAXSwerveModule(
     DriveConstants.kFrontRightDrivingCanId,
     DriveConstants.kFrontRightTurningCanId,
     DriveConstants.kFrontRightChassisAngularOffset);
     
-    private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+    private static final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
     DriveConstants.kRearLeftDrivingCanId,
     DriveConstants.kRearLeftTurningCanId,
     DriveConstants.kBackLeftChassisAngularOffset);
     
-    private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
+    private static final MAXSwerveModule m_rearRight = new MAXSwerveModule(
     DriveConstants.kRearRightDrivingCanId,
     DriveConstants.kRearRightTurningCanId,
     DriveConstants.kBackRightChassisAngularOffset);
     
     // The gyro sensor
-    private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+    private static final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
     
-    private final SwerveDrivePoseEstimator m_odometry = 
+    public static final SwerveDrivePoseEstimator m_odometry = 
         new SwerveDrivePoseEstimator(
             DriveConstants.kDriveKinematics, 
         new Rotation2d(getHeading()), 
@@ -150,6 +150,9 @@ public class DriveSubsystem extends SubsystemBase {
     public Pose2d getPose() {
         return m_odometry.getEstimatedPosition();
         
+    }
+    public static Pose2d getPoseStatic() {
+        return m_odometry.getEstimatedPosition();
     }
     
     /**
@@ -258,7 +261,7 @@ public class DriveSubsystem extends SubsystemBase {
     *
     * @return the robot's heading in degrees, from -180 to 180
     */
-    public double getHeading() {
+    public static double getHeading() {
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
     

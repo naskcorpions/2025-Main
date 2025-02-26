@@ -12,6 +12,7 @@ import java.util.List;
 import com.pathplanner.lib.path.Waypoint;
 
 import frc.robot.Constants.PathPlannerConstants;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -22,7 +23,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 
 
-public class OTFPath extends Command{
+public class OTFPath extends Command {
     
     static PathConstraints pathConstraints =  new PathConstraints(
         PathPlannerConstants.PathConstraints.maxTranslationSpeed, 
@@ -35,7 +36,7 @@ public class OTFPath extends Command{
     public static Command driveToTagCommand() {
             
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses (
-            VisionSubsystem.robotFieldPose(),
+            DriveSubsystem.getPoseStatic(),
             VisionSubsystem.estimatedTagPose()
         );
         

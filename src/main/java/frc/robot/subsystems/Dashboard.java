@@ -60,12 +60,15 @@ public class Dashboard extends SubsystemBase {
     // REVIEW: Added without testing or setup. Needs to be teseted, and finished.
     // Remove this and the above comment when completed ^^^
     /** Switches to the Teleoperated tab in the Elastic Dashboard */
-    public void switchToTeleopTab() {
-        Elastic.selectTab(OtherConstants.DashboardConstants.teleopTabName);
+    public static void switchToTeleopTab() {
+        if (OtherConstants.DashboardConstants.switchTabs) { Elastic.selectTab(OtherConstants.DashboardConstants.teleopTabName); }
     }
     /** Switches to the Auto tab in the Elastic Dashboard */
-    public void switchToAutoTab() {
-        Elastic.selectTab(OtherConstants.DashboardConstants.autoTabName);
+    public static void switchToAutoTab() {
+        if (OtherConstants.DashboardConstants.switchTabs) { Elastic.selectTab(OtherConstants.DashboardConstants.autoTabName); }
+    }
+    public static void switchToInitTab() {
+        if (OtherConstants.DashboardConstants.switchTabs) { Elastic.selectTab(OtherConstants.DashboardConstants.initTabName); }
     }
 
 

@@ -16,7 +16,7 @@ public final class SensorPorts {
         // ELEVATOR
         // REVIEW: Set Ports
         public static final int elevatorUpperLimit = 0;
-        public static final int elevatorLowerLimit = 0;
+        public static final int elevatorLowerLimit = 1;
 
     }
 }

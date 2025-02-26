@@ -42,7 +42,7 @@ public class VisionSubsystem extends SubsystemBase {
     private static double latency = 0.0;
 
     // Field Layout
-    private static AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+    private static AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
     private static PhotonPoseEstimator poseEstimator;
     private static Matrix<N3, N1> curStdDevs;
 
@@ -143,7 +143,7 @@ public class VisionSubsystem extends SubsystemBase {
         }
     }
 
-
+    /** Returns the position of the robot on the field (only if it detects multiple tags) */
     public static Pose2d robotFieldPose() {
         MultiTargetPNPResult multiTargetResult;
         Pose2d robotPose;

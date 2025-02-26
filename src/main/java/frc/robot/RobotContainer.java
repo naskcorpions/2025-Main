@@ -76,7 +76,7 @@ public class RobotContainer {
         // REVIEW:
         // Register Commands Prior to using them in an auto?
         NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
-        NamedCommands.registerCommand("driveToTagCommand", OTFPath.driveToTagCommand());
+        // NamedCommands.registerCommand("driveToTagCommand", OTFPath.driveToTagCommand());
         
         // REVIEW:
         // Init PathPlanner

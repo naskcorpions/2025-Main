@@ -10,8 +10,10 @@ public final class OtherConstants {
     public static final Pose2d kRobotStartingPose = new Pose2d(2.359, 0.817, new Rotation2d(0));
 
     public final class DashboardConstants{
-        public static final String autoTabName = "Auto";
+        public static final String autoTabName = "Autonomus";
         public static final String teleopTabName = "Teleoperated";
+        public static final String initTabName = "Initialize";
+        public static final boolean switchTabs = true;
     }
     
     /** Constants for the PathPlanner AutoBuilder */

@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Dashboard;
 
 
 /**
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    Dashboard.switchToInitTab();
   }
 
   /**
@@ -58,6 +60,8 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    // FIXME:
+    Dashboard.switchToAutoTab();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     /*
@@ -83,6 +87,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    Dashboard.switchToTeleopTab();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

@@ -51,6 +51,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // IMPORTANT:
     // TODO: Add Leader/Follower (Master/Slave)
     // Proper constructor initializing motors and encoders
+    
     public ElevatorSubsystem() {
         elevatorLeft.configure(Configs.ElevatorConfig.elevatorLeftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         elevatorRight.configure(Configs.ElevatorConfig.elevatorRightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
