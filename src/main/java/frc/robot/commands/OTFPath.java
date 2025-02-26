@@ -24,6 +24,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 
 public class OTFPath extends Command {
+    static List<Waypoint> waypoints;
+    static PathPlannerPath path;
     
     static PathConstraints pathConstraints =  new PathConstraints(
         PathPlannerConstants.PathConstraints.maxTranslationSpeed, 
@@ -31,22 +33,25 @@ public class OTFPath extends Command {
         PathPlannerConstants.PathConstraints.maxRotationSpeed, 
         PathPlannerConstants.PathConstraints.maxRotationAcc
         );
-        
-        
-    public static Command driveToTagCommand() {
-            
-        List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses (
+    private static void update() {
+        waypoints = PathPlannerPath.waypointsFromPoses (
             DriveSubsystem.getPoseStatic(),
-            VisionSubsystem.estimatedTagPose()
+            // VisionSubsystem.estimatedTagPose()
+            new Pose2d(3.359, 1.817, new Rotation2d(180))
+            // new Pose2d(16, 4.5, new Rotation2d(0)),
+            // new Pose2d(17, 4.5, new Rotation2d(0))
         );
-        
-        PathPlannerPath path = new PathPlannerPath(
+    
+        path = new PathPlannerPath(
             waypoints, 
             pathConstraints, 
-            new IdealStartingState(0, new Rotation2d(0, 0)), 
+            null, 
             new GoalEndState(0, new Rotation2d(0, 0))
         );
-
+    }
+        
+    public static Command driveToTagCommand() {
+        update();
         path.preventFlipping = true;
         System.out.println("OTF PATH");
         return AutoBuilder.followPath(path);

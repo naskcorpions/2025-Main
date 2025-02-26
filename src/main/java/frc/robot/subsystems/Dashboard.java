@@ -6,6 +6,9 @@ import frc.robot.Constants.ControllerConstants.driveController;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import java.text.FieldPosition;
+
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -13,6 +16,7 @@ public class Dashboard extends SubsystemBase {
 
     // private static final SendableChooser driveConfigChooser;
     // private static final SendableChooser operatorConfigChooser;
+    Field2d field = new Field2d();
 
     public static void initialize() {
         // driveConfigChooser
@@ -25,7 +29,8 @@ public class Dashboard extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Batt Volts", RobotController.getBatteryVoltage());
         SmartDashboard.putNumber("Elevator Encoder Pos", ElevatorSubsystem.getEncoderValue());
-
+        field.setRobotPose(DriveSubsystem.getPoseStatic());
+        SmartDashboard.putData("Field", field);
         
         // TODO: ADD?
         /*

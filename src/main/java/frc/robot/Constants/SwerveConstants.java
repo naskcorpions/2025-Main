@@ -56,7 +56,7 @@ public final class SwerveConstants {
         public static final int kFrontRightTurningCanId = 1;
         public static final int kRearRightTurningCanId = 7;
         
-        public static final boolean kGyroReversed = false;
+        public static final boolean kGyroReversed = true;
     }
     
     public static final class ModuleConstants {

@@ -76,7 +76,7 @@ public class RobotContainer {
         // REVIEW:
         // Register Commands Prior to using them in an auto?
         NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
-        // NamedCommands.registerCommand("driveToTagCommand", OTFPath.driveToTagCommand());
+        NamedCommands.registerCommand("driveToTagCommand", OTFPath.driveToTagCommand());
         
         // REVIEW:
         // Init PathPlanner
@@ -138,7 +138,7 @@ public class RobotContainer {
                     -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
                     false),
                 m_robotDrive));
-        // new POVButton(m_driverController, 0).whileTrue(OTFPath.driveToTagCommand());
+        // new POVButton(m_driverController, 0).onTrue(OTFPath.driveToTagCommand());
     }
     
     
