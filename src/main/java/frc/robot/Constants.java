@@ -22,6 +22,25 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final class ElevatorConstants {
+    public static final int leftMotorID = 9;
+    public static final int rightMotorID = 10;
+
+    // MAXMotion Parameters
+    public static final double maxVelocity = 0.0;
+    public static final double maxAcceleration = 0.0;
+    public static final double allowedError = 0.0;
+    // PID Parameters
+    public static final double kP = 0.1;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    // Max Speed
+    public static final double maxMotorSpeed = 0.5;
+
+
+
+
+}
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds

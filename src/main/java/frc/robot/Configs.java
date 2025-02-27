@@ -7,6 +7,42 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import frc.robot.Constants.ModuleConstants;
 
 public final class Configs {
+    public static final class ElevatorConfig {
+        public static final SparkMaxConfig elevatorRightConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig elevatorLeftConfig = new SparkMaxConfig();
+        
+        static {
+            elevatorRightConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(35);
+            elevatorLeftConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(35)
+                .follow(Constants.ElevatorConstants.rightMotorID, true);
+
+            elevatorRightConfig
+                .closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                // Set PID values for position control
+                .p(Constants.ElevatorConstants.kP)
+                .outputRange(-Constants.ElevatorConstants.maxMotorSpeed, Constants.ElevatorConstants.maxMotorSpeed)
+                .maxMotion
+                // Set MAXMotion parameters for position control
+                .maxVelocity(Constants.ElevatorConstants.maxVelocity)
+                .maxAcceleration(Constants.ElevatorConstants.maxAcceleration)
+                .allowedClosedLoopError(Constants.ElevatorConstants.allowedError);
+
+            elevatorLeftConfig
+                .closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                // Set PID values for position control
+                .p(Constants.ElevatorConstants.kP)
+                .outputRange(-Constants.ElevatorConstants.maxMotorSpeed, Constants.ElevatorConstants.maxMotorSpeed)
+                .maxMotion
+                // Set MAXMotion parameters for position control
+                .maxVelocity(Constants.ElevatorConstants.maxVelocity)
+                .maxAcceleration(Constants.ElevatorConstants.maxAcceleration)
+                .allowedClosedLoopError(Constants.ElevatorConstants.allowedError);
+
+
+        }
+    }
     public static final class MAXSwerveModule {
         public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
         public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
