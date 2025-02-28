@@ -3,30 +3,75 @@ package frc.robot.subsystems;
 import frc.robot.Elastic;
 import frc.robot.Constants.OtherConstants;
 import frc.robot.Constants.ControllerConstants.driveController;
+import frc.robot.commands.OTFPath;
+
+// INFO: JAVA IMPORTS
+import java.text.FieldPosition;
+import java.util.Optional;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import java.text.FieldPosition;
-
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Dashboard extends SubsystemBase {
-
-    // private static final SendableChooser driveConfigChooser;
-    // private static final SendableChooser operatorConfigChooser;
+    // Field for Dashboard
     Field2d field = new Field2d();
+    // Field Tag layoout stuff
+    private static AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+    private static SendableChooser<String> fieldSideChooser = new SendableChooser<String>();
+    private static SendableChooser<Integer> tagList = new SendableChooser<Integer>();
+
 
     public static void initialize() {
-        // driveConfigChooser
-        //     .addOption(null, driveConfigChooser);
-        // SmartDashboard.putData("Driver Config", driveConfigChooser);
-        // SmartDashboard.putData("OperatorController", operatorConfigChooser);
+        fieldSideChooser.setDefaultOption("Blue", "blue");
+        fieldSideChooser.addOption("Red", "red");
+        switchToBlueTags();
+        SmartDashboard.putData("Field Side", fieldSideChooser);
+
+    }
+    private static void switchToBlueTags() {
+        tagList.setDefaultOption("18", 18);
+        tagList.addOption("17", 17);
+        tagList.addOption("22", 22);
+        tagList.addOption("21", 21);
+        tagList.addOption("20", 20);
+        tagList.addOption("19", 19);
+        tagList.addOption("13", 13);
+        tagList.addOption("12", 12);
+        tagList.addOption("14", 14);
+        tagList.addOption("15", 15);
+        tagList.addOption("16", 16);
+        SmartDashboard.putData("Field Tags", tagList);
+
+    }
+    private void switchToRedTage() {
+
+    }
+    public static Pose2d returnWantedTagPose() {
+        return fieldLayout.getTagPose(tagList.getSelected()).get().toPose2d();
+    }
+    public static int returnWantedTagID() {
+        return tagList.getSelected();
     }
     
     @Override
     public void periodic() {
+        if (fieldSideChooser.getSelected() == "blue") {
+            switchToBlueTags();
+        }
+        if (fieldSideChooser.getSelected() == "red") {
+
+        }
         SmartDashboard.putNumber("Batt Volts", RobotController.getBatteryVoltage());
         SmartDashboard.putNumber("Elevator Encoder Pos", ElevatorSubsystem.getEncoderValue());
         field.setRobotPose(DriveSubsystem.getPoseStatic());

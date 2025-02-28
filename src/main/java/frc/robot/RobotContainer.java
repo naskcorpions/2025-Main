@@ -17,6 +17,8 @@ package frc.robot;
     import frc.robot.subsystems.VisionSubsystem;
     import frc.robot.subsystems.Dashboard;
     import frc.robot.subsystems.IntakeSubsystem;
+// INFO: JAVA IMPORTS
+import java.util.Set;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -27,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -138,7 +141,15 @@ public class RobotContainer {
                     -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
                     false),
                 m_robotDrive));
-        // new POVButton(m_driverController, 0).onTrue(OTFPath.driveToTagCommand());
+
+        new POVButton(m_driverController, 0).whileTrue(
+            new DeferredCommand( 
+                () -> {
+                    return OTFPath.driveToTagCommand();
+                }, 
+            Set.of(m_robotDrive))
+        );
+
     }
     
     
