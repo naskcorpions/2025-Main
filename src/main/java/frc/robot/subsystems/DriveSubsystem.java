@@ -122,7 +122,9 @@ public class DriveSubsystem extends SubsystemBase {
                 Timer.getFPGATimestamp(),
                 VisionSubsystem.kMultiTagStdDevs
             );
-            System.out.println(VisionSubsystem.robotFieldPose());
+            SmartDashboard.putBoolean("MultiTag Detected", true);
+        } else {
+            SmartDashboard.putBoolean("MiltiTag Detected", false);
         }
         // Put pos vslurd into Elastic
         SmartDashboard.putNumber("robotOdometry X", m_odometry.getEstimatedPosition().getX());

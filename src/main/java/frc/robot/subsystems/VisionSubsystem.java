@@ -56,7 +56,7 @@ public class VisionSubsystem extends SubsystemBase {
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
                 VisionConstants.RPI1.kCameraToRobot);
         poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-        
+       
     }
 
 
@@ -142,27 +142,35 @@ public class VisionSubsystem extends SubsystemBase {
             return new Pose2d();
         }
     }
-
+   
     /** Returns the position of the robot on the field (only if it detects multiple tags) */
     public static Pose2d robotFieldPose() {
         MultiTargetPNPResult multiTargetResult;
-        Pose2d robotPose;
+        Pose2d multiRobotPose;
+        Pose2d singleRobotPose;
         if (result.getMultiTagResult().isPresent()) {
             // Gets Multi Tag Result, and puts in in multiTargetTesult
             multiTargetResult = result.getMultiTagResult().get();
-            robotPose = new Pose2d(
+            multiRobotPose = new Pose2d(
                 multiTargetResult.estimatedPose.best.getX(), 
                 multiTargetResult.estimatedPose.best.getY(), 
                 multiTargetResult.estimatedPose.best.getRotation().toRotation2d()    
             );
             // System.out.println(robotPose);
             
-
-            return robotPose;
+            
+            return multiRobotPose;
         } else {
             return new Pose2d();
         }
+        
     }
+
+    // NOTE: NOT WORKING
+    public static Pose2d robotFieldPose(int number) {
+        return poseEstimator.update(result).get().estimatedPose.toPose2d();
+    }
+
 
     /**
      * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard
@@ -179,7 +187,7 @@ public class VisionSubsystem extends SubsystemBase {
             Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) {
         if (estimatedPose.isEmpty()) {
             // No pose input. Default to single-tag std devs
-            curStdDevs = kSingleTagStdDevs;
+            curStdDevs = kMultiTagStdDevs;
 
         } else {
             // Pose present. Start running Heuristic

@@ -31,7 +31,7 @@ public final class VisionConstants {
         
         // TODO: SET
         // Camera pos in meters relative to the center of the robot
-        public static final Transform3d kCameraToRobot = new Transform3d(0, 0.0, 0.0, new Rotation3d());
+        public static final Transform3d kCameraToRobot = new Transform3d(0.381, 0.0, 0.0, new Rotation3d());
     }
     
 }

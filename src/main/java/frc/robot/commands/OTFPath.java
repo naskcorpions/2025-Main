@@ -1,5 +1,6 @@
 // INFO: ROBOT IMPORTS
 package frc.robot.commands;
+import frc.robot.AprilTagData;
 import frc.robot.Constants.PathPlannerConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -42,7 +43,7 @@ public class OTFPath extends Command {
 
         
     public static Command driveToTagCommand() {
-    
+        
         waypoints = PathPlannerPath.waypointsFromPoses (
             DriveSubsystem.getPoseStatic(),
             // new Pose2d(3.359, 1.817, new Rotation2d(180))
@@ -51,7 +52,9 @@ public class OTFPath extends Command {
                 Dashboard.returnWantedTagPose().getX(),
                 Dashboard.returnWantedTagPose().getY(),
                 Dashboard.returnWantedTagPose().getRotation()
-            ).plus(applyOffsets(Dashboard.returnWantedTagID()))
+            )
+            .plus(PathPlannerConstants.AprilTag.aprilTag21.tagOffsetRed())
+            // .plus(applyOffsets(Dashboard.returnWantedTagID()))
         );
           
         path = new PathPlannerPath(
@@ -65,10 +68,6 @@ public class OTFPath extends Command {
         path.preventFlipping = true;
         
         return AutoBuilder.followPath(path);
-    }
-    private static Transform2d applyOffsets(int tagNumber) {
-        
-        return PathPlannerConstants.Offsets.rightWallOffset;
     }
 
 }

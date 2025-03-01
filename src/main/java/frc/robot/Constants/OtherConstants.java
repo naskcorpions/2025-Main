@@ -8,7 +8,7 @@ import edu.wpi.first.math.util.Units;
 
 /** Class for other/misc. constants */
 public final class OtherConstants {
-    public static final Pose2d kRobotStartingPose = new Pose2d(0.95, 0.55, new Rotation2d(0));
+    public static final Pose2d kRobotStartingPose = new Pose2d(12.217, 4.013, new Rotation2d(Math.toRadians(180)));
     public static final double robotPerimeterInches = 30;
     public static final double robotPerimeterMeters = Units.inchesToMeters(robotPerimeterInches);
     public static final double halfRobotPerimeterInches = robotPerimeterInches / 2;

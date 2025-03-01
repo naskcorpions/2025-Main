@@ -66,7 +66,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Vision System Init
         m_vision.Vision();
-        Dashboard.initialize();;
+        Dashboard.initialize();
 
         // NOTE: Forwards the camera's ports, so that the cameras can be accessed through the ROBORIO's USB port
         // REVIEW:
