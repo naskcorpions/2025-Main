@@ -12,16 +12,27 @@ public class IntakeSubsystem extends SubsystemBase {
     private DigitalInput limitSwitch = new DigitalInput(8);
     // Intake motor on port 11 (example) and using a brushless motor type
     private SparkMax intakeMotor = new SparkMax(12, MotorType.kBrushless);
+    private SparkMax intakeElbow = new SparkMax(11, MotorType.kBrushless);
 
     // New method that spins the motor while button is pressed,
     // but stops it if the limit switch is activated.
     public void manualSpin(double speed) {
-        if (!limitSwitch.get()) { // switch NOT pressed
-            intakeMotor.set(speed);
-        } else {
-            intakeMotor.set(0);
-        }
+        // if (!limitSwitch.get()) { // switch NOT pressed
+        //     intakeMotor.set(speed);
+        // } else {
+        //     intakeMotor.set(0);
+        // }
+        intakeMotor.set(speed);
     }
+    public void rotationSpinUp(double speed) {
+            intakeElbow.set(speed);
+            //intakeElbow.set(-speed);
+    }
+    public void rotationSpinDown(double speed) {
+        //intakeElbow.set(speed);
+        intakeElbow.set(-speed);
+}
+
 
     // New method to stop the motor completely.
     public void stopMotor() {

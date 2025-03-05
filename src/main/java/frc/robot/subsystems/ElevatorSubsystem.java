@@ -21,7 +21,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static SparkMax elevatorRight = new SparkMax(ElevatorConstants.kElevatorRightMotor, MotorType.kBrushless);
     // private RelativeEncoder rightEncoder;  // new encoder for left motor
 
-    private static double elevatorSpeed = 0.6;
+    private static double elevatorSpeed = 0.3;
 
 
     // Proper constructor initializing motors and encoders
