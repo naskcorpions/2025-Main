@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // INFO: REV IMPORTS
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -90,7 +91,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     // New method to stop both elevator motors
-    public static void stopElevator() {
+    public void stopElevator() {
         elevatorLeft.set(0);
         elevatorRight.set(0);
     }

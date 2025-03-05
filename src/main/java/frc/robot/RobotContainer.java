@@ -9,12 +9,10 @@ package frc.robot;
     import frc.robot.Constants.SwerveConstants.DriveConstants;
     import frc.robot.Constants.VisionConstants;
     import frc.robot.Constants.OtherConstants;
-
-
     // COMMANDS
     import frc.robot.commands.AutoAllign;
     import frc.robot.commands.FollowSimplePath;
-    import frc.robot.commands.ElevatorAndShooter;
+    import frc.robot.commands.OTFPath;
     // SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
     import frc.robot.subsystems.ElevatorSubsystem;
@@ -89,8 +87,8 @@ public class RobotContainer {
         
         // REVIEW:
         // Init PathPlanner
-        // autoChooser = AutoBuilder.buildAutoChooser();
-        // SmartDashboard.putData("Auto Chooser", autoChooser);
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
         
         // "Warmup" Paths
         FollowPathCommand.warmupCommand().schedule();
@@ -135,10 +133,6 @@ public class RobotContainer {
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
             .whileTrue(FollowSimplePath.followPath());
 
-        new POVButton(m_driverController, 2).whileTrue(
-            new RunCommand(
-                () -> System.out.println("rdtcfvhbj")));
-
         new JoystickButton(m_driverController, 6).whileTrue(
             new RunCommand(
                 () -> m_robotDrive.drive(
@@ -155,26 +149,6 @@ public class RobotContainer {
                 }, 
             Set.of(m_robotDrive))
         );
-
-        // New binding for intake toggle on operator controller button 3.
-        new JoystickButton(m_operatorController, 7)
-            .onTrue(new AutoIntakeCommand(m_intake));
-
-        // New binding for output command on operator controller button 4.
-        new JoystickButton(m_operatorController, 8)
-            .onTrue(new OutputCommand(m_intake));
-        
-        // NEW: Binding for joint up on operator controller button 5.
-        new JoystickButton(m_operatorController, 5)
-            .whileTrue(new RunCommand(() -> m_intake.moveJointUp(), m_intake));
-        new JoystickButton(m_operatorController, 5)
-            .onFalse(new InstantCommand(() -> m_intake.stopJointMotor(), m_intake));
-        
-        // NEW: Binding for joint down on operator controller button 6.
-        new JoystickButton(m_operatorController, 6)
-            .whileTrue(new RunCommand(() -> m_intake.moveJointDown(), m_intake));
-        new JoystickButton(m_operatorController, 6)
-            .onFalse(new InstantCommand(() -> m_intake.stopJointMotor(), m_intake));
 
     }
     
