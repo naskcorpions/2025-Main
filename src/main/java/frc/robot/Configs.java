@@ -1,10 +1,15 @@
+// INFO: ROBOT IMPORTS
 package frc.robot;
 
+import frc.robot.Constants.ElevatorConstants;
+// INFO: WPILIB IMPORTS
+import frc.robot.Constants.SwerveConstants.ModuleConstants;
+
+import com.revrobotics.spark.SparkBase;
+// INFO: REV IMPORTS
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
-import frc.robot.Constants.ModuleConstants;
 
 public final class Configs {
     public static final class MAXSwerveModule {
@@ -53,4 +58,77 @@ public final class Configs {
                     .positionWrappingInputRange(0, turningFactor);
         }
     }
+
+    public static final class ElevatorConfig {
+        public static final SparkMaxConfig elevatorLeftConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig elevatorRightConfig = new SparkMaxConfig();
+
+        public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig pivotConfig = new SparkMaxConfig();
+
+        /* INFO: ELEVATOR CONFIGS */
+        static {
+            elevatorLeftConfig
+                    .idleMode(IdleMode.kBrake)
+                    .smartCurrentLimit(ElevatorConstants.Elevator.kStallLimit)
+                    // TODO SEE BELOW:
+                    // Will need to be set for each motor
+                    // One will need to be inverted, the other not
+                    .inverted(false);
+
+            elevatorLeftConfig.closedLoop
+                    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                    // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
+                    .pid(0, 0, 0)
+                    // TODO: FIGURE OUT FF. DO WE NEED IT? HOW DO WE USE IT?
+                    // .velocityFF(0)
+                    .outputRange(-1, 1);
+
+            elevatorRightConfig
+                    .idleMode(IdleMode.kBrake)
+                    .smartCurrentLimit(ElevatorConstants.Elevator.kStallLimit)
+                    // TODO SEE BELOW:
+                    // Will need to be set for each motor
+                    // One will need to be inverted, the other not
+                    .inverted(true);
+
+            elevatorRightConfig.closedLoop
+                    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                    // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
+                    .pid(0, 0, 0)
+                    // TODO: FIGURE OUT FF. DO WE NEED IT? HOW DO WE USE IT?
+                    // .velocityFF(0)
+                    .outputRange(-1, 1);
+                
+        }
+
+        /* INFO: INTAKE/PIVOT CONFIGS */
+        static {
+            // INFO: INTAKE
+            intakeConfig
+                    .idleMode(IdleMode.kBrake)
+                    .inverted(false)
+                    .smartCurrentLimit(ElevatorConstants.Intake.kStallLimit);
+            
+            // INFO: PIVOT
+            pivotConfig
+                    .idleMode(IdleMode.kBrake)
+                    .inverted(false)
+                    .smartCurrentLimit(ElevatorConstants.Pivot.kStallLimit);
+            pivotConfig.closedLoop
+                    .pid(
+                        ElevatorConstants.Pivot.kP, 
+                        ElevatorConstants.Pivot.kI, 
+                        ElevatorConstants.Pivot.kD
+                    );
+            pivotConfig.closedLoop.maxMotion
+                    .maxAcceleration(ElevatorConstants.Pivot.kMaxAcceleration)
+                    .maxVelocity(ElevatorConstants.Pivot.kMaxVelocity)
+                    .allowedClosedLoopError(ElevatorConstants.Pivot.kAllowedClosedLoopError);
+
+            
+        }
+
+    }
+    
 }

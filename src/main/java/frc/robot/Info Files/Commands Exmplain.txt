@@ -1,0 +1,40 @@
+In a command file there are usually 5 methods:
+    Command method
+    initialize
+    execute
+    isFinished
+    end
+COMMAND METHODS EXPLAINED:
+    Command method:
+        Created by:
+                public class ExampleCommand extends Command {
+                    private final ExampleSubsystem m_subsystem;
+                    public ExampleCommand(ExampleSubsystem subsystem) {
+                        m_subsystem = subsystem;
+                        addRequirements(m_subsystem);
+                    }
+                }
+        What it does:
+            It is the command that you call unlike the other methods
+            The command schedueler runs the other comands.
+    
+    initialize:
+        Is run by the command Schedueler
+        The code in this method should run the required things
+        for the command 
+    execute:
+        Is run by the command Schedueler
+        Runs pereodically
+    isFinished:
+        Is run by the command Schedueler
+        Runs pereodically
+        Decides if the command is isFinished
+    end:
+        Is run by the command Schedueler
+        If the command is finished, it will run the command in here
+
+Note:
+    If you don't need an excecute command, don't put anything in it
+    Have isFinished return true
+    If you don't need any initilization, or ending, don't put anything in those methods
+

@@ -1,11 +1,9 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-//INFO: ROBOT IMPORTS
+// INFO: ROBOT IMPORTS
 package frc.robot.subsystems;
-import frc.robot.Constants.OtherConstants;
 import frc.robot.Constants.SwerveConstants.DriveConstants;
-
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
@@ -18,10 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 // INFO: PATHPLANNER IMPORTS
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
@@ -30,46 +25,48 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 // INFO: OTHER IMPORTS
 import com.studica.frc.AHRS;
 
-public class DriveSubsystem extends SubsystemBase {
+
+public class DriveSubsystemOLD extends SubsystemBase {
     // Create MAXSwerveModules
-    private static final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+    private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
     DriveConstants.kFrontLeftDrivingCanId,
     DriveConstants.kFrontLeftTurningCanId,
     DriveConstants.kFrontLeftChassisAngularOffset);
     
-    private static final MAXSwerveModule m_frontRight = new MAXSwerveModule(
+    private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
     DriveConstants.kFrontRightDrivingCanId,
     DriveConstants.kFrontRightTurningCanId,
     DriveConstants.kFrontRightChassisAngularOffset);
     
-    private static final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+    private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
     DriveConstants.kRearLeftDrivingCanId,
     DriveConstants.kRearLeftTurningCanId,
     DriveConstants.kBackLeftChassisAngularOffset);
     
-    private static final MAXSwerveModule m_rearRight = new MAXSwerveModule(
+    private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
     DriveConstants.kRearRightDrivingCanId,
     DriveConstants.kRearRightTurningCanId,
     DriveConstants.kBackRightChassisAngularOffset);
     
     // The gyro sensor
-    private static final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+    // private final ADIS16470_IMU m_oldGyro = new ADIS16470_IMU();
+    private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
     
-    public static final SwerveDrivePoseEstimator m_odometry = 
-        new SwerveDrivePoseEstimator(
-            DriveConstants.kDriveKinematics, 
-        new Rotation2d(getHeading()), 
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        },
-        // Change to estimated start pose
-        OtherConstants.kRobotStartingPose);
+    
+    // Odometry class for tracking robot pose
+    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+    DriveConstants.kDriveKinematics,
+    Rotation2d.fromDegrees(m_gyro.getAngle()),
+    new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+    });
+    
     
     /** Creates a new DriveSubsystem. */
-    public DriveSubsystem() {
+    public DriveSubsystemOLD() {
         // Usage reporting for MAXSwerve template
         HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
         
@@ -80,7 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         if(pathConfig != null) {
             AutoBuilder.configure(
             this::getPose,
@@ -88,16 +85,8 @@ public class DriveSubsystem extends SubsystemBase {
             this::getRobotChassisSpeeds, 
             (speeds, feedforwards) -> driveRobotRelative(speeds), 
             new PPHolonomicDriveController(
-                new PIDConstants(
-                    OtherConstants.AutoBuilderConstants.kTranslationP, 
-                    OtherConstants.AutoBuilderConstants.kTranslationI, 
-                    OtherConstants.AutoBuilderConstants.kTranslationD
-                ),
-                new PIDConstants(
-                    OtherConstants.AutoBuilderConstants.kRotationP, 
-                    OtherConstants.AutoBuilderConstants.kRotationI, 
-                    OtherConstants.AutoBuilderConstants.kRotationD
-                )
+            new PIDConstants(0.5, 0.9, 0.0),
+            new PIDConstants(0.001, 0.0005, 0.0005)
             ),
             pathConfig,
             () -> {
@@ -114,32 +103,15 @@ public class DriveSubsystem extends SubsystemBase {
     
     @Override
     public void periodic() {
-        // REVIEW:
-        // Should update the robot odometry based on the estimated tag position
-        if (VisionSubsystem.result.getMultiTagResult().isPresent()) {
-            m_odometry.addVisionMeasurement(
-                VisionSubsystem.robotFieldPose(), 
-                Timer.getFPGATimestamp(),
-                VisionSubsystem.kMultiTagStdDevs
-            );
-            System.out.println(VisionSubsystem.robotFieldPose());
-        }
-        // Put pos vslurd into Elastic
-        SmartDashboard.putNumber("robotOdometry X", m_odometry.getEstimatedPosition().getX());
-        SmartDashboard.putNumber("robotOdometry Y", m_odometry.getEstimatedPosition().getY());
-        SmartDashboard.putNumber("robotOdometry Rotation", m_odometry.getEstimatedPosition().getRotation().getDegrees());
-
         // Update the odometry in the periodic block
         m_odometry.update(
-            Rotation2d.fromDegrees(m_gyro.getAngle()),
-            new SwerveModulePosition[] {
-                m_frontLeft.getPosition(),
-                m_frontRight.getPosition(),
-                m_rearLeft.getPosition(),
-                m_rearRight.getPosition()
+        Rotation2d.fromDegrees(m_gyro.getAngle()),
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
         });
-
-        
     }
     
     /**
@@ -148,11 +120,7 @@ public class DriveSubsystem extends SubsystemBase {
     * @return The pose.
     */
     public Pose2d getPose() {
-        return m_odometry.getEstimatedPosition();
-        
-    }
-    public static Pose2d getPoseStatic() {
-        return m_odometry.getEstimatedPosition();
+        return m_odometry.getPoseMeters();
     }
     
     /**
@@ -261,7 +229,7 @@ public class DriveSubsystem extends SubsystemBase {
     *
     * @return the robot's heading in degrees, from -180 to 180
     */
-    public static double getHeading() {
+    public double getHeading() {
         return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
     

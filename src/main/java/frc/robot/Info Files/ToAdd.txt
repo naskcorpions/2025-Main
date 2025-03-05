@@ -1,0 +1,41 @@
+Things to add:
+    Constants file for certain devices:
+        All non swerve motors, or other things on PWM/DIO ports
+    Configuration files:
+        Files that configure motor controllers
+            For Elevator & intake?
+    AptilTag Database:
+        Some kind of database thing that has all tha values for locations of targets
+        Would be required for auto aim:
+            Auto Aim needs tag height, and camera height.
+            Some tags are different heights
+    Elastic Dashboard Stuff:
+        ...
+    Install PathPlanner Library:
+        https://3015rangerrobotics.github.io/pathplannerlib/PathplannerLib.json
+
+
+
+        
+
+
+
+
+
+
+
+
+
+    Add NAVX2 Functionality:
+        Check swerve code to ensure it is using the gyro correctly
+            Ensure NAVx methods do the exact same thing as the old methods:
+                https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj/ADIS16470_IMU.html
+                https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj/ADIS16470_IMU.html#getAngle()
+                https://github.com/Studica-Robotics/NavX
+        VendorDep Link: https://dev.studica.com/releases/2025/Studica-2025.0.0.json
+        Can also use WPI Dependency Manager?
+    Add field odometry?
+
+    Field Oriented Drive:
+        1. Get Navx working
+        2. Get FOD working

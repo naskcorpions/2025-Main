@@ -1,0 +1,93 @@
+{
+    "workbench.colorTheme": "Visual Studio Dark",
+    "redhat.telemetry.enabled": true,
+    "git.autofetch": true,
+    "launch": {
+        "configurations": [],
+        "compounds": []
+    },
+    "json.schemas": [],
+
+    "START": "START",
+
+    "todohighlight.isEnable": true,
+    "todohighlight.isCaseSensitive": true,
+    "todohighlight.enableDiagnostic": true,
+    "todohighlight.keywords": [
+
+        {
+            "text": "TODO:",
+            "color": "rgb(210,210,210)",
+            "backgroundColor": "rgb(0, 70, 170)",
+            "border": "none",
+            "isWholeLine": false,
+            "diagnosticSeverity": "information"
+        },
+        {
+            "text": "FIXME:",
+            "color": "white",
+            "backgroundColor": "rgb(240,98,146)",
+            "border": "none",
+            "isWholeLine": false,
+            "diagnosticSeverity": "warning"
+        },
+        {
+            "text": "INFO:",
+            "color": "rgb(4,191,4)",
+            "backgroundColor": "rgb(26,26,26)",
+            "border": "none",
+            "isWholeLine": true,
+            "diagnosticSeverity": "information"
+        },
+        {
+            "text": "IMPORTANT:",
+            "color": "black",
+            "backgroundColor": "rgb(252, 186, 3)",
+            "isWholeLine": true,
+            "diagnosticSeverity": "warning"
+        },
+        {
+            "text": "REVIEW:",
+            "color": "rgb(240,98,146)",
+            "backgroundColor": "rgb(20,20,20)",
+            "isWholeLine": false,
+            "diagnosticSeverity": "information"
+        },
+        {
+            "text": "NOTE:",
+            "color": "rgb(2,213,250)",
+            "backgroundColor": "editor.background",
+            "isWholeLine": true,
+            "diagnosticSeverity": "information"
+        },
+        {
+            "text": "TEMP:",
+            "color": "black",
+            "backgroundColor": "rgb(190,190,0)",
+            "isWholeLine": false,
+            "diagnosticSeverity": "information"
+        },
+        {
+            "_COMMENT": "SEPETATOR: Text is white, Background is white.",
+            "text": "SEPERATOR:",
+            "color": "rgb(200,200,200)",
+            "backgroundColor": "rgb(220,220,220)",
+            "isWholeLine": true,
+            "diagnosticSeverity": "none"
+        }
+    ],
+    "todohighlight.exclude": [
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.vscode/**",
+        "**/.github/**",
+        "**/_output/**",
+        "**/*.min.*",
+        "**/*.map",
+        "**/.next/**"
+    ],
+
+    "END": "END"
+}
