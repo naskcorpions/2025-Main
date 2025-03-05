@@ -26,15 +26,10 @@ public final class ElevatorConstants {
         // NEW: Intake motor speed constant
         public static final double intakeSpeed = 0.4; 
         
-        // NEW: Constants for the joint motor.
-        public static final int jointMotor = 13; // Set this to the correct port.
-        public static final double jointUpperLimit = 100.0; // Adjust upper limit value.
-        public static final double jointLowerLimit = 0.0;   // Adjust lower limit value.
-        public static final double jointSpeed = 0.1;        // Adjust speed value.
     }
     public final class Pivot {
         // Motor Number
-        public static final int kPivotMotor = 13;
+        public static final int kPivotMotor = 12;
         // Stall Limits
         public static final int kStallLimit = 25;
         // IMPORTANT:
@@ -49,6 +44,8 @@ public final class ElevatorConstants {
         public static final double kMaxVelocity = 0.0; // MEASURE: RPM
         public static final double kAllowedClosedLoopError = 0.0; // MEASURE: REVIEW: Rotations? 
         // Positions
+
+
     }
 
 }

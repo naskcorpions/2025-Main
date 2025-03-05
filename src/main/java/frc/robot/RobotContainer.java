@@ -130,9 +130,6 @@ public class RobotContainer {
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
             .whileTrue(new AutoAllign(m_vision, m_robotDrive));
         
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
-            .whileTrue(FollowSimplePath.followPath());
-
         new JoystickButton(m_driverController, 6).whileTrue(
             new RunCommand(
                 () -> m_robotDrive.drive(

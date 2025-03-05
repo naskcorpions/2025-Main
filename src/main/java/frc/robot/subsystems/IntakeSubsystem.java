@@ -19,23 +19,10 @@ public class IntakeSubsystem extends SubsystemBase {
     private SparkMax intakeMotor = new SparkMax(ElevatorConstants.Intake.kIntakeMotor, MotorType.kBrushless);
     private boolean spinning = false;
 
-    //////////////////////////////////////////////////////////////////////////////
-    // Fields: Joint Motor & Encoder, Constants from ElevatorConstants.Intake
-    //////////////////////////////////////////////////////////////////////////////
-    private SparkMax jointMotor = new SparkMax(ElevatorConstants.Intake.jointMotor, MotorType.kBrushless);
-    private SparkMax intakeElbow = new SparkMax(11, MotorType.kBrushless);
-    private final RelativeEncoder jointEncoder = jointMotor.getEncoder();
-    private final double jointUpperLimit = ElevatorConstants.Intake.jointUpperLimit;
-    private final double jointLowerLimit = ElevatorConstants.Intake.jointLowerLimit;
-    private final double jointSpeed = ElevatorConstants.Intake.jointSpeed;
-    
     @Override
     public void periodic() {
         // ...existing periodic tasks (if any)...
         // Print joint encoder value if joint motor is stopped.
-        if(jointMotor.get() == 0) {
-            System.out.println("Joint Encoder Value: " + jointEncoder.getPosition());
-        }
     }
     
     //////////////////////////////////////////////////////////////////////////////
@@ -49,10 +36,6 @@ public class IntakeSubsystem extends SubsystemBase {
         //     intakeMotor.set(0);
         // }
         intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
-    }
-    public void rotationSpinUp(double speed) {
-            intakeElbow.set(speed);
-            //intakeElbow.set(-speed);
     }
 
     // New method to stop the motor completely.
@@ -74,28 +57,5 @@ public class IntakeSubsystem extends SubsystemBase {
     
     public void outputSpin() {
         intakeMotor.set(-ElevatorConstants.Intake.intakeSpeed);
-    }
-    
-    //////////////////////////////////////////////////////////////////////////////
-    // Joint Motor Control Methods (with Encoder Limits)
-    //////////////////////////////////////////////////////////////////////////////
-    public void moveJointUp() {
-        if(jointEncoder.getPosition() < jointUpperLimit) {
-            jointMotor.set(jointSpeed);
-        } else {
-            jointMotor.set(0);
-        }
-    }
-    
-    public void moveJointDown() {
-        if(jointEncoder.getPosition() > jointLowerLimit) {
-            jointMotor.set(-jointSpeed);
-        } else {
-            jointMotor.set(0);
-        }
-    }
-    
-    public void stopJointMotor() {
-        jointMotor.set(0);
     }
 }
