@@ -23,6 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // Fields: Joint Motor & Encoder, Constants from ElevatorConstants.Intake
     //////////////////////////////////////////////////////////////////////////////
     private SparkMax jointMotor = new SparkMax(ElevatorConstants.Intake.jointMotor, MotorType.kBrushless);
+    private SparkMax intakeElbow = new SparkMax(11, MotorType.kBrushless);
     private final RelativeEncoder jointEncoder = jointMotor.getEncoder();
     private final double jointUpperLimit = ElevatorConstants.Intake.jointUpperLimit;
     private final double jointLowerLimit = ElevatorConstants.Intake.jointLowerLimit;
@@ -42,13 +43,19 @@ public class IntakeSubsystem extends SubsystemBase {
     //////////////////////////////////////////////////////////////////////////////
     public void autoSpin() {
         // This method will not be called automatically.
-        if (!limitSwitch.get()) {
-            intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
-        } else {
-            intakeMotor.set(0);
-        }
+        // if (!limitSwitch.get()) {
+        //     intakeMotor.set(speed);
+        // } else {
+        //     intakeMotor.set(0);
+        // }
+        intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
     }
-    
+    public void rotationSpinUp(double speed) {
+            intakeElbow.set(speed);
+            //intakeElbow.set(-speed);
+    }
+
+    // New method to stop the motor completely.
     public void stopMotor() {
         intakeMotor.set(0);
     }

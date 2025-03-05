@@ -5,14 +5,16 @@
 package frc.robot;
     // CONSTANTS
     import frc.robot.Constants.ControllerConstants;
-    import frc.robot.Constants.OtherConstants;
+    import frc.robot.Constants.ControllerConstants.driveController;
+    import frc.robot.Constants.SwerveConstants.DriveConstants;
     import frc.robot.Constants.VisionConstants;
+    import frc.robot.Constants.OtherConstants;
+
+
     // COMMANDS
     import frc.robot.commands.AutoAllign;
     import frc.robot.commands.FollowSimplePath;
-    import frc.robot.commands.OTFPath;
-    import frc.robot.commands.AutoIntakeCommand;
-    import frc.robot.commands.OutputCommand;
+    import frc.robot.commands.ElevatorAndShooter;
     // SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
     import frc.robot.subsystems.ElevatorSubsystem;
@@ -87,8 +89,8 @@ public class RobotContainer {
         
         // REVIEW:
         // Init PathPlanner
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        // autoChooser = AutoBuilder.buildAutoChooser();
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
         
         // "Warmup" Paths
         FollowPathCommand.warmupCommand().schedule();
@@ -186,6 +188,6 @@ public class RobotContainer {
     // REVIEW:
     public Command getAutonomousCommand() {
         // INFO: Returns the selected auto's command to run when enabled
-        return autoChooser.getSelected();
+        return Commands.none();
     }
 }

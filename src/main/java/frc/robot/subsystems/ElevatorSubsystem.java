@@ -11,7 +11,10 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
+
+import java.util.Set;
+
+// import com.revrobotics.RelativeEncoder;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -78,16 +81,16 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     // New method to run both elevator motors at a given speed
     public void runElevator(double speed) {
-        if(getEncoderValue() >= 200) { // added check before running the elevator
-            stopElevator();
-            return;
-        }
+        // if(getEncoderValue() >= 200) { // added check before running the elevator
+        //     stopElevator();
+        //     return;
+        // }
         elevatorLeft.set(speed);
         elevatorRight.set(speed);
     }
 
     // New method to stop both elevator motors
-    public void stopElevator() {
+    public static void stopElevator() {
         elevatorLeft.set(0);
         elevatorRight.set(0);
     }

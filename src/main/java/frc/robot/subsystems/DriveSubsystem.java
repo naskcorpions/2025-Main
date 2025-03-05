@@ -138,8 +138,10 @@ public class DriveSubsystem extends SubsystemBase {
                 m_rearLeft.getPosition(),
                 m_rearRight.getPosition()
         });
-
-        
+        // Should update the robot odometry based on the estimated tag position
+        // m_odometry.addVisionMeasurement(
+        // VisionSubsystem.getEstimatedFieldRobotPose(), 
+        // VisionSubsystem.returnVisionLatentcy());
     }
     
     /**
