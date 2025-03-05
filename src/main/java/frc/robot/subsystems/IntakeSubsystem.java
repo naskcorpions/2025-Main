@@ -30,15 +30,23 @@ public class IntakeSubsystem extends SubsystemBase {
     //////////////////////////////////////////////////////////////////////////////
     public void autoSpin() {
         // This method will not be called automatically.
-        // if (!limitSwitch.get()) {
-        //     intakeMotor.set(speed);
-        // } else {
-        //     intakeMotor.set(0);
-        // }
-        intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
+        if (!limitSwitch.get()) {
+            intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
+        } else {
+            intakeMotor.set(0);
+        }
+    }
+    
+    // Stop the intake motor.
+    public void stopIntake() {
+        intakeMotor.set(0);
+    }
+    
+    // Run the intake motor in reverse.
+    public void reverseIntake() {
+        intakeMotor.set(-ElevatorConstants.Intake.intakeSpeed);
     }
 
-    // New method to stop the motor completely.
     public void stopMotor() {
         intakeMotor.set(0);
     }

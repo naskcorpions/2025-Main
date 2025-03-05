@@ -5,7 +5,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class AutoIntakeCommand extends InstantCommand {
     public AutoIntakeCommand(IntakeSubsystem intake) {
-        super(intake::toggleSpin, intake);
+        super(() -> intake.toggleSpin(), intake);
     }
     // ...no further overrides needed...
 }
