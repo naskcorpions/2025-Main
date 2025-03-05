@@ -110,6 +110,8 @@ public final class Configs {
                     .inverted(false)
                     .smartCurrentLimit(ElevatorConstants.Intake.kStallLimit);
             
+
+                    
             // INFO: PIVOT
             pivotConfig
                     .idleMode(IdleMode.kBrake)

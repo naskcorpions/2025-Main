@@ -19,6 +19,8 @@ package frc.robot;
     import frc.robot.subsystems.VisionSubsystem;
     import frc.robot.subsystems.Dashboard;
     import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+
 // INFO: JAVA IMPORTS
 import java.util.Set;
 // INFO: WPILIB IMPORTS
@@ -56,6 +58,7 @@ public class RobotContainer {
     private final Dashboard m_dashboard = new Dashboard();
     private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
+    private final PivotSubsystem m_pivot = new PivotSubsystem();
     
     // INFO: CREATAE CONTROLLERS
     XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
@@ -125,12 +128,8 @@ public class RobotContainer {
             .whileTrue(new RunCommand(
                 () -> m_robotDrive.setX(),
                 m_robotDrive));
-        
-        // NEW ALLIGN
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
-            .whileTrue(new AutoAllign(m_vision, m_robotDrive));
-        
-        new JoystickButton(m_driverController, 6).whileTrue(
+                
+        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverRobotOrientedDriveButton).whileTrue(
             new RunCommand(
                 () -> m_robotDrive.drive(
                     -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
@@ -147,6 +146,16 @@ public class RobotContainer {
             Set.of(m_robotDrive))
         );
 
+
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotIntakePoseButton).onTrue(
+            new RunCommand( () -> PivotSubsystem.setIntakePosition(), m_pivot)
+        );
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotOuttakePoseButton).onTrue(
+            new RunCommand( () -> PivotSubsystem.setOuttakePosition(), m_pivot)
+        );
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotStopButton).onTrue(
+            new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
+        );
     }
     
     

@@ -29,13 +29,13 @@ public final class ElevatorConstants {
     }
     public final class Pivot {
         // Motor Number
-        public static final int kPivotMotor = 12;
+        public static final int kPivotMotorID = 12;
         // Stall Limits
-        public static final int kStallLimit = 25;
+        public static final int kStallLimit = 30;
         // IMPORTANT:
         // NOTE: SET VALUES
         // Closed Loop Values
-        public static final double kP = 0.0;        
+        public static final double kP = 0.1;        
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final int kClosedLoopSlot = 0;
@@ -44,7 +44,8 @@ public final class ElevatorConstants {
         public static final double kMaxVelocity = 0.0; // MEASURE: RPM
         public static final double kAllowedClosedLoopError = 0.0; // MEASURE: REVIEW: Rotations? 
         // Positions
-
+        public static final double kIntakePos = 0.1;
+        public static final double kOuttakePose = 0.2;
 
     }
 
