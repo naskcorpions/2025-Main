@@ -11,6 +11,8 @@ package frc.robot;
     import frc.robot.commands.AutoAllign;
     import frc.robot.commands.FollowSimplePath;
     import frc.robot.commands.OTFPath;
+    import frc.robot.commands.AutoIntakeCommand;
+    import frc.robot.commands.OutputCommand;
     // SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
     import frc.robot.subsystems.ElevatorSubsystem;
@@ -30,6 +32,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -149,6 +152,26 @@ public class RobotContainer {
                 }, 
             Set.of(m_robotDrive))
         );
+
+        // New binding for intake toggle on operator controller button 3.
+        new JoystickButton(m_operatorController, 7)
+            .onTrue(new AutoIntakeCommand(m_intake));
+
+        // New binding for output command on operator controller button 4.
+        new JoystickButton(m_operatorController, 8)
+            .onTrue(new OutputCommand(m_intake));
+        
+        // NEW: Binding for joint up on operator controller button 5.
+        new JoystickButton(m_operatorController, 5)
+            .whileTrue(new RunCommand(() -> m_intake.moveJointUp(), m_intake));
+        new JoystickButton(m_operatorController, 5)
+            .onFalse(new InstantCommand(() -> m_intake.stopJointMotor(), m_intake));
+        
+        // NEW: Binding for joint down on operator controller button 6.
+        new JoystickButton(m_operatorController, 6)
+            .whileTrue(new RunCommand(() -> m_intake.moveJointDown(), m_intake));
+        new JoystickButton(m_operatorController, 6)
+            .onFalse(new InstantCommand(() -> m_intake.stopJointMotor(), m_intake));
 
     }
     

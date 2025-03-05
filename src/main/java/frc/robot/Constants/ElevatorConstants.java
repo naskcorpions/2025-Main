@@ -20,14 +20,14 @@ public final class ElevatorConstants {
 
     public final class Intake {
         // Motor Number
-        public static final int kIntakeMotor = 12;
+        public static final int kIntakeMotor = 11;
         public static final int kStallLimit = 15;
         
         // NEW: Intake motor speed constant
         public static final double intakeSpeed = 0.4; 
         
         // NEW: Constants for the joint motor.
-        public static final int jointMotor = 12; // Set this to the correct port.
+        public static final int jointMotor = 13; // Set this to the correct port.
         public static final double jointUpperLimit = 100.0; // Adjust upper limit value.
         public static final double jointLowerLimit = 0.0;   // Adjust lower limit value.
         public static final double jointSpeed = 0.1;        // Adjust speed value.
