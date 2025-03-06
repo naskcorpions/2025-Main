@@ -24,10 +24,10 @@ public final class ElevatorConstants {
         public static final int kStallLimit = 15;
         
         // NEW: Intake motor speed constant
-        public static final double intakeSpeed = 0.4; 
+        public static final double intakeSpeed = 0.2; 
         
-        // NEW: Reverse intake motor speed constant (adjustable)
-        public static final double reverseIntakeSpeed = 0.3; 
+        // NEW: Reverse intake motor speed constant
+        public static final double reverseIntakeSpeed = 0.6; 
         
     }
     public final class Pivot {
