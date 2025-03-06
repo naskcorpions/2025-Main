@@ -72,10 +72,14 @@ public class Dashboard extends SubsystemBase {
         if (fieldSideChooser.getSelected() == "red") {
 
         }
+        // Put Battery Voltage
         SmartDashboard.putNumber("Batt Volts", RobotController.getBatteryVoltage());
-        SmartDashboard.putNumber("Elevator Encoder Pos", ElevatorSubsystem.getEncoderValue());
+        // Field/Odometry Stuff
         field.setRobotPose(DriveSubsystem.getPoseStatic());
         SmartDashboard.putData("Field", field);
+        // Encoder Values
+        SmartDashboard.putNumber("Elevator Encoder Pos", ElevatorSubsystem.getEncoderValue());
+        SmartDashboard.putNumber("Pivot Encoder Pos", PivotSubsystem.getEncoderValue());
         
         // TODO: ADD?
         /*
