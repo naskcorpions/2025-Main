@@ -20,16 +20,19 @@ public final class ElevatorConstants {
 
     public final class Intake {
         // Motor Number
-        public static final int kIntakeMotor = 11;
+        public static final int kIntakeMotor = 12;
         public static final int kStallLimit = 15;
         
         // NEW: Intake motor speed constant
         public static final double intakeSpeed = 0.4; 
         
+        // NEW: Reverse intake motor speed constant (adjustable)
+        public static final double reverseIntakeSpeed = 0.3; 
+        
     }
     public final class Pivot {
         // Motor Number
-        public static final int kPivotMotor = 12;
+        // public static final int kPivotMotor = 12;
         // Stall Limits
         public static final int kStallLimit = 25;
         // IMPORTANT:
