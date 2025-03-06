@@ -5,10 +5,8 @@
 package frc.robot;
     // CONSTANTS
     import frc.robot.Constants.ControllerConstants;
-    import frc.robot.Constants.ControllerConstants.driveController;
-    import frc.robot.Constants.SwerveConstants.DriveConstants;
-    import frc.robot.Constants.VisionConstants;
     import frc.robot.Constants.OtherConstants;
+    import frc.robot.Constants.VisionConstants;
     // COMMANDS
     import frc.robot.commands.AutoAllign;
     import frc.robot.commands.FollowSimplePath;
@@ -31,7 +29,6 @@ import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
@@ -128,8 +125,23 @@ public class RobotContainer {
             .whileTrue(new RunCommand(
                 () -> m_robotDrive.setX(),
                 m_robotDrive));
+
+        // NEW ALLIGN
+        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
+            .whileTrue(new AutoAllign(m_vision, m_robotDrive));
+        
+        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
+            .whileTrue(FollowSimplePath.followPath());
+
+        new POVButton(m_driverController, 2).whileTrue(
+            new RunCommand(
+                () -> System.out.println("rdtcfvhbj")));
+
+        new JoystickButton(m_driverController, 6).whileTrue(
+
                 
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverRobotOrientedDriveButton).whileTrue(
+
             new RunCommand(
                 () -> m_robotDrive.drive(
                     -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
@@ -147,6 +159,18 @@ public class RobotContainer {
         );
 
 
+        // Binding for running intake on operator controller button 7: run while held, stop when released.
+        new JoystickButton(m_operatorController, 5)
+            .whileTrue(new RunCommand(() -> m_intake.runIntake(), m_intake))
+            .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
+
+        // Binding for reverse intake on operator controller button 8: run reverse while held, stop on release.
+        new JoystickButton(m_operatorController, 6)
+            .whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake))
+            .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
+        
+
+
         new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotIntakePoseButton).onTrue(
             new RunCommand( () -> PivotSubsystem.setIntakePosition(), m_pivot)
         );
@@ -156,6 +180,7 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotStopButton).onTrue(
             new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
         );
+
     }
     
     
@@ -168,6 +193,6 @@ public class RobotContainer {
     // REVIEW:
     public Command getAutonomousCommand() {
         // INFO: Returns the selected auto's command to run when enabled
-        return Commands.none();
+        return autoChooser.getSelected();
     }
 }

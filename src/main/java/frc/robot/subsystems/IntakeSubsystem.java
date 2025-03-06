@@ -17,45 +17,37 @@ public class IntakeSubsystem extends SubsystemBase {
     //////////////////////////////////////////////////////////////////////////////
     private DigitalInput limitSwitch = new DigitalInput(SensorPorts.LimitSwitches.intakeSwitch);
     private SparkMax intakeMotor = new SparkMax(ElevatorConstants.Intake.kIntakeMotor, MotorType.kBrushless);
-    private boolean spinning = false;
-
+    private boolean canRunIntake = false;
     @Override
     public void periodic() {
         // ...existing periodic tasks (if any)...
         // Print joint encoder value if joint motor is stopped.
+        if (!limitSwitch.get()) {
+        canRunIntake = false;
+            
+        }else {canRunIntake = true;}
     }
     
     //////////////////////////////////////////////////////////////////////////////
-    // Intake Motor Control Methods (only act on command)
+    // Intake Motor Control Methods - meets requirements:
+    // Spin if switch is not activated; stop if switch is pressed;
+    // Reverse always ignores the switch.
     //////////////////////////////////////////////////////////////////////////////
-    public void autoSpin() {
-        // This method will not be called automatically.
-        // if (!limitSwitch.get()) {
-        //     intakeMotor.set(speed);
-        // } else {
-        //     intakeMotor.set(0);
-        // }
-        intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
-    }
-
-    // New method to stop the motor completely.
-    public void stopMotor() {
-        intakeMotor.set(0);
-    }
-    
-    public void toggleSpin() {
-        if (spinning) {
-            stopMotor();
-            spinning = false;
+    public void runIntake() {
+        // Invert logic: if the switch is pressed (true), stop the motor.
+        if (limitSwitch.get()) {
+            intakeMotor.set(0);
         } else {
-            if (!limitSwitch.get()) { // Only spin if limit switch is not triggered.
-                intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
-                spinning = true;
-            }
+            intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
         }
     }
     
-    public void outputSpin() {
-        intakeMotor.set(-ElevatorConstants.Intake.intakeSpeed);
+    public void stopIntake() {
+        intakeMotor.set(0);
+    }
+    
+    // Use the separate adjustable speed for reverse intake.
+    public void reverseIntake() {
+        intakeMotor.set(-ElevatorConstants.Intake.reverseIntakeSpeed);
     }
 }
