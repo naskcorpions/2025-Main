@@ -18,8 +18,11 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 public class PivotSubsystem extends SubsystemBase{
     private static SparkMax pivotMotor = new SparkMax(ElevatorConstants.Pivot.kPivotMotorID, MotorType.kBrushless);
     SparkClosedLoopController pivotClosedLoopController;
+
     private static boolean runPivotMotor = false;
     private static double wantedPosition = 0;
+
+    private static double encoderPosition;
     
     public PivotSubsystem() {
         pivotClosedLoopController = pivotMotor.getClosedLoopController();
@@ -34,7 +37,14 @@ public class PivotSubsystem extends SubsystemBase{
         } else {
             pivotMotor.set(0);
         }
+
+        encoderPosition = pivotMotor.getAbsoluteEncoder().getPosition();
     }
+
+    public static double getEncoderValue() {
+        return encoderPosition;
+    }
+
 
     public static void stopMotor() { runPivotMotor = false; 
     System.out.println("PIVOTSTOP"); }
@@ -42,6 +52,8 @@ public class PivotSubsystem extends SubsystemBase{
     System.out.println("INTAKEPOSE"); }
     public static void setOuttakePosition() { wantedPosition = ElevatorConstants.Pivot.kOuttakePose; runPivotMotor = true;
     System.out.println("OUTTAKEPOSE"); }
+
+
 
 
     
