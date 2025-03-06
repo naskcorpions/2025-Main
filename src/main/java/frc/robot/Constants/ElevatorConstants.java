@@ -10,7 +10,7 @@ public final class ElevatorConstants {
         public static final int kStallLimit = 40;
         // Positions
         // REVIEW: NOTE: Set values to elevator
-        public static final double kElevatorBottonPose = 0.0;
+        public static final double kElevatorBottomPose = 0.0;
         public static final double kElevatorL1CoralPose = 0.0;
         public static final double kElevatorL2CoralPose = 0.0;
         public static final double kElevatorL3CoralPose = 0.0;

@@ -93,6 +93,7 @@ public final class Configs {
                     .inverted(true);
 
             elevatorRightConfig.closedLoop
+                    // .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                     // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
                     .pid(0, 0, 0)
@@ -100,6 +101,7 @@ public final class Configs {
                     // .velocityFF(0)
                     .outputRange(-1, 1);
                 
+            // elevatorRightConfig.closedLoop.maxMotion
         }
 
         /* INFO: INTAKE/PIVOT CONFIGS */

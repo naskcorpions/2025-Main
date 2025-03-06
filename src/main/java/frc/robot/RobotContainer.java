@@ -3,22 +3,22 @@
 // WPILib BSD license file in the root directory of this project.
 // INFO: ROBOT IMPORTS
 package frc.robot;
-    // CONSTANTS
-    import frc.robot.Constants.ControllerConstants;
-    import frc.robot.Constants.ControllerConstants.driveController;
-    import frc.robot.Constants.SwerveConstants.DriveConstants;
-    import frc.robot.Constants.VisionConstants;
-    import frc.robot.Constants.OtherConstants;
-    // COMMANDS
-    import frc.robot.commands.AutoAllign;
-    import frc.robot.commands.FollowSimplePath;
-    import frc.robot.commands.OTFPath;
-    // SUBSYTEMS
-    import frc.robot.subsystems.DriveSubsystem;
-    import frc.robot.subsystems.ElevatorSubsystem;
-    import frc.robot.subsystems.VisionSubsystem;
-    import frc.robot.subsystems.Dashboard;
-    import frc.robot.subsystems.IntakeSubsystem;
+// CONSTANTS
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.ControllerConstants.driveController;
+import frc.robot.Constants.SwerveConstants.DriveConstants;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.OtherConstants;
+// COMMANDS
+import frc.robot.commands.AutoAllign;
+import frc.robot.commands.FollowSimplePath;
+import frc.robot.commands.OTFPath;
+// SUBSYTEMS
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 
 // INFO: JAVA IMPORTS
@@ -74,12 +74,12 @@ public class RobotContainer {
         // Vision System Init
         m_vision.Vision();
         Dashboard.initialize();;
-
+        
         // NOTE: Forwards the camera's ports, so that the cameras can be accessed through the ROBORIO's USB port
         // REVIEW:
         PortForwarder.add(5800, VisionConstants.RPI1.kRPIIP, 5800);
         PortForwarder.add(5800, VisionConstants.RPI2.kRPIIP, 5800);
-
+        
         
         m_robotDrive.resetOdometry(OtherConstants.kRobotStartingPose);
         
@@ -104,13 +104,13 @@ public class RobotContainer {
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         m_robotDrive.setDefaultCommand(
-            new RunCommand(
-                () -> m_robotDrive.drive(
-                    -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-                    true),
-                m_robotDrive));
+        new RunCommand(
+        () -> m_robotDrive.drive(
+        -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
+        true),
+        m_robotDrive));
         
     }
     
@@ -125,36 +125,36 @@ public class RobotContainer {
     */
     private void configureButtonBindings() {
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverDefenseButton)
-            .whileTrue(new RunCommand(
-                () -> m_robotDrive.setX(),
-                m_robotDrive));
-                
+        .whileTrue(new RunCommand(
+        () -> m_robotDrive.setX(),
+        m_robotDrive));
+        
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverRobotOrientedDriveButton).whileTrue(
-            new RunCommand(
-                () -> m_robotDrive.drive(
-                    -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-                    false),
-                m_robotDrive));
-
+        new RunCommand(
+        () -> m_robotDrive.drive(
+        -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
+        false),
+        m_robotDrive));
+        
         new POVButton(m_driverController, 0).whileTrue(
-            new DeferredCommand( 
-                () -> {
-                    return OTFPath.driveToTagCommand();
-                }, 
-            Set.of(m_robotDrive))
+        new DeferredCommand( 
+        () -> {
+            return OTFPath.driveToTagCommand();
+        }, 
+        Set.of(m_robotDrive))
         );
-
-
+        
+        
         new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotIntakePoseButton).onTrue(
-            new RunCommand( () -> PivotSubsystem.setIntakePosition(), m_pivot)
+        new RunCommand( () -> PivotSubsystem.setIntakePosition(), m_pivot)
         );
         new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotOuttakePoseButton).onTrue(
-            new RunCommand( () -> PivotSubsystem.setOuttakePosition(), m_pivot)
+        new RunCommand( () -> PivotSubsystem.setOuttakePosition(), m_pivot)
         );
         new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotStopButton).onTrue(
-            new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
+        new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
         );
     }
     
