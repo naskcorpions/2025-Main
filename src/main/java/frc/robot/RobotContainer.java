@@ -133,12 +133,6 @@ public class RobotContainer {
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
             .whileTrue(FollowSimplePath.followPath());
 
-        new POVButton(m_driverController, 2).whileTrue(
-            new RunCommand(
-                () -> System.out.println("rdtcfvhbj")));
-
-        new JoystickButton(m_driverController, 6).whileTrue(
-
                 
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverRobotOrientedDriveButton).whileTrue(
 
