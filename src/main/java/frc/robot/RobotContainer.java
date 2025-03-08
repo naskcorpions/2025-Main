@@ -137,7 +137,6 @@ public class RobotContainer {
             new RunCommand(
                 () -> System.out.println("rdtcfvhbj")));
 
-        new JoystickButton(m_driverController, 6).whileTrue(
 
                 
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverRobotOrientedDriveButton).whileTrue(
@@ -159,12 +158,12 @@ public class RobotContainer {
         );
 
 
-        // Binding for running intake on operator controller button 7: run while held, stop when released.
+        // Binding for running intake on operator controller button 5: run while held, stop when released.
         new JoystickButton(m_operatorController, 5)
             .whileTrue(new RunCommand(() -> m_intake.runIntake(), m_intake))
             .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
 
-        // Binding for reverse intake on operator controller button 8: run reverse while held, stop on release.
+        // Binding for reverse intake on operator controller button 6: run reverse while held, stop on release.
         new JoystickButton(m_operatorController, 6)
             .whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake))
             .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
