@@ -3,51 +3,50 @@ package frc.robot.subsystems;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.SensorPorts;
 
 // INFO: REV IMPORTS
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 public class IntakeSubsystem extends SubsystemBase {
-    //////////////////////////////////////////////////////////////////////////////
-    // Fields: Intake Motor & Sensor
-    //////////////////////////////////////////////////////////////////////////////
-    private DigitalInput limitSwitch = new DigitalInput(SensorPorts.LimitSwitches.intakeSwitch);
+    private static DigitalInput limitSwitch = new DigitalInput(SensorPorts.LimitSwitches.intakeSwitch);
+    public static boolean getIntakeSwitch() { return !limitSwitch.get(); }
+
     private SparkMax intakeMotor = new SparkMax(ElevatorConstants.Intake.kIntakeMotor, MotorType.kBrushless);
-    private boolean canRunIntake = false;
+    private boolean canRunIntake;
+
+    public IntakeSubsystem() {
+        intakeMotor.configure(Configs.IntakeConfig.intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
     @Override
     public void periodic() {
-        // ...existing periodic tasks (if any)...
-        // Print joint encoder value if joint motor is stopped.
+        // Limit Switch Checker
         if (!limitSwitch.get()) {
-        canRunIntake = false;
-            
-        }else {canRunIntake = true;}
+            canRunIntake = false;  
+        } else {canRunIntake = true;}
+
     }
     
-    //////////////////////////////////////////////////////////////////////////////
-    // Intake Motor Control Methods - meets requirements:
-    // Spin if switch is not activated; stop if switch is pressed;
-    // Reverse always ignores the switch.
-    //////////////////////////////////////////////////////////////////////////////
     public void runIntake() {
-        // Invert logic: if the switch is pressed (true), stop the motor.
-        if (limitSwitch.get()) {
-            intakeMotor.set(0);
-        } else {
+        if (canRunIntake) {
             intakeMotor.set(ElevatorConstants.Intake.intakeSpeed);
+        } else {
+            stopIntake();
         }
     }
     
-    public void stopIntake() {
-        intakeMotor.set(0);
-    }
-    
-    // Use the separate adjustable speed for reverse intake.
     public void reverseIntake() {
         intakeMotor.set(-ElevatorConstants.Intake.reverseIntakeSpeed);
+    }
+
+    public void stopIntake() {
+        intakeMotor.set(0);
     }
 }

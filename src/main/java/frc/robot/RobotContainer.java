@@ -121,50 +121,33 @@ public class RobotContainer {
     * {@link JoystickButton}.
     */
     private void configureButtonBindings() {
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverDefenseButton)
-            .whileTrue(new RunCommand(
-                () -> m_robotDrive.setX(),
-                m_robotDrive));
-
-        // NEW ALLIGN
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverAutoAllignButton)
-            .whileTrue(new AutoAllign(m_vision, m_robotDrive));
         
-        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverPathRunButton)
-            .whileTrue(FollowSimplePath.followPath());
-
-                
+        // INFO: ROBOT DRIVE
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverRobotOrientedDriveButton).whileTrue(
-
             new RunCommand(
                 () -> m_robotDrive.drive(
                     -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
                     -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
                     -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-                false),
+                    false),
+                    m_robotDrive));
+        
+        new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverDefenseButton)
+            .whileTrue(new RunCommand(
+                () -> m_robotDrive.setX(),
                 m_robotDrive));
 
-        new POVButton(m_driverController, 0).whileTrue(
-            new DeferredCommand( 
-                () -> {
-                    return OTFPath.driveToTagCommand();
-                }, 
-            Set.of(m_robotDrive))
-        );
-
-
-        // Binding for running intake on operator controller button 7: run while held, stop when released.
-        new JoystickButton(m_operatorController, 5)
+        // INFO: INTAKE
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorIntakeInButton)
             .whileTrue(new RunCommand(() -> m_intake.runIntake(), m_intake))
             .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
 
-        // Binding for reverse intake on operator controller button 8: run reverse while held, stop on release.
-        new JoystickButton(m_operatorController, 6)
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorIntakeOutButton)
             .whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake))
             .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
         
 
-
+        // INFO: PIVOT
         new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotIntakePoseButton).onTrue(
             new RunCommand( () -> PivotSubsystem.setIntakePosition(), m_pivot)
         );

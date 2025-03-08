@@ -18,6 +18,9 @@ public final class ControllerConstants {
         public static final int kOperatorControllerPort = 1;
         public static final double kOperatorDeadband = 0.05;
 
+        public static final int kOperatorIntakeInButton = 6;
+        public static final int kOperatorIntakeOutButton = 5;
+
         public static final int kOperatorPivotIntakePoseButton = 1;
         public static final int kOperatorPivotOuttakePoseButton = 2;
         public static final int kOperatorPivotStopButton = 3;

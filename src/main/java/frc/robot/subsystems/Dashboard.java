@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Elastic;
 import frc.robot.Constants.OtherConstants;
 import frc.robot.Constants.ControllerConstants.driveController;
+import frc.robot.Constants.ElevatorConstants.Intake;
 import frc.robot.commands.OTFPath;
 
 // INFO: JAVA IMPORTS
@@ -80,6 +81,11 @@ public class Dashboard extends SubsystemBase {
         // Encoder Values
         SmartDashboard.putNumber("Elevator Encoder Pos", ElevatorSubsystem.getEncoderValue());
         SmartDashboard.putNumber("Pivot Encoder Pos", PivotSubsystem.getEncoderValue());
+
+        SmartDashboard.putBoolean("Elevator Top Switch", ElevatorSubsystem.getUpperLimitSwitch());
+        SmartDashboard.putBoolean("Elevator Bottom Switch", ElevatorSubsystem.getLowerLimitSwitch());
+        SmartDashboard.putBoolean("Intake Switch", IntakeSubsystem.getIntakeSwitch());
+
         
         // TODO: ADD?
         /*

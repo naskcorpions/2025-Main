@@ -26,7 +26,7 @@ public class PivotSubsystem extends SubsystemBase{
     
     public PivotSubsystem() {
         pivotClosedLoopController = pivotMotor.getClosedLoopController();
-        pivotMotor.configure(Configs.ElevatorConfig.pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        pivotMotor.configure(Configs.PivotConfig.pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override
