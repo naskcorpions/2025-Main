@@ -48,8 +48,9 @@ public final class ElevatorConstants {
         public static final double kMaxVelocity = 0.0; // MEASURE: RPM
         public static final double kAllowedClosedLoopError = 0.0; // MEASURE: REVIEW: Rotations? 
         // Positions
-        public static final double kIntakePos = 0.1;
+        public static final double kIntakePose = 0.1;
         public static final double kOuttakePose = 0.2;
+        public static final double kDrivePose = 0.5;
 
     }
 

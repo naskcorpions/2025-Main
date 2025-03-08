@@ -45,13 +45,18 @@ public class PivotSubsystem extends SubsystemBase{
         return encoderPosition;
     }
 
+    public static void setDrivePosition() { wantedPosition = ElevatorConstants.Pivot.kDrivePose; runPivotMotor = true;
+        System.out.println("DRIVEPOSE"); }
 
-    public static void stopMotor() { runPivotMotor = false; 
-    System.out.println("PIVOTSTOP"); }
-    public static void setIntakePosition() { wantedPosition = ElevatorConstants.Pivot.kIntakePos; runPivotMotor = true;
+    public static void setIntakePosition() { wantedPosition = ElevatorConstants.Pivot.kIntakePose; runPivotMotor = true;
     System.out.println("INTAKEPOSE"); }
+
     public static void setOuttakePosition() { wantedPosition = ElevatorConstants.Pivot.kOuttakePose; runPivotMotor = true;
     System.out.println("OUTTAKEPOSE"); }
+
+    public static void stopMotor() { runPivotMotor = false; 
+        System.out.println("PIVOTSTOP"); }
+    
 
 
 

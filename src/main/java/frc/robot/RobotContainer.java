@@ -17,7 +17,7 @@ package frc.robot;
     import frc.robot.subsystems.VisionSubsystem;
     import frc.robot.subsystems.Dashboard;
     import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PivotSubsystem;
+    import frc.robot.subsystems.PivotSubsystem;
 
 // INFO: JAVA IMPORTS
 import java.util.Set;
@@ -108,6 +108,7 @@ public class RobotContainer {
                     -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
                     true),
                 m_robotDrive));
+        PivotSubsystem.setDrivePosition();
         
     }
     
