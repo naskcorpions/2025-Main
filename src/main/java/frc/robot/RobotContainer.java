@@ -136,9 +136,6 @@ public class RobotContainer {
         new POVButton(m_driverController, 2).whileTrue(
             new RunCommand(
                 () -> System.out.println("rdtcfvhbj")));
-
-        new JoystickButton(m_driverController, 6).whileTrue(
-
                 
         new JoystickButton(m_driverController, ControllerConstants.driveController.kDriverRobotOrientedDriveButton).whileTrue(
 
@@ -147,7 +144,7 @@ public class RobotContainer {
                     -MathUtil.applyDeadband(m_driverController.getLeftY(), ControllerConstants.driveController.kDriveDeadband),
                     -MathUtil.applyDeadband(m_driverController.getLeftX(), ControllerConstants.driveController.kDriveDeadband),
                     -MathUtil.applyDeadband(m_driverController.getRightX(), ControllerConstants.driveController.kDriveDeadband),
-                    false),
+                false),
                 m_robotDrive));
 
         new POVButton(m_driverController, 0).whileTrue(

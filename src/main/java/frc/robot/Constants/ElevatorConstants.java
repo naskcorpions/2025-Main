@@ -4,8 +4,8 @@ package frc.robot.Constants;
 public final class ElevatorConstants {
     public final class Elevator {
         // Motor Number
-        public static final int kElevatorLeftMotor = 9;
-        public static final int kElevatorRightMotor = 10;
+        public static final int kElevatorLeftMotor = 10;
+        public static final int kElevatorRightMotor = 9;
         // Stall Limits
         public static final int kStallLimit = 40;
         // Positions
@@ -33,7 +33,7 @@ public final class ElevatorConstants {
     public final class Pivot {
         // Motor Number
 
-        public static final int kPivotMotorID = 12;
+        public static final int kPivotMotorID = 11;
         // Stall Limits
         public static final int kStallLimit = 30;
         // IMPORTANT:
