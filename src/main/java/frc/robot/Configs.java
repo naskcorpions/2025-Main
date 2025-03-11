@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkBase;
 // INFO: REV IMPORTS
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public final class Configs {
@@ -70,7 +71,8 @@ public final class Configs {
                 // TODO SEE BELOW:
                 // Will need to be set for each motor
                 // One will need to be inverted, the other not
-                .inverted(false);
+                .inverted(true)
+                .follow(ElevatorConstants.Elevator.kElevatorRightMotor, true);
             
             elevatorLeftConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -89,18 +91,20 @@ public final class Configs {
                 // TODO SEE BELOW:
                 // Will need to be set for each motor
                 // One will need to be inverted, the other not
-                .inverted(true);
+                .inverted(false);
             
             elevatorRightConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                 // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
-                .pid(
-                    ElevatorConstants.Elevator.kP,
-                    ElevatorConstants.Elevator.kI,
-                    ElevatorConstants.Elevator.kD)
+                .p(ElevatorConstants.Elevator.kP)
                 // TODO: FIGURE OUT FF. DO WE NEED IT? HOW DO WE USE IT?
                 // .velocityFF(0)
                 .outputRange(-ElevatorConstants.Elevator.maxElevatorSpeed, ElevatorConstants.Elevator.maxElevatorSpeed);
+
+            elevatorRightConfig.closedLoop.maxMotion
+                .allowedClosedLoopError(25)
+                .maxAcceleration(60)
+                .maxVelocity(60);
             
         }
     }

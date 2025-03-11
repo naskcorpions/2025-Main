@@ -7,19 +7,19 @@ public final class ElevatorConstants {
         public static final int kElevatorLeftMotor = 10;
         public static final int kElevatorRightMotor = 9;
         // Max Speeds
-        public static final double maxElevatorSpeed = 0.5;
+        public static final double maxElevatorSpeed = 0.2;
         // PID Values
-        public static final double kP = 0.1;
+        public static final double kP = 1.1;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         // Stall Limits
         public static final int kStallLimit = 40;
         // Positions
         // REVIEW: NOTE: Set values to elevator
-        public static final double kElevatorBottonPose = 0.0;
+        public static final double kElevatorBottomPose = 0.0;
         public static final double kElevatorL1CoralPose = 0.0;
         public static final double kElevatorL2CoralPose = 0.0;
-        public static final double kElevatorL3CoralPose = 0.0;
+        public static final double kElevatorL3CoralPose = 152;
         public static final double kElevatorL4CoralPose = 0.0;
         public static final double kElevatorTopPose = 0.0;
     }
@@ -27,10 +27,10 @@ public final class ElevatorConstants {
     public final class Intake {
         // Motor Number
         public static final int kIntakeMotor = 12;
-        public static final int kStallLimit = 20;
+        public static final int kStallLimit = 35;
         
         // NEW: Intake motor speed constant
-        public static final double intakeSpeed = 0.3; 
+        public static final double intakeSpeed = 0.25; 
         
         // NEW: Reverse intake motor speed constant
         public static final double reverseIntakeSpeed = 0.4; 
@@ -45,17 +45,17 @@ public final class ElevatorConstants {
         // IMPORTANT:
         // NOTE: SET VALUES
         // Closed Loop Values
-        public static final double kP = 0.1;        
+        public static final double kP = 2;        
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final int kClosedLoopSlot = 0;
         // MaxMotion Limits
-        public static final double kMaxAcceleration = 0.0; // MEASURE: RPM/s
-        public static final double kMaxVelocity = 0.0; // MEASURE: RPM
-        public static final double kAllowedClosedLoopError = 0.0; // MEASURE: REVIEW: Rotations? 
+        public static final double kMaxAcceleration = 70; // MEASURE: RPM/s
+        public static final double kMaxVelocity = 70; // MEASURE: RPM
+        public static final double kAllowedClosedLoopError = 0.01; // MEASURE: REVIEW: Rotations? 
         // Positions
-        public static final double kIntakePos = 0.1;
-        public static final double kOuttakePose = 0.2;
+        public static final double kIntakePos = 0.28;
+        public static final double kOuttakePose = 0.17;
 
     }
 

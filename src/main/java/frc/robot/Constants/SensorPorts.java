@@ -11,12 +11,12 @@ public final class SensorPorts {
     /** Class for defining limit switch ports */
     public final class LimitSwitches {
         // INTAKE
-        public static final int intakeSwitch = 9;
+        public static final int intakeSwitch = 9; // PREV: 9
 
         // ELEVATOR
         // REVIEW: Set Ports
         public static final int elevatorUpperLimit = 0;
-        public static final int elevatorLowerLimit = 8;
+        public static final int elevatorLowerLimit = 8; // PREV: 8
 
     }
 }

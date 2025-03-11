@@ -158,6 +158,16 @@ public class RobotContainer {
             new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
         );
 
+        new POVButton(m_operatorController, 0)
+            .whileTrue(new RunCommand(() -> ElevatorSubsystem.runElevator(0.4), m_elevator))
+            .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
+
+        new POVButton(m_operatorController, 180)
+            .whileTrue(new RunCommand(() -> ElevatorSubsystem.runElevator(-0.4), m_elevator))
+            .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
+
+        new POVButton(m_operatorController, 90).whileTrue(new RunCommand(() -> {ElevatorSubsystem.setElevatorPoseBottom();}));
+        new POVButton(m_operatorController, 270).whileTrue(new RunCommand(() -> {ElevatorSubsystem.setElevatorPoseL3();}));
     }
     
     

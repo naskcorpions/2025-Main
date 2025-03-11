@@ -32,10 +32,10 @@ public class PivotSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         if (runPivotMotor) {
-            // pivotClosedLoopController.setReference(wantedPosition, ControlType.kMAXMotionPositionControl);
-            pivotMotor.set(wantedPosition);
+            pivotClosedLoopController.setReference(wantedPosition, ControlType.kMAXMotionPositionControl);
+            // pivotMotor.set(wantedPosition);
         } else {
-            pivotMotor.set(0);
+            pivotMotor.stopMotor();
         }
 
         encoderPosition = pivotMotor.getAbsoluteEncoder().getPosition();
