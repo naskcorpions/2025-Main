@@ -45,16 +45,16 @@ public final class ElevatorConstants {
         // IMPORTANT:
         // NOTE: SET VALUES
         // Closed Loop Values
-        public static final double kP = 2;        
+        public static final double kP = 4;        
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final int kClosedLoopSlot = 0;
         // MaxMotion Limits
-        public static final double kMaxAcceleration = 70; // MEASURE: RPM/s
-        public static final double kMaxVelocity = 70; // MEASURE: RPM
+        public static final double kMaxAcceleration = 520; // MEASURE: RPM/s
+        public static final double kMaxVelocity = 740; // MEASURE: RPM
         public static final double kAllowedClosedLoopError = 0.01; // MEASURE: REVIEW: Rotations? 
         // Positions
-        public static final double kIntakePos = 0.28;
+        public static final double kIntakePos = 0.328;
         public static final double kOuttakePose = 0.17;
 
     }

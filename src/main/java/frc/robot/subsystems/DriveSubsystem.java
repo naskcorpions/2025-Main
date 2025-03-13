@@ -128,6 +128,7 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("robotOdometry X", m_odometry.getEstimatedPosition().getX());
         SmartDashboard.putNumber("robotOdometry Y", m_odometry.getEstimatedPosition().getY());
         SmartDashboard.putNumber("robotOdometry Rotation", m_odometry.getEstimatedPosition().getRotation().getDegrees());
+        SmartDashboard.putNumber("Odometry Rotation", m_odometry.getEstimatedPosition().getRotation().getDegrees());
 
         // Update the odometry in the periodic block
         m_odometry.update(
@@ -138,6 +139,9 @@ public class DriveSubsystem extends SubsystemBase {
                 m_rearLeft.getPosition(),
                 m_rearRight.getPosition()
         });
+        SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
+        SmartDashboard.putNumber("Gyro Yaw", m_gyro.getYaw());
+        SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
         // Should update the robot odometry based on the estimated tag position
         // m_odometry.addVisionMeasurement(
         // VisionSubsystem.getEstimatedFieldRobotPose(), 
@@ -206,6 +210,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.setDesiredState(swerveModuleStates[3]);
     }
     
+    // Duplicate methods for PathPlanner
     private void drive(ChassisSpeeds speeds, boolean fieldRelative) {
         if (fieldRelative) {
             speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getPose().getRotation());
@@ -262,7 +267,6 @@ public class DriveSubsystem extends SubsystemBase {
     * @return the robot's heading in degrees, from -180 to 180
     */
     public static double getHeading() {
-        return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
     }
     
     /**

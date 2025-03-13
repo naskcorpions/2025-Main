@@ -21,8 +21,10 @@ public class PivotSubsystem extends SubsystemBase{
 
     private static boolean runPivotMotor = false;
     private static double wantedPosition = 0;
+    private static String wantedPositionName;
 
     private static double encoderPosition;
+
     
     public PivotSubsystem() {
         pivotClosedLoopController = pivotMotor.getClosedLoopController();
@@ -47,11 +49,15 @@ public class PivotSubsystem extends SubsystemBase{
 
 
     public static void stopMotor() { runPivotMotor = false; 
-    System.out.println("PIVOTSTOP"); }
+        System.out.println("PIVOTSTOP"); wantedPositionName = "STOP"; }
     public static void setIntakePosition() { wantedPosition = ElevatorConstants.Pivot.kIntakePos; runPivotMotor = true;
-    System.out.println("INTAKEPOSE"); }
+        System.out.println("INTAKEPOSE"); wantedPositionName = "Intake"; }
     public static void setOuttakePosition() { wantedPosition = ElevatorConstants.Pivot.kOuttakePose; runPivotMotor = true;
-    System.out.println("OUTTAKEPOSE"); }
+        System.out.println("OUTTAKEPOSE"); wantedPositionName = "Outtake"; }
+
+    public static String getPivotPoseName() {
+        return wantedPositionName;
+    }
 
 
 

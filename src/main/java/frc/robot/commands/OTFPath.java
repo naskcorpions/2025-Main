@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.counter.Tachometer;
-
 // INFO: JAVA IMPORTS
 import java.util.List;
 import java.util.Set;
