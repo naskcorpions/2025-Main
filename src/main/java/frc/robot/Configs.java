@@ -66,6 +66,9 @@ public final class Configs {
         public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
         public static final SparkMaxConfig pivotConfig = new SparkMaxConfig();
 
+        public static final SparkMaxConfig liftLeftConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig liftRightConfig = new SparkMaxConfig();
+
         /* INFO: ELEVATOR CONFIGS */
         static {
             elevatorLeftConfig
@@ -131,6 +134,40 @@ public final class Configs {
 
             
         }
+        static {
+                liftLeftConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(ElevatorConstants.Elevator.kStallLimit)
+                        // TODO SEE BELOW:
+                        // Will need to be set for each motor
+                        // One will need to be inverted, the other not
+                        .inverted(false);
+    
+                liftLeftConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
+                        .pid(0, 0, 0)
+                        // TODO: FIGURE OUT FF. DO WE NEED IT? HOW DO WE USE IT?
+                        // .velocityFF(0)
+                        .outputRange(-1, 1);
+    
+                liftRightConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(ElevatorConstants.Elevator.kStallLimit)
+                        // TODO SEE BELOW:
+                        // Will need to be set for each motor
+                        // One will need to be inverted, the other not
+                        .inverted(true);
+    
+                liftRightConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        // TODO: TUNE? FIGURE OUT WHAT TO DO WITH IT
+                        .pid(0, 0, 0)
+                        // TODO: FIGURE OUT FF. DO WE NEED IT? HOW DO WE USE IT?
+                        // .velocityFF(0)
+                        .outputRange(-1, 1);
+                    
+            }
 
     }
     

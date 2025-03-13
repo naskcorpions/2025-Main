@@ -41,7 +41,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     /* IMPORTANT:
-     * NOTE:
+     * NOTE:.
      * NOTE:    Ensure that the .setPosition(double) on encoder.setPosition(0) is the right method
      * NOTE:    It should set the encoder value based on where it is
      * NOTE:        Example: If the elevator hits the lower limit switch, it should
