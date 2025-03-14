@@ -17,6 +17,7 @@ package frc.robot;
     import frc.robot.subsystems.VisionSubsystem;
     import frc.robot.subsystems.Dashboard;
     import frc.robot.subsystems.IntakeSubsystem;
+    import frc.robot.subsystems.LiftSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 
 // INFO: JAVA IMPORTS
@@ -56,6 +57,7 @@ public class RobotContainer {
     private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final PivotSubsystem m_pivot = new PivotSubsystem();
+    private final LiftSubsystem m_lift = new LiftSubsystem();
     
     // INFO: CREATAE CONTROLLERS
     XboxController m_driverController = new XboxController(ControllerConstants.driveController.kDriverControllerPort);
@@ -159,15 +161,28 @@ public class RobotContainer {
         );
 
         new POVButton(m_operatorController, 0)
-            .whileTrue(new RunCommand(() -> ElevatorSubsystem.runElevator(0.4), m_elevator))
+            .whileTrue(new RunCommand(() -> {
+                if (m_operatorController.getRawAxis(2) > 0.5) {
+                    ElevatorSubsystem.runElevator(0.2);
+                } else {
+                    ElevatorSubsystem.runElevator(0.6);
+                }
+            }, m_elevator))
             .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
 
         new POVButton(m_operatorController, 180)
-            .whileTrue(new RunCommand(() -> ElevatorSubsystem.runElevator(-0.4), m_elevator))
+            .whileTrue(new RunCommand(() -> {
+                if (m_operatorController.getRawAxis(2) > 0.5) {
+                    ElevatorSubsystem.runElevator(-0.2);
+                } else {
+                    ElevatorSubsystem.runElevator(-0.6);
+                }
+            }, m_elevator))
             .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
 
-        new POVButton(m_operatorController, 90).whileTrue(new RunCommand(() -> {ElevatorSubsystem.setElevatorPoseBottom();}));
-        new POVButton(m_operatorController, 270).whileTrue(new RunCommand(() -> {ElevatorSubsystem.setElevatorPoseL3();}));
+        new JoystickButton(m_operatorController, 9)
+            .whileTrue(new RunCommand(() -> m_lift.runLift(0.2), m_lift))
+            .whileFalse(new RunCommand(() -> m_lift.runLift(0), m_lift));
     }
     
     
