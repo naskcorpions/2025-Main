@@ -49,11 +49,13 @@ public class PivotSubsystem extends SubsystemBase{
 
 
     public static void stopMotor() { runPivotMotor = false; 
-        System.out.println("PIVOTSTOP"); wantedPositionName = "STOP"; }
+        wantedPositionName = "STOP"; }
     public static void setIntakePosition() { wantedPosition = ElevatorConstants.Pivot.kIntakePos; runPivotMotor = true;
-        System.out.println("INTAKEPOSE"); wantedPositionName = "Intake"; }
+        wantedPositionName = "Intake"; }
     public static void setOuttakePosition() { wantedPosition = ElevatorConstants.Pivot.kOuttakePose; runPivotMotor = true;
-        System.out.println("OUTTAKEPOSE"); wantedPositionName = "Outtake"; }
+        wantedPositionName = "Outtake"; }
+    // public static void setL4Position() { wantedPosition = ElevatorConstants.Pivot.kL4Pose; runPivotMotor = true; 
+    //     wantedPositionName = "L4"; }
 
     public static String getPivotPoseName() {
         return wantedPositionName;

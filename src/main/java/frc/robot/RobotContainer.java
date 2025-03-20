@@ -89,7 +89,7 @@ public class RobotContainer {
         
         // REVIEW:
         // Init PathPlanner
-        autoChooser = AutoBuilder.buildAutoChooser();
+        autoChooser = AutoBuilder.buildAutoChooser("Red Pose 2");
         SmartDashboard.putData("Auto Chooser", autoChooser);
         
         // "Warmup" Paths
@@ -159,7 +159,9 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotStopButton).onTrue(
             new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
         );
-
+        // new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotL4Pose).onTrue(
+        //     new RunCommand( () -> PivotSubsystem.setL4Position(), m_pivot)
+        // );
         new POVButton(m_operatorController, 0)
             .whileTrue(new RunCommand(() -> {
                 if (m_operatorController.getRawAxis(2) > 0.5) {

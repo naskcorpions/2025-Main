@@ -23,6 +23,7 @@ public final class ControllerConstants {
 
         public static final int kOperatorPivotIntakePoseButton = 1;
         public static final int kOperatorPivotOuttakePoseButton = 2;
+        public static final int kOperatorPivotL4Pose = 3;
         public static final int kOperatorPivotStopButton = 4;
 
         public static final int kOperatorElevatorBottomPoseButton = 0;
