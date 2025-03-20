@@ -30,6 +30,16 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 // INFO: OTHER IMPORTS
 import com.studica.frc.AHRS;
 
+/*********************************************************************************************************
+ * 
+ * 
+ * We inverted the gyro in the drive method by adding a negative sign
+ *      In SwerveConstants.java, there is a boolean that reverses the gyro
+ *      Could be adding the negative sign, instead of just switching the boolean in the constants file
+ *          be the reason that the odometry was having an issue? 
+ * 
+ * 
+ ********************************************************************************************************/
 
 public class DriveSubsystem extends SubsystemBase {
     // Create MAXSwerveModules
