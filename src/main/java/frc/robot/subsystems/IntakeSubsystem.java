@@ -2,11 +2,14 @@
 package frc.robot.subsystems;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.SensorPorts;
-
+import frc.robot.Constants.ElevatorConstants.Intake;
+import edu.wpi.first.wpilibj2.command.Command;
 // INFO: REV IMPORTS
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -15,6 +18,14 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 public class IntakeSubsystem extends SubsystemBase {
+    public static IntakeSubsystem instance;
+    public static IntakeSubsystem getInstance() {
+        if(instance == null) {
+            instance = new IntakeSubsystem();
+        }
+        return instance;
+    }
+
     private static DigitalInput limitSwitch = new DigitalInput(SensorPorts.LimitSwitches.intakeSwitch);
     public static boolean getIntakeSwitch() { return !limitSwitch.get(); }
 
