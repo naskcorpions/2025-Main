@@ -75,6 +75,8 @@ public class IntakeSubsystem extends SubsystemBase {
             // stopIntake();
             // System.out.println("END INTAKE AUTO");
             reverseIntake();
-        }, getInstance()).withTimeout(3);
+        }, getInstance())
+        // .withTimeout(3)
+        ;
     }
 }
