@@ -117,19 +117,19 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // REVIEW:
         // Should update the robot odometry based on the estimated tag position
-        if (VisionSubsystem.result.getMultiTagResult().isPresent()) {
-            m_odometry.addVisionMeasurement(
-                VisionSubsystem.robotFieldPose(), 
-                Timer.getFPGATimestamp(),
-                VisionSubsystem.kMultiTagStdDevs
-            );
-            System.out.println(VisionSubsystem.robotFieldPose());
-        }
+        // if (VisionSubsystem.result.getMultiTagResult().isPresent()) {
+        //     m_odometry.addVisionMeasurement(
+        //         VisionSubsystem.robotFieldPose(), 
+        //         Timer.getFPGATimestamp(),
+        //         VisionSubsystem.kMultiTagStdDevs
+        //     );
+        //     System.out.println(VisionSubsystem.robotFieldPose());
+        // }
         // Put pos vslurd into Elastic
-        SmartDashboard.putNumber("robotOdometry X", m_odometry.getEstimatedPosition().getX());
-        SmartDashboard.putNumber("robotOdometry Y", m_odometry.getEstimatedPosition().getY());
-        SmartDashboard.putNumber("robotOdometry Rotation", m_odometry.getEstimatedPosition().getRotation().getDegrees());
-        SmartDashboard.putNumber("Odometry Rotation", m_odometry.getEstimatedPosition().getRotation().getDegrees());
+        // SmartDashboard.putNumber("robotOdometry X", m_odometry.getEstimatedPosition().getX());
+        // SmartDashboard.putNumber("robotOdometry Y", m_odometry.getEstimatedPosition().getY());
+        // SmartDashboard.putNumber("robotOdometry Rotation", m_odometry.getEstimatedPosition().getRotation().getDegrees());
+        // SmartDashboard.putNumber("Odometry Rotation", m_odometry.getEstimatedPosition().getRotation().getDegrees());
 
         // Update the odometry in the periodic block
         m_odometry.update(
@@ -140,9 +140,9 @@ public class DriveSubsystem extends SubsystemBase {
                 m_rearLeft.getPosition(),
                 m_rearRight.getPosition()
         });
-        SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
-        SmartDashboard.putNumber("Gyro Yaw", m_gyro.getYaw());
-        SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
+        // SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
+        // SmartDashboard.putNumber("Gyro Yaw", m_gyro.getYaw());
+        // SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
         // Should update the robot odometry based on the estimated tag position
         // m_odometry.addVisionMeasurement(
         // VisionSubsystem.getEstimatedFieldRobotPose(), 

@@ -49,4 +49,21 @@ public class IntakeSubsystem extends SubsystemBase {
     public void stopIntake() {
         intakeMotor.set(0);
     }
+
+    public Command intakeOut() {
+        return new RunCommand(() -> {
+            // System.out.println("START INTAKE AUTO");
+            // reverseIntake();
+            // try {
+            //     System.out.println("TIMER START");
+            //     Thread.sleep(1000);
+            //     System.out.println("TIMER END");
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }
+            // stopIntake();
+            // System.out.println("END INTAKE AUTO");
+            reverseIntake();
+        }, getInstance()).withTimeout(3);
+    }
 }

@@ -3,9 +3,17 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Configs;
 import frc.robot.Constants.ElevatorConstants;
+import edu.wpi.first.wpilibj.Tracer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 // INFO: WPILIB IMPORTS
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.util.function.BooleanSupplier;
+
+import com.fasterxml.jackson.databind.annotation.JsonValueInstantiator;
 import com.revrobotics.spark.SparkClosedLoopController;
 // INFO: REV IMPORTS
 import com.revrobotics.spark.SparkMax;
@@ -16,11 +24,18 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 
 
 public class PivotSubsystem extends SubsystemBase{
+    public static PivotSubsystem instance;
+    public static PivotSubsystem getInstance() {
+        if (instance == null) {
+            instance = new PivotSubsystem();
+        }
+        return instance;
+    }
     private static SparkMax pivotMotor = new SparkMax(ElevatorConstants.Pivot.kPivotMotorID, MotorType.kBrushless);
     SparkClosedLoopController pivotClosedLoopController;
 
-    private static boolean runPivotMotor = false;
-    private static double wantedPosition = 0;
+    private static boolean runPivotMotor = true;
+    private static double wantedPosition = 0.24;
     private static String wantedPositionName;
 
     private static double encoderPosition;
@@ -59,6 +74,16 @@ public class PivotSubsystem extends SubsystemBase{
 
     public static String getPivotPoseName() {
         return wantedPositionName;
+    }
+
+    public Command pivotOuttake() {
+        return new RunCommand( () -> {
+            wantedPositionName = "Outtake";
+            wantedPosition = ElevatorConstants.Pivot.kOuttakePose;
+            runPivotMotor = true;
+            pivotOuttake();
+            System.out.println("PIVOT AUTI");
+        }, getInstance());
     }
 
 

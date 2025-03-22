@@ -8,13 +8,13 @@ package frc.robot;
     import frc.robot.Constants.OtherConstants;
     import frc.robot.Constants.VisionConstants;
     // COMMANDS
-    import frc.robot.commands.AutoAllign;
+    // import frc.robot.commands.AutoAllign;
     import frc.robot.commands.FollowSimplePath;
     import frc.robot.commands.OTFPath;
     // SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
     import frc.robot.subsystems.ElevatorSubsystem;
-    import frc.robot.subsystems.VisionSubsystem;
+    // import frc.robot.subsystems.VisionSubsystem;
     import frc.robot.subsystems.Dashboard;
     import frc.robot.subsystems.IntakeSubsystem;
     import frc.robot.subsystems.LiftSubsystem;
@@ -35,12 +35,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 // INFO: PATHPLANNER IMPORTS
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 /**
@@ -52,10 +54,10 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 public class RobotContainer {
     // INFO: CREATE SUBSYSTEMS
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-    private final VisionSubsystem m_vision = new VisionSubsystem();
+    // private final VisionSubsystem m_vision = new VisionSubsystem();
     private final Dashboard m_dashboard = new Dashboard();
     private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
-    private final IntakeSubsystem m_intake = new IntakeSubsystem();
+    private final IntakeSubsystem m_intake = IntakeSubsystem.getInstance();
     private final PivotSubsystem m_pivot = new PivotSubsystem();
     private final LiftSubsystem m_lift = new LiftSubsystem();
     
@@ -71,7 +73,7 @@ public class RobotContainer {
     */
     public RobotContainer() {
         // Vision System Init
-        m_vision.Vision();
+        // m_vision.Vision();
         Dashboard.initialize();;
 
         // NOTE: Forwards the camera's ports, so that the cameras can be accessed through the ROBORIO's USB port
@@ -86,6 +88,12 @@ public class RobotContainer {
         // Register Commands Prior to using them in an auto?
         NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
         NamedCommands.registerCommand("driveToTagCommand", OTFPath.driveToTagCommand());
+        NamedCommands.registerCommand("pivotOuttake", m_pivot.pivotOuttake());
+        NamedCommands.registerCommand("intakeOut", m_intake.intakeOut());
+
+        NamedCommands.registerCommand("Auto Group 1 Test", new SequentialCommandGroup(
+            
+        ));
         
         // REVIEW:
         // Init PathPlanner
