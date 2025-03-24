@@ -5,6 +5,7 @@ import frc.robot.Configs;
 import frc.robot.Constants.ElevatorConstants;
 import edu.wpi.first.wpilibj.Tracer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -77,13 +78,13 @@ public class PivotSubsystem extends SubsystemBase{
     }
 
     public Command pivotOuttake() {
-        return new RunCommand( () -> {
+        return new InstantCommand( () -> {
             wantedPositionName = "Outtake";
             wantedPosition = ElevatorConstants.Pivot.kOuttakePose;
             runPivotMotor = true;
             pivotOuttake();
             System.out.println("PIVOT AUTI");
-        }, getInstance());
+        });
     }
 
 
