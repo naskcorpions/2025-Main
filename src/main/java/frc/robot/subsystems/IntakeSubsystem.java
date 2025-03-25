@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.SensorPorts;
+import frc.robot.Constants.ControllerConstants.operatorController;
 import frc.robot.Constants.ElevatorConstants.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 // INFO: REV IMPORTS
@@ -63,20 +64,25 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public Command intakeOut() {
         return new RunCommand(() -> {
-            // System.out.println("START INTAKE AUTO");
-            // reverseIntake();
-            // try {
-            //     System.out.println("TIMER START");
-            //     Thread.sleep(1000);
-            //     System.out.println("TIMER END");
-            // } catch (InterruptedException e) {
-            //     e.printStackTrace();
-            // }
-            // stopIntake();
-            // System.out.println("END INTAKE AUTO");
+            System.out.println("START INTAKE AUTO");
             reverseIntake();
+            try {
+                System.out.println("TIMER START");
+                Thread.sleep(1000);
+                System.out.println("TIMER END");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            stopIntake();
+            System.out.println("END INTAKE AUTO");
         }, getInstance())
         // .withTimeout(3)
         ;
+    }
+    public Command printTestCommand() {
+        return new RunCommand(
+            () -> System.out.println("TEST PRINT"), 
+            getInstance());
+        
     }
 }

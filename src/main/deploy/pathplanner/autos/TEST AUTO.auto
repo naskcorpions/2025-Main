@@ -5,9 +5,15 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Blue Pose 2"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "intakeOut"
+            "name": "Auto Group 1 Test"
           }
         }
       ]
