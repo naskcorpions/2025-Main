@@ -36,7 +36,7 @@ public class PivotSubsystem extends SubsystemBase{
     SparkClosedLoopController pivotClosedLoopController;
 
     private static boolean runPivotMotor = true;
-    private static double wantedPosition = 0.24;
+    private static double wantedPosition = 0.245;
     private static String wantedPositionName;
 
     private static double encoderPosition;
@@ -70,8 +70,8 @@ public class PivotSubsystem extends SubsystemBase{
         wantedPositionName = "Intake"; }
     public static void setOuttakePosition() { wantedPosition = ElevatorConstants.Pivot.kOuttakePose; runPivotMotor = true;
         wantedPositionName = "Outtake"; }
-    // public static void setL4Position() { wantedPosition = ElevatorConstants.Pivot.kL4Pose; runPivotMotor = true; 
-    //     wantedPositionName = "L4"; }
+    public static void setL4Position() { wantedPosition = ElevatorConstants.Pivot.kL4Pose; runPivotMotor = true; 
+        wantedPositionName = "L4"; }
 
     public static String getPivotPoseName() {
         return wantedPositionName;
@@ -83,7 +83,7 @@ public class PivotSubsystem extends SubsystemBase{
             wantedPosition = ElevatorConstants.Pivot.kOuttakePose;
             runPivotMotor = true;
             pivotOuttake();
-            System.out.println("PIVOT AUTI");
+            System.out.println("PIVOT AUTO");
         });
     }
 

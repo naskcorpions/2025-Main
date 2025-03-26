@@ -9,6 +9,18 @@
           "data": {
             "pathName": "Blue Pose 2"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeOut"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue Pose 2.2"
+          }
         }
       ]
     }

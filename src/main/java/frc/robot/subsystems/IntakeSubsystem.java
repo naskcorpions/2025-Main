@@ -83,12 +83,13 @@ public class IntakeSubsystem extends SubsystemBase {
         return new InstantCommand(() -> {
             // NOTE: WILL NEED TO SET TIMER TO RUN INTAKE BASED ON TIME
             reverseIntake();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            stopIntake();
         }, getInstance());
-    }
-    public Command printTestCommand() {
-        return new RunCommand(
-            () -> System.out.println("TEST PRINT"), 
-            getInstance());
-        
     }
 }

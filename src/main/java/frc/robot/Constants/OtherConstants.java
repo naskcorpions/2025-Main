@@ -26,11 +26,11 @@ public final class OtherConstants {
         // IMPORTANT:
         // NOTE: TUNE PID CONSTANTS
         // INFO: TRANSLATION PID
-        public static final double kTranslationP = 10.5;
+        public static final double kTranslationP = 11;
         public static final double kTranslationI = 0.0;
         public static final double kTranslationD = 0.0;
         // INFO: ROTATION PID
-        public static final double kRotationP = .2;
+        public static final double kRotationP = 2.05;
         public static final double kRotationI = 0.0;
         public static final double kRotationD = 0.0;
     }

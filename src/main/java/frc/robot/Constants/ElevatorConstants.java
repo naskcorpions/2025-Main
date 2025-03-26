@@ -56,7 +56,7 @@ public final class ElevatorConstants {
         // Positions
         public static final double kIntakePos = 0.328;
         public static final double kOuttakePose = 0.17;
-        // public static final double kL4Pose = 0.34;
+        public static final double kL4Pose = 0.34;
 
     }
 

@@ -13,7 +13,10 @@ package frc.robot;
     import frc.robot.commands.OTFPath;
     // SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
-    // import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+// import frc.robot.subsystems.ElevatorSubsystem;
     // import frc.robot.subsystems.VisionSubsystem;
     import frc.robot.subsystems.Dashboard;
     // import frc.robot.subsystems.IntakeSubsystem;
@@ -56,9 +59,9 @@ public class RobotContainer {
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     // private final VisionSubsystem m_vision = new VisionSubsystem();
     private final Dashboard m_dashboard = new Dashboard();
-    // private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
-    // private final IntakeSubsystem m_intake = IntakeSubsystem.getInstance();
-    // private final PivotSubsystem m_pivot = new PivotSubsystem();
+    private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
+    private final IntakeSubsystem m_intake = IntakeSubsystem.getInstance();
+    private final PivotSubsystem m_pivot = new PivotSubsystem();
     // private final LiftSubsystem m_lift = new LiftSubsystem();
     
     // INFO: CREATAE CONTROLLERS
@@ -88,8 +91,8 @@ public class RobotContainer {
         // Register Commands Prior to using them in an auto?
         NamedCommands.registerCommand("AutoAllign", Commands.print("Register Auto Allign"));
         NamedCommands.registerCommand("driveToTagCommand", OTFPath.driveToTagCommand());
-        // NamedCommands.registerCommand("pivotOuttake", m_pivot.pivotOuttake());
-        // NamedCommands.registerCommand("intakeOut", m_intake.intakeOut());
+        NamedCommands.registerCommand("pivotOuttake", m_pivot.pivotOuttake());
+        NamedCommands.registerCommand("intakeOut", m_intake.intakeOut());
 
         // NamedCommands.registerCommand("Auto Group 1 Test", new SequentialCommandGroup(
         //     m_intake.printTestCommand(),
@@ -147,55 +150,55 @@ public class RobotContainer {
             .whileTrue(new RunCommand(
                 () -> m_robotDrive.setX(),
                 m_robotDrive));
-    }
-        // // INFO: INTAKE
-        // new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorIntakeInButton)
-        //     .whileTrue(new RunCommand(() -> m_intake.runIntake(), m_intake))
-        //     .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
+    
+        // INFO: INTAKE
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorIntakeInButton)
+            .whileTrue(new RunCommand(() -> m_intake.runIntake(), m_intake))
+            .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
 
-        // new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorIntakeOutButton)
-        //     .whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake))
-        //     .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorIntakeOutButton)
+            .whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake))
+            .onFalse(new InstantCommand(() -> m_intake.stopIntake(), m_intake));
         
 
-        // // INFO: PIVOT
-        // new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotIntakePoseButton).onTrue(
-        //     new RunCommand( () -> PivotSubsystem.setIntakePosition(), m_pivot)
-        // );
-        // new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotOuttakePoseButton).onTrue(
-        //     new RunCommand( () -> PivotSubsystem.setOuttakePosition(), m_pivot)
-        // );
-        // new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotStopButton).onTrue(
-        //     new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
-        // );
-        // new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotL4Pose).onTrue(
-        //     new RunCommand( () -> PivotSubsystem.setL4Position(), m_pivot)
-        // );
-    //     new POVButton(m_operatorController, 0)
-    //         .whileTrue(new RunCommand(() -> {
-    //             if (m_operatorController.getRawAxis(2) > 0.5) {
-    //                 ElevatorSubsystem.runElevator(0.2);
-    //             } else {
-    //                 ElevatorSubsystem.runElevator(0.6);
-    //             }
-    //         }, m_elevator))
-    //         .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
+        // INFO: PIVOT
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotIntakePoseButton).onTrue(
+            new RunCommand( () -> PivotSubsystem.setIntakePosition(), m_pivot)
+        );
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotOuttakePoseButton).onTrue(
+            new RunCommand( () -> PivotSubsystem.setOuttakePosition(), m_pivot)
+        );
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotStopButton).onTrue(
+            new RunCommand( () -> PivotSubsystem.stopMotor(), m_pivot)
+        );
+        new JoystickButton(m_operatorController, ControllerConstants.operatorController.kOperatorPivotL4Pose).onTrue(
+            new RunCommand( () -> PivotSubsystem.setL4Position(), m_pivot)
+        );
+        new POVButton(m_operatorController, 0)
+            .whileTrue(new RunCommand(() -> {
+                if (m_operatorController.getRawAxis(2) > 0.5) {
+                    ElevatorSubsystem.runElevator(0.2);
+                } else {
+                    ElevatorSubsystem.runElevator(0.6);
+                }
+            }, m_elevator))
+            .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
 
-    //     new POVButton(m_operatorController, 180)
-    //         .whileTrue(new RunCommand(() -> {
-    //             if (m_operatorController.getRawAxis(2) > 0.5) {
-    //                 ElevatorSubsystem.runElevator(-0.2);
-    //             } else {
-    //                 ElevatorSubsystem.runElevator(-0.6);
-    //             }
-    //         }, m_elevator))
-    //         .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
+        new POVButton(m_operatorController, 180)
+            .whileTrue(new RunCommand(() -> {
+                if (m_operatorController.getRawAxis(2) > 0.5) {
+                    ElevatorSubsystem.runElevator(-0.2);
+                } else {
+                    ElevatorSubsystem.runElevator(-0.6);
+                }
+            }, m_elevator))
+            .whileFalse(new RunCommand(() -> ElevatorSubsystem.stopElevator(), m_elevator));
 
-    //     new JoystickButton(m_operatorController, 9)
-    //         .whileTrue(new RunCommand(() -> m_lift.runLift(0.2), m_lift))
-    //         .whileFalse(new RunCommand(() -> m_lift.runLift(0), m_lift));
-    // }
-    
+        // new JoystickButton(m_operatorController, 9)
+        //     .whileTrue(new RunCommand(() -> m_lift.runLift(0.2), m_lift))
+        //     .whileFalse(new RunCommand(() -> m_lift.runLift(0), m_lift));
+
+        }
     
     
     /**
@@ -208,4 +211,5 @@ public class RobotContainer {
         // INFO: Returns the selected auto's command to run when enabled
         return autoChooser.getSelected();
     }
+
 }
