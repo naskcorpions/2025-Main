@@ -9,7 +9,6 @@ package frc.robot;
     import frc.robot.Constants.VisionConstants;
     // COMMANDS
     // import frc.robot.commands.AutoAllign;
-    import frc.robot.commands.FollowSimplePath;
     import frc.robot.commands.OTFPath;
     // SUBSYTEMS
     import frc.robot.subsystems.DriveSubsystem;
@@ -24,28 +23,23 @@ import frc.robot.subsystems.PivotSubsystem;
 // import frc.robot.subsystems.PivotSubsystem;
 
 // INFO: JAVA IMPORTS
-import java.util.Set;
+    // Imports here
 // INFO: WPILIB IMPORTS
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 // INFO: PATHPLANNER IMPORTS
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 /**
