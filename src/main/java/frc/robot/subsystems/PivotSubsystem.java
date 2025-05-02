@@ -36,8 +36,10 @@ public class PivotSubsystem extends SubsystemBase{
     SparkClosedLoopController pivotClosedLoopController;
 
     private static boolean runPivotMotor = true;
-    private static double wantedPosition = 0.245;
+    private static double wantedPosition = 0.13;
     private static String wantedPositionName;
+
+     
 
     private static double encoderPosition;
 
