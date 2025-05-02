@@ -38,11 +38,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static RelativeEncoder rightEncoder;  // new encoder for left motor
     
     // LIMIT SWITCHES
-    private static DigitalInput upperSwitch = new DigitalInput(SensorPorts.LimitSwitches.elevatorUpperLimit);
-    private static DigitalInput lowerSwitch = new DigitalInput(SensorPorts.LimitSwitches.elevatorLowerLimit);
-    public static boolean getUpperLimitSwitch() { return !upperSwitch.get(); }
-    public static boolean getLowerLimitSwitch() { return !lowerSwitch.get(); }
-    
+    // REMOVED DUE TO ERRORS
+        // private static DigitalInput upperSwitch = new DigitalInput(SensorPorts.LimitSwitches.elevatorUpperLimit);
+        // private static DigitalInput lowerSwitch = new DigitalInput(SensorPorts.LimitSwitches.elevatorLowerLimit);
+        // public static boolean getUpperLimitSwitch() { return !upperSwitch.get(); }
+        // public static boolean getLowerLimitSwitch() { return !lowerSwitch.get(); }
+        
     // OTHER
     private static double wantedPosition;
     SendableChooser<Boolean> positionControlChooser = new SendableChooser<Boolean>();

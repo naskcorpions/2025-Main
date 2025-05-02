@@ -87,11 +87,8 @@ public class Dashboard extends SubsystemBase {
         field.setRobotPose(DriveSubsystem.getPoseStatic());
         SmartDashboard.putData("Field", field);
         // Encoder Values
-        SmartDashboard.putNumber("Elevator Encoder Pos", ElevatorSubsystem.getEncoderValue());
         SmartDashboard.putNumber("Pivot Encoder Pos", PivotSubsystem.getEncoderValue());
 
-        SmartDashboard.putBoolean("Elevator Top Switch", ElevatorSubsystem.getUpperLimitSwitch());
-        SmartDashboard.putBoolean("Elevator Bottom Switch", ElevatorSubsystem.getLowerLimitSwitch());
         SmartDashboard.putBoolean("Intake Switch", IntakeSubsystem.getIntakeSwitch());
 
         
