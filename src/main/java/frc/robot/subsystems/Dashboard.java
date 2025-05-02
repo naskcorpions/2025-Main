@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Dashboard extends SubsystemBase {
+    // Subsystem instance
+    private static Dashboard instance;
     // Field for Dashboard
     Field2d field = new Field2d();
     // Field Tag layoout stuff
@@ -32,7 +34,13 @@ public class Dashboard extends SubsystemBase {
     private static SendableChooser<String> fieldSideChooser = new SendableChooser<String>();
     private static SendableChooser<Integer> tagList = new SendableChooser<Integer>();
 
-
+    public static Dashboard getInstance() {
+        if (instance == null) {
+            instance = new Dashboard();
+        }
+        return instance;
+    }
+    
     public static void initialize() {
         fieldSideChooser.setDefaultOption("Blue", "blue");
         fieldSideChooser.addOption("Red", "red");

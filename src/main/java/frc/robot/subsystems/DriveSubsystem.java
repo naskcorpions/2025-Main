@@ -42,6 +42,14 @@ import com.studica.frc.AHRS;
  ********************************************************************************************************/
 
 public class DriveSubsystem extends SubsystemBase {
+    // Create instance
+    public static DriveSubsystem instance;
+    public static DriveSubsystem getInstance() {
+        if (instance == null) {
+            instance = new DriveSubsystem();
+        }
+        return instance;
+    }
     // Create MAXSwerveModules
     private static final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
     DriveConstants.kFrontLeftDrivingCanId,

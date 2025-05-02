@@ -26,6 +26,15 @@ import edu.wpi.first.wpilibj.Timer;
 
 
 public class VisionSubsystem extends SubsystemBase {
+    // Create instance
+    public static VisionSubsystem instance;
+    public static VisionSubsystem getInstance() {
+    if (instance == null) {
+        instance = new VisionSubsystem();
+    }
+    return instance;
+    }
+    
     // Create Camera
     private static PhotonCamera camera;
     // Holds all current camera data

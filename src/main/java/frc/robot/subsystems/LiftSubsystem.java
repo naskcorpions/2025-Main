@@ -16,6 +16,14 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class LiftSubsystem extends SubsystemBase {
+    // Create instance
+    public static LiftSubsystem instance;
+    public static LiftSubsystem getInstance() {
+    if (instance == null) {
+        instance = new LiftSubsystem();
+    }
+    return instance;
+}
     TalonFX liftLeft = new TalonFX(14);
     TalonFX liftRight = new TalonFX(13);
 
